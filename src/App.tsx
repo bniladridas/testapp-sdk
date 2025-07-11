@@ -703,8 +703,23 @@ function AppContent() {
                     <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </div>
-                
-                <div className="mt-8">
+                {/* Gemini TTS CLI Download */}
+                <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mt-6">
+                  <a
+                    href="https://github.com/bniladridas/gemini-tts-cli/archive/refs/tags/v1.0.zip"
+                    className="group flex items-center justify-center text-sm font-medium tracking-wide bg-gray-900 text-white px-8 py-4 hover:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-300"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Terminal size={16} className="mr-2" />
+                    Download Gemini TTS CLI
+                    <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                  <div className="flex flex-col justify-center text-left text-gray-700 dark:text-gray-200 text-sm pl-2">
+                    <span>Terminal TTS tool for Together CLI users.</span>
+                  </div>
+                </div>
+                <div className="mt-8 flex flex-col items-center space-y-2">
                   <a 
                     href="https://github.com/bniladridas/togethercli/commits/v1.0.0" 
                     target="_blank" 
@@ -712,6 +727,16 @@ function AppContent() {
                     className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors inline-flex items-center"
                   >
                     {t('download.changelog')}
+                    <ExternalLink size={14} className="ml-1" />
+                  </a>
+                  {/* Gemini TTS CLI Changelog */}
+                  <a
+                    href="https://github.com/bniladridas/gemini-tts-cli/commits/main/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors inline-flex items-center"
+                  >
+                    Gemini TTS CLI Changelog
                     <ExternalLink size={14} className="ml-1" />
                   </a>
                 </div>
