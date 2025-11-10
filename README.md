@@ -48,6 +48,10 @@ Set `GEMINI_API_KEY` in `.env`.
 - Node.js 20 or later
 - npm
 
+## Documentation
+
+Detailed documentation is available in the [docs/](docs/) directory.
+
 ## Conventional Commits
 
 Uses conventional commit standards. See scripts for enforcement.
