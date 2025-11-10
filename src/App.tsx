@@ -98,10 +98,32 @@ function AppContent() {
         ...msgs,
         { role: 'ai' as const, text: aiText },
       ]);
-    } catch {
+    } catch (error: unknown) {
+      let errorMessage = 'Error: Could not get response.';
+
+      // Check if it's a fallback response
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as {
+          response?: { data?: { fallback?: boolean; text?: string } };
+        };
+        if (
+          axiosError.response?.data?.fallback &&
+          axiosError.response.data.text
+        ) {
+          errorMessage = axiosError.response.data.text;
+        }
+      } else if (
+        error instanceof Error &&
+        (error.message?.includes('503') ||
+          error.message?.includes('overloaded'))
+      ) {
+        errorMessage =
+          "I'm experiencing high demand right now. How's your day going? 😊";
+      }
+
       setChatMessages((msgs) => [
         ...msgs,
-        { role: 'ai' as const, text: 'Error: Could not get response.' },
+        { role: 'ai' as const, text: errorMessage },
       ]);
     }
     setChatLoading(false);
