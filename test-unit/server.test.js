@@ -1,6 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
 
+// Set mock API key to prevent server exit
+process.env.GEMINI_API_KEY = 'test-key';
+
 // Mock the GoogleGenerativeAI
 vi.mock('@google/generative-ai', () => ({
   GoogleGenerativeAI: class MockGoogleGenerativeAI {
