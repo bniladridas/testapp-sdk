@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get release notes
+        id: notes
+        run: |
+          echo "## Features" > release_notes.md
+          git log --oneline --pretty=format:"%s" | grep "^feat:" | sed 's/^/- /' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## Fixes" >> release_notes.md
+          git log --oneline --pretty=format:"%s" | grep "^fix:" | sed 's/^/- /' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## Refactors" >> release_notes.md
+          git log --oneline --pretty=format:"%s" | grep "^refactor:" | sed 's/^/- /' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## Tests" >> release_notes.md
+          git log --oneline --pretty=format:"%s" | grep "^test:" | sed 's/^/- /' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## Docs" >> release_notes.md
+          git log --oneline --pretty=format:"%s" | grep "^docs:" | sed 's/^/- /' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## CI" >> release_notes.md
+          git log --oneline --pretty=format:"%s" | grep "^ci:" | sed 's/^/- /' >> release_notes.md
+
+      - name: Create Release
+        run: |
+          NOTES=$(cat release_notes.md)
+          gh release create ${{ github.ref_name }} --title "${{ github.ref_name }}" --notes "$NOTES"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
