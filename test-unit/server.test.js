@@ -1,8 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
-import request from 'supertest';
-
 // Set mock API key to prevent server exit
 process.env.GEMINI_API_KEY = 'test-key';
+
+import { describe, it, expect, vi } from 'vitest';
+import request from 'supertest';
 
 // Mock the GoogleGenerativeAI
 vi.mock('@google/generative-ai', () => ({
