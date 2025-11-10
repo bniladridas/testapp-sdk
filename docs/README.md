@@ -8,6 +8,7 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 - **Clean UI**: Minimalist design with dark mode support
 - **CLI Tool**: Command-line interface for AI queries
 - **Responsive**: Works on desktop and mobile
+- **Cross-Platform**: Runs on macOS, Linux, and Windows
 
 ## Quick Start
 
