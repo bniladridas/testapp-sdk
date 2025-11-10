@@ -2,6 +2,13 @@
 
 A simple single-page web application with AI-powered chat functionality, built with React and Vite.
 
+## Clone
+
+```sh
+git clone https://github.com/bniladridas/TestApp.git
+cd testapp
+```
+
 ## Getting Started
 
 To run locally:
@@ -51,6 +58,27 @@ Set `GEMINI_API_KEY` in `.env`.
 ## Documentation
 
 Detailed documentation is available in the [docs/](docs/) directory.
+
+## Versioning
+
+This project uses semantic versioning with version stored in `VERSION` file.
+
+## Dependencies
+
+This project uses:
+
+- `package.json` - dependencies and devDependencies
+- `package-lock.json` - exact versions for reproducibility
+
+## CI Workflow
+
+The CI workflow runs automated tests, linting, duplicate code checks, and coverage on every push and pull request to the main branch using GitHub Actions. It includes:
+
+- Unit tests with coverage thresholds
+- ESLint linting
+- Duplicate code detection with jscpd
+- E2E tests with Playwright
+- Build checks
 
 ## Conventional Commits
 
