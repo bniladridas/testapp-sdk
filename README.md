@@ -19,7 +19,19 @@ If you have Nix installed with flakes enabled:
 nix develop
 ```
 
-If flakes are not enabled, use:
+If flakes are not enabled, enable them permanently by adding to `~/.config/nix/nix.conf` or `/etc/nix/nix.conf`:
+
+```
+experimental-features = nix-command flakes
+```
+
+Then restart your shell or run:
+
+```sh
+nix develop
+```
+
+Alternatively, use flags each time:
 
 ```sh
 nix develop --extra-experimental-features nix-command --extra-experimental-features flakes
