@@ -12,7 +12,7 @@ npm install
 
 ## Usage
 
-BratUI is a web application built with React and Vite. To run it locally:
+HarpertokenUI is a web application built with React and Vite. To run it locally:
 
 ```sh
 npm install
@@ -20,6 +20,16 @@ npm run dev
 ```
 
 Then open your browser to `http://localhost:5173` to view the application.
+
+### CLI Usage
+
+You can also use the AI directly from the command line:
+
+```sh
+npm run cli "Your prompt here"
+```
+
+Make sure to set your `TOGETHER_API_KEY` in a `.env` file.
 
 ## Scripts
 
@@ -32,6 +42,7 @@ Then open your browser to `http://localhost:5173` to view the application.
 - `npm run start:server`: Start server only
 - `npm run vercel-build`: Build for Vercel
 - `npm start`: Start production server
+- `npm run cli`: Run the CLI tool with AI prompts
 
 ## Files
 
