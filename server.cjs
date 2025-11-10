@@ -65,41 +65,6 @@ app.post("/api/ask-brat-ai", async (req, res) => {
     res.status(500).json({ error: error.message || "Internal server error" });
   }
 });
-  }
-
-  try {
-    const contents = [
-      {
-        role: "user",
-        parts: [{ text: `Respond in a few words only. ${message}` }],
-      },
-    ];
-    const response = await ai.models.generateContentStream({
-      model,
-      config,
-      contents,
-    });
-    let result = "";
-    for await (const chunk of response) {
-      result += chunk.text;
-    }
-    // Remove asterisks and hash characters from the response
-    result = result.replace(/[\*#]/g, "");
-    // Remove extra whitespace, line breaks, and repeated punctuation
-    result = result
-      .replace(/\s+/g, " ")
-      .replace(/([.!?])\1+/g, "$1")
-      .trim();
-    // Remove trailing punctuation
-    result = result.replace(/[.!?]+$/, "");
-    res.json({ text: result });
-  } catch (err) {
-    console.error("AI API Error:", err.message);
-    res
-      .status(500)
-      .json({ error: isProduction ? "Internal server error" : err.message });
-  }
-});
 
 // Serve the React app for any non-API routes
 app.get("*", (req, res) => {
