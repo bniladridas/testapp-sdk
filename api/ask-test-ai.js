@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createAIModel } from '../lib/ai-shared.js';
 
 export default async (req, res) => {
   // CORS headers
@@ -29,14 +29,7 @@ export default async (req, res) => {
   }
 
   try {
-    const ai = new GoogleGenerativeAI(apiKey);
-    const config = { responseMimeType: 'text/plain' };
-    const model = ai.getGenerativeModel({
-      model: 'gemini-2.5-flash',
-      generationConfig: config,
-      systemInstruction:
-        'Respond in plain text without any markdown formatting, asterisks, bold, italics, or special characters. Keep responses clean, natural, and easy to read.',
-    });
+    const model = createAIModel(apiKey);
 
     const result = await model.generateContent(message);
     const text = await result.response.text();
