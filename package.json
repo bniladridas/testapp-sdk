@@ -15,7 +15,7 @@
     "vercel-build": "npm run build",
     "start": "node server.cjs",
     "test": "vitest",
-    "cli": "node cli.js",
+    "cli": "node cli/index.js",
     "prepare": "husky"
   },
   "dependencies": {
