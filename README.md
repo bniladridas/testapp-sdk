@@ -49,6 +49,38 @@ Make sure to set your `GEMINI_API_KEY` in a `.env` file.
 - Node.js 18 or later
 - npm or yarn
 
+## Conventional Commits
+
+This project uses conventional commit standards for commit messages.
+
+### Setup
+
+To enable the commit message hook:
+
+```sh
+cp scripts/commit-msg .git/hooks/
+```
+
+### Standards
+
+- Commit messages must start with a type: `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`, etc.
+- First line must be lowercase and ≤40 characters.
+- Use present tense: "add feature" not "added feature".
+
+### Rewriting History
+
+To clean up existing commit messages:
+
+```sh
+bash scripts/rewrite_msg.sh < commit_message.txt
+```
+
+Or for the entire history (use with caution):
+
+```sh
+git filter-branch --msg-filter 'bash scripts/rewrite_msg.sh' -- --all
+```
+
 ## Contributing
 
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
