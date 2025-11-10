@@ -15,7 +15,6 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             nodejs_20
-            npm
             git
             # Add other tools as needed
           ];
