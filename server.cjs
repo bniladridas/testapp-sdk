@@ -1,9 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const { GoogleGenAI } = require("@google/genai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
-const { askAI } = require('./lib/ai');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -39,16 +38,20 @@ if (!apiKey) {
   process.exit(1);
 }
 
-const ai = new GoogleGenAI({ apiKey });
+const ai = new GoogleGenerativeAI(apiKey);
 const config = { responseMimeType: "text/plain" };
-const model = "gemini-2.0-flash";
+const model = ai.getGenerativeModel({
+  model: "gemini-2.5-flash",
+  generationConfig: config,
+  systemInstruction: "Respond in plain text without any markdown formatting, asterisks, bold, italics, or special characters. Keep responses clean, natural, and easy to read."
+});
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-app.post("/api/ask-brat-ai", async (req, res) => {
+app.post("/api/ask-test-ai", async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: "Missing message" });
 
@@ -58,7 +61,8 @@ app.post("/api/ask-brat-ai", async (req, res) => {
   }
 
   try {
-    const text = await askAI(message);
+    const result = await model.generateContent(message);
+    const text = await result.response.text();
     res.json({ text });
   } catch (error) {
     console.error("Error:", error);
@@ -81,7 +85,7 @@ app.use((err, req, res, next) => {
 
 if (require.main === module) {
   app.listen(port, () => {
-    console.log(`BratUI server listening at http://localhost:${port}`);
+    console.log(`TestApp server listening at http://localhost:${port}`);
     console.log(`Environment: ${isProduction ? "Production" : "Development"}`);
   });
 }

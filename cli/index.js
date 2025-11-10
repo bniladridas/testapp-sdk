@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { askAI } = require('../lib/ai');
+import { askAI } from '../lib/ai.js';
 
 async function main() {
   const message = process.argv.slice(2).join(' ');

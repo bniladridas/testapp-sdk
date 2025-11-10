@@ -1,14 +1,14 @@
-# Contributing to BratUI
+# Contributing to TestApp
 
-Thank you for your interest in contributing to BratUI! We welcome contributions from the community.
+Thank you for your interest in contributing to TestApp! We welcome contributions from the community.
 
 ## How to Contribute
 
 1. **Fork the repository** on GitHub.
 2. **Clone your fork** locally:
    ```sh
-   git clone https://github.com/your-username/bratui.git
-   cd bratui
+    git clone https://github.com/your-username/testapp.git
+    cd testapp
    ```
 3. **Create a feature branch**:
    ```sh
@@ -60,4 +60,4 @@ If you find a bug or have a feature request, please open an issue on GitHub with
 
 ## License
 
-By contributing to BratUI, you agree that your contributions will be licensed under the MIT License.
+By contributing to TestApp, you agree that your contributions will be licensed under the MIT License.

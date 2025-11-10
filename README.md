@@ -1,18 +1,10 @@
-# BratUI
+# TestApp
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+A modern, developer-focused chat platform with AI and LLM support, built for productivity and creativity.
 
-A modern UI library built with React and TypeScript, featuring AI-powered components and seamless integration.
+## Getting Started
 
-## Installation
-
-```sh
-npm install
-```
-
-## Usage
-
-HarpertokenUI is a web application built with React and Vite. To run it locally:
+TestApp is a web application built with React and Vite. To run it locally:
 
 ```sh
 npm install

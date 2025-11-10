@@ -1,4 +1,5 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+/// <reference types="vitest/globals" />
+import { describe, it, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
@@ -6,10 +7,7 @@ import App from './App';
 beforeEach(() => {
   // Mock localStorage
   const localStorageMock = {
-    getItem: vi.fn((key: string) => {
-      if (key === 'bratui_survey_done') return '1';
-      return null;
-    }),
+    getItem: vi.fn(() => null),
     setItem: vi.fn(() => null),
   };
   Object.defineProperty(window, 'localStorage', {
@@ -28,6 +26,6 @@ beforeEach(() => {
 describe('App', () => {
   it('renders the app', () => {
     render(<App />);
-    expect(screen.getByText('Project')).toBeInTheDocument();
+    expect(screen.getByText('TestAI')).toBeInTheDocument();
   });
 });
