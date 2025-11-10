@@ -52,6 +52,7 @@ Thank you for your interest in contributing to BratUI! We welcome contributions 
 ## Reporting Issues
 
 If you find a bug or have a feature request, please open an issue on GitHub with:
+
 - A clear title and description
 - Steps to reproduce (for bugs)
 - Expected vs. actual behavior

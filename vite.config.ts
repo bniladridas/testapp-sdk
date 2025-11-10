@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -11,8 +12,8 @@ export default defineConfig({
         target: 'http://localhost:3001',
         changeOrigin: true,
         secure: false,
-      }
-    }
+      },
+    },
   },
   build: {
     outDir: 'dist',
@@ -22,12 +23,16 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          ui: ['lucide-react']
-        }
-      }
-    }
+          ui: ['lucide-react'],
+        },
+      },
+    },
   },
   optimizeDeps: {
     exclude: ['lucide-react'],
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
   },
 });
