@@ -29,7 +29,7 @@ You can also use the AI directly from the command line:
 npm run cli "Your prompt here"
 ```
 
-Make sure to set your `TOGETHER_API_KEY` in a `.env` file.
+Make sure to set your `GEMINI_API_KEY` in a `.env` file.
 
 ## Scripts
 
