@@ -31,3 +31,5 @@ jobs:
 
     - name: Run preflight checks
       run: npm run preflight
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
