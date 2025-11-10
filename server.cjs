@@ -79,7 +79,11 @@ app.use((err, req, res, next) => {
     .json({ error: isProduction ? "Internal server error" : err.message });
 });
 
-app.listen(port, () => {
-  console.log(`BratUI server listening at http://localhost:${port}`);
-  console.log(`Environment: ${isProduction ? "Production" : "Development"}`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`BratUI server listening at http://localhost:${port}`);
+    console.log(`Environment: ${isProduction ? "Production" : "Development"}`);
+  });
+}
+
+module.exports = app;
