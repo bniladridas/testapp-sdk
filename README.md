@@ -9,6 +9,22 @@ git clone https://github.com/bniladridas/TestApp.git
 cd testapp
 ```
 
+## Development Environment
+
+### With Nix (recommended)
+
+If you have Nix installed:
+
+```sh
+nix develop
+```
+
+This provides a reproducible environment with Node.js 20, npm, and git.
+
+### Without Nix
+
+Ensure you have Node.js 20+ installed.
+
 ## Getting Started
 
 To run locally:
