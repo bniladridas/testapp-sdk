@@ -9,7 +9,7 @@ export async function askBratAI(userInput: string): Promise<string> {
     const data = await res.json();
     if (data.text) return data.text;
     return data.error || 'Unknown error from Brat AI backend.';
-  } catch (e: any) {
+  } catch {
     return 'Error: Could not connect to Brat AI backend.';
   }
-} 
+}

@@ -2,25 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/Minimalist Typography Simple Modern Brand Logo.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/Minimalist Typography Simple Modern Brand Logo.png"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BratUI</title>
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://bratofficials.vercel.app/" />
     <meta property="og:title" content="BratUI" />
-    <meta property="og:description" content="BratUI is a modern, developer-focused chat platform with AI and LLM support, built for productivity and creativity." />
-    <meta property="og:image" content="https://private-user-images.githubusercontent.com/125604915/458633844-40a62c81-3254-449b-93a5-1a4d332762fb.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTA4MTI1NDAsIm5iZiI6MTc1MDgxMjI0MCwicGF0aCI6Ii8xMjU2MDQ5MTUvNDU4NjMzODQ0LTQwYTYyYzgxLTMyNTQtNDQ5Yi05M2E1LTFhNGQzMzI3NjJmYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyNVQwMDQ0MDBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iYjY3MjQyZTJkNjYyNmZhODRiNzE4ZDllMzdkYTJhNzhlMTY1MGIwZmM3NTU5NGZmZDMxZDQwMGRlZjZkNTlmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.IidIOBaodtnHjWQEwnu7v9fVnVgI40RyF8f9c42vUQs" />
+    <meta
+      property="og:description"
+      content="BratUI is a modern, developer-focused chat platform with AI and LLM support, built for productivity and creativity."
+    />
+    <meta
+      property="og:image"
+      content="https://private-user-images.githubusercontent.com/125604915/458633844-40a62c81-3254-449b-93a5-1a4d332762fb.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTA4MTI1NDAsIm5iZiI6MTc1MDgxMjI0MCwicGF0aCI6Ii8xMjU2MDQ5MTUvNDU4NjMzODQ0LTQwYTYyYzgxLTMyNTQtNDQ5Yi05M2E1LTFhNGQzMzI3NjJmYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyNVQwMDQ0MDBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iYjY3MjQyZTJkNjYyNmZhODRiNzE4ZDllMzdkYTJhNzhlMTY1MGIwZmM3NTU5NGZmZDMxZDQwMGRlZjZkNTlmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.IidIOBaodtnHjWQEwnu7v9fVnVgI40RyF8f9c42vUQs"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://bratofficials.vercel.app/" />
     <meta property="twitter:title" content="BratUI" />
-    <meta property="twitter:description" content="BratUI is a modern, developer-focused chat platform with AI and LLM support, built for productivity and creativity." />
-    <meta property="twitter:image" content="https://private-user-images.githubusercontent.com/125604915/458633844-40a62c81-3254-449b-93a5-1a4d332762fb.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTA4MTI1NDAsIm5iZiI6MTc1MDgxMjI0MCwicGF0aCI6Ii8xMjU2MDQ5MTUvNDU4NjMzODQ0LTQwYTYyYzgxLTMyNTQtNDQ5Yi05M2E1LTFhNGQzMzI3NjJmYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyNVQwMDQ0MDBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iYjY3MjQyZTJkNjYyNmZhODRiNzE4ZDllMzdkYTJhNzhlMTY1MGIwZmM3NTU5NGZmZDMxZDQwMGRlZjZkNTlmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.IidIOBaodtnHjWQEwnu7v9fVnVgI40RyF8f9c42vUQs" />
+    <meta
+      property="twitter:description"
+      content="BratUI is a modern, developer-focused chat platform with AI and LLM support, built for productivity and creativity."
+    />
+    <meta
+      property="twitter:image"
+      content="https://private-user-images.githubusercontent.com/125604915/458633844-40a62c81-3254-449b-93a5-1a4d332762fb.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTA4MTI1NDAsIm5iZiI6MTc1MDgxMjI0MCwicGF0aCI6Ii8xMjU2MDQ5MTUvNDU4NjMzODQ0LTQwYTYyYzgxLTMyNTQtNDQ5Yi05M2E1LTFhNGQzMzI3NjJmYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyNVQwMDQ0MDBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iYjY3MjQyZTJkNjYyNmZhODRiNzE4ZDllMzdkYTJhNzhlMTY1MGIwZmM3NTU5NGZmZDMxZDQwMGRlZjZkNTlmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.IidIOBaodtnHjWQEwnu7v9fVnVgI40RyF8f9c42vUQs"
+    />
   </head>
   <body>
     <div id="root"></div>
