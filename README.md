@@ -13,10 +13,16 @@ cd testapp
 
 ### With Nix (recommended)
 
-If you have Nix installed:
+If you have Nix installed with flakes enabled:
 
 ```sh
 nix develop
+```
+
+If flakes are not enabled, use:
+
+```sh
+nix develop --extra-experimental-features nix-command --extra-experimental-features flakes
 ```
 
 This provides a reproducible environment with Node.js 20, npm, and git.
