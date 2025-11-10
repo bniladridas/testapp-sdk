@@ -1,89 +1,60 @@
 # TestApp
 
-A modern, developer-focused chat platform with AI and LLM support, built for productivity and creativity.
+A simple single-page web application with AI-powered chat functionality, built with React and Vite.
 
 ## Getting Started
 
-TestApp is a web application built with React and Vite. To run it locally:
+To run locally:
 
 ```sh
 npm install
 npm run dev
 ```
 
-Then open your browser to `http://localhost:5173` to view the application.
+Open `http://localhost:5173` in your browser.
 
 ### CLI Usage
 
-You can also use the AI directly from the command line:
+Use the AI from command line:
 
 ```sh
 npm run cli "Your prompt here"
 ```
 
-Make sure to set your `GEMINI_API_KEY` in a `.env` file.
+Set `GEMINI_API_KEY` in `.env`.
 
 ## Scripts
 
-- `npm run dev`: Start development servers
+- `npm run dev`: Start dev servers
 - `npm run build`: Build for production
 - `npm run lint`: Run ESLint
-- `npm run preview`: Preview production build
-- `npm run predeploy`: Build before deployment
-- `npm run deploy`: Deploy to GitHub Pages
-- `npm run start:server`: Start server only
-- `npm run vercel-build`: Build for Vercel
+- `npm run preview`: Preview build
+- `npm run test`: Run unit tests
+- `npm run test:e2e`: Run e2e tests
+- `npm run preflight`: Run lint, build, test, e2e
+- `npm run cli`: Run CLI with AI prompts
 - `npm start`: Start production server
-- `npm run cli`: Run the CLI tool with AI prompts
 
 ## Files
 
 - `package.json`: Dependencies and scripts
 - `vite.config.ts`: Build configuration
-- `server.cjs`: Backend API and static file server
-- `vercel.json`: Deployment configuration
+- `server.cjs`: Backend API server
+- `vercel.json`: Vercel deployment config
 - `env.example`: Environment variables template
 
 ## Requirements
 
-- Node.js 18 or later
-- npm or yarn
+- Node.js 20 or later
+- npm
 
 ## Conventional Commits
 
-This project uses conventional commit standards for commit messages.
-
-### Setup
-
-To enable the commit message hook:
-
-```sh
-cp scripts/commit-msg .git/hooks/
-```
-
-### Standards
-
-- Commit messages must start with a type: `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`, etc.
-- First line must be lowercase and ≤40 characters.
-- Use present tense: "add feature" not "added feature".
-
-### Rewriting History
-
-To clean up existing commit messages:
-
-```sh
-bash scripts/rewrite_msg.sh < commit_message.txt
-```
-
-Or for the entire history (use with caution):
-
-```sh
-git filter-branch --msg-filter 'bash scripts/rewrite_msg.sh' -- --all
-```
+Uses conventional commit standards. See scripts for enforcement.
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+See CONTRIBUTING.md.
 
 ## License
 
