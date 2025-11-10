@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 
 const app = express();
@@ -32,19 +31,7 @@ app.use(
   }),
 );
 
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error("GEMINI_API_KEY is not set in the environment.");
-  process.exit(1);
-}
-
-const ai = new GoogleGenerativeAI(apiKey);
-const config = { responseMimeType: "text/plain" };
-const model = ai.getGenerativeModel({
-  model: "gemini-2.5-flash",
-  generationConfig: config,
-  systemInstruction: "Respond in plain text without any markdown formatting, asterisks, bold, italics, or special characters. Keep responses clean, natural, and easy to read."
-});
+const askAIPromise = import('./lib/ai.js').then(({ askAI }) => askAI);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -61,8 +48,8 @@ app.post("/api/ask-test-ai", async (req, res) => {
   }
 
   try {
-    const result = await model.generateContent(message);
-    const text = await result.response.text();
+    const askAI = await askAIPromise;
+    const text = await askAI(message);
     res.json({ text });
   } catch (error) {
     console.error("Error:", error);
