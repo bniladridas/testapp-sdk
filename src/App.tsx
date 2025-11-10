@@ -3,6 +3,42 @@ import { Menu, X, Sun, Moon, ArrowUp } from 'lucide-react';
 
 import { askTestAI } from './TestAI';
 
+function DarkModeToggle({
+  darkMode,
+  setDarkMode,
+  showText = false,
+}: {
+  darkMode: boolean;
+  setDarkMode: (fn: (prev: boolean) => boolean) => void;
+  showText?: boolean;
+}) {
+  return (
+    <button
+      onClick={() => setDarkMode((prev) => !prev)}
+      className={`p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors transform transition-transform duration-300 active:scale-90 ${
+        showText ? 'flex items-center' : ''
+      }`}
+      aria-label="Toggle dark mode"
+    >
+      <span
+        className="inline-block transition-transform duration-500 will-change-transform"
+        style={{
+          transform: darkMode
+            ? 'rotate(180deg) scale(1.2)'
+            : 'rotate(0deg) scale(1)',
+        }}
+      >
+        {darkMode ? (
+          <Sun size={18} className="text-yellow-400" />
+        ) : (
+          <Moon size={18} className="text-gray-700 dark:text-gray-200" />
+        )}
+      </span>
+      {showText && <span className="ml-2 text-sm">Toggle Dark Mode</span>}
+    </button>
+  );
+}
+
 function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -245,29 +281,10 @@ function AppContent() {
                 </div>
                 {/* Dark Mode Toggle */}
                 <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => setDarkMode((prev) => !prev)}
-                    className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors transform transition-transform duration-300 active:scale-90"
-                    aria-label="Toggle dark mode"
-                  >
-                    <span
-                      className="inline-block transition-transform duration-500 will-change-transform"
-                      style={{
-                        transform: darkMode
-                          ? 'rotate(180deg) scale(1.2)'
-                          : 'rotate(0deg) scale(1)',
-                      }}
-                    >
-                      {darkMode ? (
-                        <Sun size={18} className="text-yellow-400" />
-                      ) : (
-                        <Moon
-                          size={18}
-                          className="text-gray-700 dark:text-gray-200"
-                        />
-                      )}
-                    </span>
-                  </button>
+                  <DarkModeToggle
+                    darkMode={darkMode}
+                    setDarkMode={setDarkMode}
+                  />
                 </div>
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-12"></div>
@@ -286,30 +303,11 @@ function AppContent() {
             {isMenuOpen && (
               <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 relative">
                 <div className="px-6 py-4 space-y-4">
-                  <button
-                    onClick={() => setDarkMode((prev) => !prev)}
-                    className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center"
-                    aria-label="Toggle dark mode"
-                  >
-                    <span
-                      className="inline-block transition-transform duration-500 will-change-transform"
-                      style={{
-                        transform: darkMode
-                          ? 'rotate(180deg) scale(1.2)'
-                          : 'rotate(0deg) scale(1)',
-                      }}
-                    >
-                      {darkMode ? (
-                        <Sun size={18} className="text-yellow-400" />
-                      ) : (
-                        <Moon
-                          size={18}
-                          className="text-gray-700 dark:text-gray-200"
-                        />
-                      )}
-                    </span>
-                    <span className="ml-2 text-sm">Toggle Dark Mode</span>
-                  </button>
+                  <DarkModeToggle
+                    darkMode={darkMode}
+                    setDarkMode={setDarkMode}
+                    showText={true}
+                  />
                 </div>
               </div>
             )}

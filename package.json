@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "preflight": "npm run lint && npm run build && npm test && npm run test:e2e",
+    "duplicate-check": "jscpd --min-lines 10 --min-tokens 50 --ignore 'node_modules/**,dist/**' --reporters consoleFull .",
+    "preflight": "npm run lint && npm run duplicate-check && npm run build && npm test && npm run test:e2e",
     "cli": "node cli/index.js"
   },
   "dependencies": {
@@ -48,6 +49,7 @@
     "gh-pages": "^6.3.0",
     "globals": "^15.9.0",
     "husky": "^9.1.7",
+    "jscpd": "^4.0.5",
     "jsdom": "^27.1.0",
     "lint-staged": "^15.2.11",
     "postcss": "^8.4.35",
