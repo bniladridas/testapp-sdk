@@ -30,6 +30,15 @@ Thank you for your interest in contributing to TestApp! We welcome contributions
    ```
 8. **Create a Pull Request** on GitHub.
 
+## Pull Request Guidelines
+
+- **Link to Issues**: Every PR must reference a related issue in the tracker for tracking and context.
+- **Core Goals**: Focus on feature development and security enhancements. Ensure changes align with the project roadmap.
+- **Security Checks**: Run `npm audit` and address any new vulnerabilities. For security-related PRs, include details on the vulnerability, fix, and testing.
+- **Testing**: Include unit tests for new features. Run `npm run test` and ensure all pass.
+- **Code Review**: PRs require review from maintainers. Address feedback promptly.
+- **Documentation**: Update docs for new features or changes.
+
 ## Development Setup
 
 1. Install dependencies:

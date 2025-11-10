@@ -1,0 +1,63 @@
+name: PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labels.yml
+
+  issue-association:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            const title = pr.title;
+
+            // Check for issue references (e.g., closes #123, fixes #456)
+            const issueRegex = /(?:closes|fixes|resolves)\s+#(\d+)/gi;
+            const matches = body.match(issueRegex);
+
+            if (!matches) {
+              // Create a new issue
+              const issueBody = `This issue was auto-created for PR #${pr.number}: ${title}\n\nPR Description:\n${body}`;
+              const issue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `Auto-created: ${title}`,
+                body: issueBody,
+                labels: ['auto-created', 'needs-review']
+              });
+
+              // Comment on PR linking to the issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: `This PR has been associated with issue #${issue.data.number}. Please update the PR description to reference it (e.g., "closes #${issue.data.number}").`
+              });
+            } else {
+              // Add label if associated
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: ['issue-linked']
+              });
+            }

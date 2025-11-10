@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "colons": "error",
+    "commas": "error",
+    "comments": "error",
+    "comments-indentation": "error",
+    "document-start": "error",
+    "empty-lines": "error",
+    "empty-values": "error",
+    "indentation": "error",
+    "key-duplicates": "error",
+    "key-ordering": "off",
+    "line-length": "off",
+    "new-line-at-end-of-file": "error",
+    "new-lines": "error",
+    "octal-values": "error",
+    "trailing-spaces": "error",
+    "truthy": "error"
+  }
+}

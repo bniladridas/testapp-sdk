@@ -1,0 +1,32 @@
+security:
+  - changed-files:
+      - any-glob-to-any-file:
+          ['server.cjs', 'package.json', 'package-lock.json', 'env.example']
+
+feature:
+  - changed-files:
+      - any-glob-to-any-file: ['src/**', 'lib/**']
+
+test:
+  - changed-files:
+      - any-glob-to-any-file:
+          ['tests/**', 'test-unit/**', '*.test.*', '*.spec.*']
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['docs/**', '*.md', 'README.md']
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          [
+            '.github/**',
+            'eslint.config.js',
+            'vite.config.ts',
+            'vitest.config.js',
+            'playwright.config.js',
+          ]
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: ['package.json', 'package-lock.json']
