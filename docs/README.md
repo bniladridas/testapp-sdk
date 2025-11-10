@@ -35,3 +35,18 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 ├── docs/         # Documentation
 └── scripts/      # Build and utility scripts
 ```
+
+## Troubleshooting
+
+### Common Issues
+
+- **API Key Error**: Ensure `GEMINI_API_KEY` is set in `.env` for local development or Vercel environment variables for deployment.
+- **Build Fails**: Run `npm install` to ensure all dependencies are installed. Check Node.js version (20+ required).
+- **Tests Fail**: For unit tests, ensure mocks are set up. For E2E, ensure the dev server is running.
+- **CLI Not Working**: Verify the API key and internet connection. The CLI requires the same setup as the web app.
+- **Deployment Issues**: Check Vercel logs for errors. Ensure `vercel.json` is configured correctly.
+
+### Getting Help
+
+- Check the [GitHub Issues](https://github.com/your-repo/issues) for known problems
+- Review the specific documentation: [API](api.md), [CLI](cli.md), [Deployment](deployment.md), [Development](development.md)
