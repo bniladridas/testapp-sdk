@@ -4,25 +4,39 @@ process.env.GEMINI_API_KEY = 'test-key';
 import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
 
-// Mock the GoogleGenerativeAI
+// Mock the GoogleGenerativeAI with a configurable generateContent
+const mockGenerateContent = vi.fn();
 vi.mock('@google/generative-ai', () => ({
   GoogleGenerativeAI: class MockGoogleGenerativeAI {
     constructor() {}
     getGenerativeModel() {
       return {
-        generateContent: vi.fn().mockResolvedValue({
-          response: {
-            text: vi.fn().mockReturnValue('Mocked AI response'),
-          },
-        }),
+        generateContent: mockGenerateContent,
       };
     }
   },
 }));
 
+// Set default mock behavior
+mockGenerateContent.mockResolvedValue({
+  response: {
+    text: vi.fn().mockReturnValue('Mocked AI response'),
+  },
+});
+
 import app from '../server.cjs';
 
 describe('Server API', () => {
+  beforeEach(() => {
+    // Clear mock and reset to default behavior before each test
+    mockGenerateContent.mockClear();
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: vi.fn().mockReturnValue('Mocked AI response'),
+      },
+    });
+  });
+
   it('should return health check', async () => {
     const response = await request(app).get('/api/health');
     expect(response.status).toBe(200);
@@ -41,5 +55,71 @@ describe('Server API', () => {
     const response = await request(app).post('/api/ask-test-ai').send({});
     expect(response.status).toBe(400);
     expect(response.body.error).toBe('Missing message');
+  });
+
+  it('should handle 503 service unavailable error with fallback response', async () => {
+    // Mock to fail all 3 retry attempts
+    mockGenerateContent.mockImplementation(() => {
+      throw new Error('503 Service Unavailable');
+    });
+
+    const response = await request(app)
+      .post('/api/ask-test-ai')
+      .send({ message: 'Hello' });
+    expect(response.status).toBe(200);
+    expect(response.body.text).toBe(
+      "I'm a bit busy right now with lots of questions! How's your day going? 😊",
+    );
+    expect(response.body.fallback).toBe(true);
+  });
+
+  it('should handle overloaded error with fallback response', async () => {
+    // Mock to fail all 3 retry attempts
+    mockGenerateContent.mockImplementation(() => {
+      throw new Error('Model is overloaded');
+    });
+
+    const response = await request(app)
+      .post('/api/ask-test-ai')
+      .send({ message: 'Hello' });
+    expect(response.status).toBe(200);
+    expect(response.body.text).toBe(
+      "I'm a bit busy right now with lots of questions! How's your day going? 😊",
+    );
+    expect(response.body.fallback).toBe(true);
+  });
+
+  it('should handle temporarily unavailable error with fallback response', async () => {
+    // Mock to fail all 3 retry attempts
+    mockGenerateContent.mockImplementation(() => {
+      throw new Error('Service temporarily unavailable');
+    });
+
+    const response = await request(app)
+      .post('/api/ask-test-ai')
+      .send({ message: 'Hello' });
+    expect(response.status).toBe(200);
+    expect(response.body.text).toBe(
+      "I'm a bit busy right now with lots of questions! How's your day going? 😊",
+    );
+    expect(response.body.fallback).toBe(true);
+  });
+
+  it('should handle other errors with 500 status', async () => {
+    mockGenerateContent.mockImplementationOnce(() => {
+      throw new Error('Some other error');
+    });
+
+    const response = await request(app)
+      .post('/api/ask-test-ai')
+      .send({ message: 'Hello' });
+    expect(response.status).toBe(500);
+    expect(response.body.error).toBe('Some other error'); // In non-production mode, returns actual error
+  });
+
+  it('should serve React app for non-API routes', async () => {
+    const response = await request(app).get('/some-route');
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toContain('text/html');
   });
 });

@@ -52,4 +52,44 @@ describe('App', () => {
     // Check if chat is open, perhaps by checking for input
     expect(screen.getByPlaceholderText('Ask Test AI...')).toBeInTheDocument();
   });
+
+  it('closes chat on Escape key press', () => {
+    render(<App />);
+    const chatButton = screen.getByLabelText('Open Test AI Chat');
+    act(() => {
+      fireEvent.click(chatButton);
+    });
+    // Chat should be open
+    expect(screen.getByPlaceholderText('Ask Test AI...')).toBeInTheDocument();
+
+    // Press Escape
+    act(() => {
+      fireEvent.keyDown(document, { key: 'Escape' });
+    });
+
+    // Chat should be closed
+    expect(
+      screen.queryByPlaceholderText('Ask Test AI...'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('toggles fullscreen mode', () => {
+    render(<App />);
+    const chatButton = screen.getByLabelText('Open Test AI Chat');
+    act(() => {
+      fireEvent.click(chatButton);
+    });
+
+    // Find fullscreen button
+    const fullscreenButton = screen.getByTitle('Fullscreen');
+    expect(fullscreenButton).toBeInTheDocument();
+
+    // Click fullscreen button
+    act(() => {
+      fireEvent.click(fullscreenButton);
+    });
+
+    // Should be in fullscreen mode - check for minimize button
+    expect(screen.getByLabelText('Minimize chat')).toBeInTheDocument();
+  });
 });
