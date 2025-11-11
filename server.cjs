@@ -46,6 +46,11 @@ app.post('/api/ask-test-ai', apiLimiter, async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'Missing message' });
 
+  // Prevent caching of API responses
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+
   try {
     const askAI = await askAIPromise;
     const text = await askAI(message);
