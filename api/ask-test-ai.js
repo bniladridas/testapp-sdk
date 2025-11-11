@@ -18,6 +18,11 @@ export default async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'Missing message' });
 
+  // Prevent caching of API responses
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+
   // Basic rate limiting (placeholder)
   if (req.headers['x-rate-limit']) {
     return res.status(429).json({ error: 'Rate limit exceeded' });
@@ -36,6 +41,25 @@ export default async (req, res) => {
     res.json({ text });
   } catch (error) {
     console.error('Error:', error);
+
+    // Check for specific error types
+    const errorText = error.message || error.toString();
+    if (
+      errorText.includes('503') ||
+      errorText.includes('429') ||
+      errorText.includes('Too Many Requests') ||
+      errorText.includes('overloaded') ||
+      errorText.includes('temporarily unavailable') ||
+      errorText.includes('quota') ||
+      errorText.includes('rate limit') ||
+      error.status === 429
+    ) {
+      return res.json({
+        text: "I'm a bit busy right now with lots of questions! How's your day going? 😊",
+        fallback: true,
+      });
+    }
+
     res.status(500).json({ error: error.message || 'Internal server error' });
   }
 };
