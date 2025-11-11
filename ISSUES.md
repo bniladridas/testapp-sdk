@@ -20,6 +20,7 @@ This file tracks open issues and assigned work for the TestApp project.
 
 ## Recently Completed
 
+- [x] Add cache control headers to prevent API response caching
 - [x] Improve 429/quota error handling in CLI and server
 - [x] Add 429/quota exceeded error handling with fallback responses
 - [x] Refactor duplicated test code and fix React test warnings
