@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Sun, Moon, ArrowUp } from 'lucide-react';
+import { Sun, Moon, ArrowUp } from 'lucide-react';
 
 import { askTestAI } from './TestAI';
 
@@ -40,7 +40,6 @@ function DarkModeToggle({
 }
 
 function AppContent() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -288,29 +287,8 @@ function AppContent() {
                 </div>
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-12"></div>
-
-                {/* Mobile menu button */}
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="md:hidden p-2"
-                >
-                  {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-                </button>
               </div>
             </div>
-
-            {/* Mobile Navigation */}
-            {isMenuOpen && (
-              <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 relative">
-                <div className="px-6 py-4 space-y-4">
-                  <DarkModeToggle
-                    darkMode={darkMode}
-                    setDarkMode={setDarkMode}
-                    showText={true}
-                  />
-                </div>
-              </div>
-            )}
           </nav>
 
           <div>
