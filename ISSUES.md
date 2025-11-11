@@ -20,10 +20,8 @@ This file tracks open issues and assigned work for the TestApp project.
 
 ## Recently Completed
 
-- [x] Comprehensive API route testing with error handling
-- [x] Code coverage improvement (75.3% statements, 76.87% lines)
-- [x] Dark mode persistence implementation
-- [x] Rate limiting on API endpoints
+- [x] Add 429/quota exceeded error handling with fallback responses
+- [x] Refactor duplicated test code and fix React test warnings
 
 ## Completed
 
@@ -38,6 +36,10 @@ This file tracks open issues and assigned work for the TestApp project.
 - [x] Improve code coverage to 75.3% (from 64.81%)
 - [x] Add error handling for API failures with fallback responses
 - [x] Add unit tests for client-side error handling
+- [x] Comprehensive API route testing with error handling
+- [x] Code coverage improvement (75.3% statements, 76.87% lines)
+- [x] Dark mode persistence implementation
+- [x] Rate limiting on API endpoints
 
 ## Guidelines
 
