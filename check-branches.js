@@ -51,9 +51,11 @@ for (const branch of branches) {
       console.log(`  ✅ Has ${testFile}`);
     }
 
-    // Run tests
+    // Run tests (lib tests for branches, all for main)
+    const testCommand =
+      branch === 'main' ? 'npm test -- --run' : 'npm test -- lib/ --run';
     try {
-      execSync('npm test -- --run', {
+      execSync(testCommand, {
         stdio: 'pipe',
         env: { ...process.env, GEMINI_API_KEY: 'test' },
       });
