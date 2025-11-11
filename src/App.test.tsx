@@ -1,8 +1,19 @@
 /// <reference types="vitest/globals" />
 import { describe, it, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
+
+// Mock askTestAI to prevent async operations in tests
+vi.mock('./TestAI', () => ({
+  askTestAI: vi.fn(() => Promise.resolve('Mocked AI response')),
+}));
 
 beforeEach(() => {
   // Mock localStorage
@@ -42,7 +53,7 @@ describe('App', () => {
     expect(document.documentElement.classList.contains('dark')).toBe(true);
   });
 
-  it('opens chat on button click', () => {
+  it('opens chat on button click', async () => {
     render(<App />);
     const chatButton = screen.getByLabelText('Open Test AI Chat');
     expect(chatButton).toBeInTheDocument();
@@ -51,9 +62,13 @@ describe('App', () => {
     });
     // Check if chat is open, perhaps by checking for input
     expect(screen.getByPlaceholderText('Ask Test AI...')).toBeInTheDocument();
+    // Wait for the initial AI message
+    await waitFor(() => {
+      expect(screen.getByText('Mocked AI response')).toBeInTheDocument();
+    });
   });
 
-  it('closes chat on Escape key press', () => {
+  it('closes chat on Escape key press', async () => {
     render(<App />);
     const chatButton = screen.getByLabelText('Open Test AI Chat');
     act(() => {
@@ -61,6 +76,10 @@ describe('App', () => {
     });
     // Chat should be open
     expect(screen.getByPlaceholderText('Ask Test AI...')).toBeInTheDocument();
+    // Wait for the initial AI message
+    await waitFor(() => {
+      expect(screen.getByText('Mocked AI response')).toBeInTheDocument();
+    });
 
     // Press Escape
     act(() => {
@@ -73,11 +92,15 @@ describe('App', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('toggles fullscreen mode', () => {
+  it('toggles fullscreen mode', async () => {
     render(<App />);
     const chatButton = screen.getByLabelText('Open Test AI Chat');
     act(() => {
       fireEvent.click(chatButton);
+    });
+    // Wait for the initial AI message
+    await waitFor(() => {
+      expect(screen.getByText('Mocked AI response')).toBeInTheDocument();
     });
 
     // Find fullscreen button

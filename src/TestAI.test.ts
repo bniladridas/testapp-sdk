@@ -1,17 +1,21 @@
 import { describe, it, expect, vi } from 'vitest';
 import { askTestAI } from './TestAI';
 
+const mockFetchSuccess = (mockResponse: Record<string, unknown>) => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      }),
+    ),
+  );
+};
+
 describe('askTestAI', () => {
   it('should return the text from successful response', async () => {
     const mockResponse = { text: 'Hello from AI' };
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(() =>
-        Promise.resolve({
-          json: () => Promise.resolve(mockResponse),
-        }),
-      ),
-    );
+    mockFetchSuccess(mockResponse);
 
     const result = await askTestAI('Test message');
     expect(result).toBe('Hello from AI');
@@ -47,14 +51,7 @@ describe('askTestAI', () => {
 
   it('should return error message when response has no text but has error', async () => {
     const mockResponse = { error: 'Backend error occurred' };
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(() =>
-        Promise.resolve({
-          json: () => Promise.resolve(mockResponse),
-        }),
-      ),
-    );
+    mockFetchSuccess(mockResponse);
 
     const result = await askTestAI('Test message');
     expect(result).toBe('Backend error occurred');
@@ -62,14 +59,7 @@ describe('askTestAI', () => {
 
   it('should return default error message when response has neither text nor error', async () => {
     const mockResponse = { someOtherField: 'value' };
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(() =>
-        Promise.resolve({
-          json: () => Promise.resolve(mockResponse),
-        }),
-      ),
-    );
+    mockFetchSuccess(mockResponse);
 
     const result = await askTestAI('Test message');
     expect(result).toBe('Unknown error from Test AI backend.');

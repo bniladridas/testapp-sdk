@@ -54,18 +54,24 @@ app.post('/api/ask-test-ai', apiLimiter, async (req, res) => {
     console.error('Error:', error);
 
     // Check for specific error types
-    if (error.message?.includes('503') ||
-        error.message?.includes('overloaded') ||
-        error.message?.includes('temporarily unavailable')) {
-
+    if (
+      error.message?.includes('503') ||
+      error.message?.includes('429') ||
+      error.message?.includes('overloaded') ||
+      error.message?.includes('temporarily unavailable') ||
+      error.message?.includes('quota') ||
+      error.message?.includes('rate limit')
+    ) {
       return res.json({
         text: "I'm a bit busy right now with lots of questions! How's your day going? 😊",
-        fallback: true
+        fallback: true,
       });
     }
 
     // Other errors
-    res.status(500).json({ error: isProduction ? 'Internal server error' : error.message });
+    res
+      .status(500)
+      .json({ error: isProduction ? 'Internal server error' : error.message });
   }
 });
 

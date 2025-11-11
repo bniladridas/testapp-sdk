@@ -57,42 +57,15 @@ describe('Server API', () => {
     expect(response.body.error).toBe('Missing message');
   });
 
-  it('should handle 503 service unavailable error with fallback response', async () => {
+  it.each([
+    '503 Service Unavailable',
+    '429 Too Many Requests',
+    'Model is overloaded',
+    'Service temporarily unavailable',
+  ])('should handle %s error with fallback response', async (errorMessage) => {
     // Mock to fail all 3 retry attempts
     mockGenerateContent.mockImplementation(() => {
-      throw new Error('503 Service Unavailable');
-    });
-
-    const response = await request(app)
-      .post('/api/ask-test-ai')
-      .send({ message: 'Hello' });
-    expect(response.status).toBe(200);
-    expect(response.body.text).toBe(
-      "I'm a bit busy right now with lots of questions! How's your day going? 😊",
-    );
-    expect(response.body.fallback).toBe(true);
-  });
-
-  it('should handle overloaded error with fallback response', async () => {
-    // Mock to fail all 3 retry attempts
-    mockGenerateContent.mockImplementation(() => {
-      throw new Error('Model is overloaded');
-    });
-
-    const response = await request(app)
-      .post('/api/ask-test-ai')
-      .send({ message: 'Hello' });
-    expect(response.status).toBe(200);
-    expect(response.body.text).toBe(
-      "I'm a bit busy right now with lots of questions! How's your day going? 😊",
-    );
-    expect(response.body.fallback).toBe(true);
-  });
-
-  it('should handle temporarily unavailable error with fallback response', async () => {
-    // Mock to fail all 3 retry attempts
-    mockGenerateContent.mockImplementation(() => {
-      throw new Error('Service temporarily unavailable');
+      throw new Error(errorMessage);
     });
 
     const response = await request(app)
