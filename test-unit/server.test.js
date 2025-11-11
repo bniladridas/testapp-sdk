@@ -17,6 +17,21 @@ vi.mock('@google/generative-ai', () => ({
   },
 }));
 
+// Mock Octokit modules
+vi.mock('@octokit/app', () => ({
+  App: class MockApp {
+    constructor() {
+      this.webhooks = {
+        on: vi.fn(),
+      };
+    }
+  },
+}));
+
+vi.mock('@octokit/webhooks', () => ({
+  createNodeMiddleware: vi.fn(() => (req, res, next) => next()),
+}));
+
 // Set default mock behavior
 mockGenerateContent.mockResolvedValue({
   response: {
