@@ -64,6 +64,15 @@ The app requires user authentication. To test:
 
 Note: User data is stored in-memory, so restarting the server will clear all users.
 
+### Running E2E Tests
+
+To run end-to-end tests locally:
+
+1. Start the backend server: `npm run server`
+2. In another terminal, run: `npm run test:e2e`
+
+The tests will automatically start the frontend server and test signup, login, and AI chat flows.
+
 ### CLI Usage
 
 Use the AI from command line:
