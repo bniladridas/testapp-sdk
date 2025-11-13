@@ -54,10 +54,18 @@ jobs:
               });
             } else {
               // Add label if associated
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr.number,
-                labels: ['issue-linked']
-              });
-            }
+               await github.rest.issues.addLabels({
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 issue_number: pr.number,
+                 labels: ['issue-linked']
+               });
+             }
+
+  bundle-size:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: ./.github/actions/bundle-size
