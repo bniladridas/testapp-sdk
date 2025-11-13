@@ -1,4 +1,4 @@
-import { createAIModel } from '../lib/ai-shared.js';
+import { createAIModel } from '../lib/ai-shared.mjs';
 
 export default async (req, res) => {
   // CORS headers
