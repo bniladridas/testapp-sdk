@@ -4,7 +4,9 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 
 // The script hardcodes checking out the main branch at the end. This could be unexpected if the script is run from a different branch. It's better practice to return to the original branch.
-const originalBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+const originalBranch = execSync('git rev-parse --abbrev-ref HEAD')
+  .toString()
+  .trim();
 
 const branches = [
   'commit-msg-enforcer',
@@ -20,7 +22,7 @@ console.log('Checking conditions for all feature branches...\n');
 
 let allPass = true;
 
-try {
+for (const branch of branches) {
   console.log(`Checking branch: ${branch}`);
   try {
     // Checkout branch
@@ -79,10 +81,9 @@ try {
   }
   console.log('');
 }
-} finally {
-  // Switch back to original branch
-  execSync(`git checkout ${originalBranch}`, { stdio: 'pipe' });
-}
+
+// Switch back to original branch
+execSync(`git checkout ${originalBranch}`, { stdio: 'pipe' });
 
 if (allPass) {
   console.log('🎉 All branches meet the conditions!');
