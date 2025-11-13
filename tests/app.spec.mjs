@@ -8,7 +8,7 @@ test.describe('TestApp App', () => {
 
   test('should load the homepage', async ({ page }) => {
     // First signup
-    await page.goto('http://localhost:5173/signup');
+    await page.goto('http://127.0.0.1:5173/signup');
     await page.fill('input[name="email"]', 'test@example.com');
     await page.fill('input[name="password"]', 'password123');
     await page.fill('input[name="confirmPassword"]', 'password123');
@@ -21,7 +21,7 @@ test.describe('TestApp App', () => {
 
   test('should open chat', async ({ page }) => {
     // First signup
-    await page.goto('http://localhost:5173/signup');
+    await page.goto('http://127.0.0.1:5173/signup');
     await page.fill('input[name="email"]', 'test@example.com');
     await page.fill('input[name="password"]', 'password123');
     await page.fill('input[name="confirmPassword"]', 'password123');
