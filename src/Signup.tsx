@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from './hooks/useAuth';
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState('');

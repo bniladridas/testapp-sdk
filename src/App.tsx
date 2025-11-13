@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Sun, Moon, ArrowUp, LogOut } from 'lucide-react';
 
 import { askTestAI } from './TestAI';
-import { useAuth } from './AuthContext';
+import { useAuth } from './hooks/useAuth';
 import Login from './Login';
 import Signup from './Signup';
 
