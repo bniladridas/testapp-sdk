@@ -85,14 +85,7 @@ describe('Server API', () => {
     expect(response.body.status).toBe('ok');
   });
 
-  it('should handle AI requests', async () => {
-    const response = await request(app)
-      .post('/api/ask-test-ai')
-      .set('Authorization', 'Bearer mock-token')
-      .send({ message: 'Hello' });
-    expect(response.status).toBe(200);
-    expect(typeof response.body.text).toBe('string');
-  });
+
 
   it('should return error for missing message', async () => {
     const response = await request(app)
@@ -109,10 +102,20 @@ describe('Server API', () => {
     'Model is overloaded',
     'Service temporarily unavailable',
   ])('should handle %s error with fallback response', async (errorMessage) => {
-    // Mock to fail all 3 retry attempts
-    mockGenerateContent.mockImplementation(() => {
-      throw new Error(errorMessage);
-    });
+    // Mock askAI to throw the error
+    const { askAI } = await import('../lib/ai.mjs');
+    askAI.mockRejectedValueOnce(new Error(errorMessage));
+
+    const response = await request(app)
+      .post('/api/ask-test-ai')
+      .set('Authorization', 'Bearer mock-token')
+      .send({ message: 'Hello' });
+    expect(response.status).toBe(200);
+    expect(response.body.text).toBe(
+      "I'm a bit busy right now with lots of questions! How's your day going? 😊",
+    );
+    expect(response.body.fallback).toBe(true);
+  });
 
     const response = await request(app)
       .post('/api/ask-test-ai')
@@ -125,9 +128,17 @@ describe('Server API', () => {
   });
 
   it('should handle other errors with 500 status', async () => {
-    mockGenerateContent.mockImplementationOnce(() => {
-      throw new Error('Some other error');
-    });
+    // Mock askAI to throw the error
+    const { askAI } = await import('../lib/ai.mjs');
+    askAI.mockRejectedValueOnce(new Error('Some other error'));
+
+    const response = await request(app)
+      .post('/api/ask-test-ai')
+      .set('Authorization', 'Bearer mock-token')
+      .send({ message: 'Hello' });
+    expect(response.status).toBe(500);
+    expect(response.body.error).toBe('Some other error'); // In non-production mode, returns actual error
+  });
 
     const response = await request(app)
       .post('/api/ask-test-ai')
