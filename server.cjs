@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+const { App } = require('@octokit/app');
+
 const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === 'production';
