@@ -221,8 +221,8 @@ app.use((err, _, res) => {
 });
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  app.listen(port, '127.0.0.1', () => {
-    console.log(`TestApp server listening at http://127.0.0.1:${port}`);
+  app.listen(port, () => {
+    console.log(`TestApp server listening at http://localhost:${port}`);
     console.log(`Environment: ${isProduction ? 'Production' : 'Development'}`);
   });
 }
