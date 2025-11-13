@@ -41,30 +41,42 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
-      - name: Run e2e tests
+      - name: Start backend server
+        run: npm run server &
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Wait for backend (Linux/macOS)
         run: |
-          npm run server &
-          if [ "$RUNNER_OS" == "Linux" ] || [ "$RUNNER_OS" == "macOS" ]; then
-            for i in {1..30}; do
-              if curl -f http://127.0.0.1:3001/api/health > /dev/null 2>&1; then
-                echo "Backend is up!"
+          for i in {1..30}; do
+            if curl -f http://127.0.0.1:3001/api/health > /dev/null 2>&1; then
+              echo "Backend is up!"
+              break
+            fi
+            sleep 1
+          done
+        if: runner.os != 'Windows'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Wait for backend (Windows)
+        run: |
+          for ($i = 1; $i -le 30; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri http://127.0.0.1:3001/api/health -Method Get
+              if ($response.StatusCode -eq 200) {
+                Write-Host "Backend is up!"
                 break
-              fi
-              sleep 1
-            done
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            for ($i = 1; $i -le 30; $i++) {
-              try {
-                $response = Invoke-WebRequest -Uri http://127.0.0.1:3001/api/health -Method Get
-                if ($response.StatusCode -eq 200) {
-                  Write-Host "Backend is up!"
-                  break
-                }
-              } catch {
-                Start-Sleep -Seconds 1
               }
+            } catch {
+              Start-Sleep -Seconds 1
             }
-          fi
-          npm run test:e2e
+          }
+        if: runner.os == 'Windows'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Run e2e tests
+        run: npm run test:e2e
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
