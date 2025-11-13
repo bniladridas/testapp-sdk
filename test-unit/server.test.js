@@ -143,7 +143,6 @@ describe('Server API', () => {
     it('should protect AI endpoint without token', async () => {
       const response = await request(app)
         .post('/api/ask-test-ai')
-        .set('Authorization', 'Bearer mock-token')
         .send({ message: 'Hello' });
       expect(response.status).toBe(401);
       expect(response.body.error).toBe('Access token required');
