@@ -32,7 +32,9 @@ vi.mock('@octokit/app', () => ({
 vi.mock('jsonwebtoken', () => ({
   default: {
     sign: vi.fn(() => 'mock-token'),
-    verify: vi.fn(() => ({ id: 1, email: 'test@example.com' })),
+    verify: vi.fn((token, secret, callback) =>
+      callback(null, { id: 1, email: 'test@example.com' }),
+    ),
   },
 }));
 
