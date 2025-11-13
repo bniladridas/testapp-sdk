@@ -85,8 +85,6 @@ describe('Server API', () => {
     expect(response.body.status).toBe('ok');
   });
 
-
-
   it('should return error for missing message', async () => {
     const response = await request(app)
       .post('/api/ask-test-ai')
@@ -94,13 +92,6 @@ describe('Server API', () => {
       .send({});
     expect(response.status).toBe(400);
     expect(response.body.error).toBe('Missing message');
-  });
-
-    const response = await request(app)
-      .post('/api/ask-test-ai')
-      .send({ message: 'Hello' });
-    expect(response.status).toBe(500);
-    expect(response.body.error).toBe('Some other error'); // In non-production mode, returns actual error
   });
 
   it('should serve React app for non-API routes', async () => {
