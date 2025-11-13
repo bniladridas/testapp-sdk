@@ -87,14 +87,6 @@ curl -X POST http://127.0.0.1:3001/api/ask-test-ai \
 }
 ```
 
-**Example:**
-
-```bash
-curl -X POST http://localhost:3001/api/ask-test-ai \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Hello"}'
-```
-
 ## Health Check
 
 ### GET /api/health

@@ -49,5 +49,5 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 
 ### Getting Help
 
-- Check the [GitHub Issues](https://github.com/your-repo/issues) for known problems
+- Check the [GitHub Issues](https://github.com/bniladridas/TestApp/issues) for known problems
 - Review the specific documentation: [API](api.md), [CLI](cli.md), [Deployment](deployment.md), [Development](development.md)

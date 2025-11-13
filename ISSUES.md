@@ -20,6 +20,7 @@ This file tracks open issues and assigned work for the TestApp project.
 
 ## Recently Completed
 
+- [x] Add bundle size action
 - [x] Add quota error handling to Vercel API route
 - [x] Simplify navigation by removing mobile menu
 - [x] Add cache control headers to prevent API response caching
