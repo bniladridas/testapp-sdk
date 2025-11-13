@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.cjs",
+    "start": "node server.mjs",
     "dev": "concurrently \"npm run server\" \"vite\"",
-    "server": "node server.cjs",
+    "server": "node server.mjs",
     "build": "tsc -b && vite build",
     "clean": "rm -rf dist",
     "lint": "eslint .",

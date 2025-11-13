@@ -43,7 +43,7 @@ for (const branch of branches) {
       'code-review-assistant': 'code-review',
     };
     const featureName = featureNameMap[branch] || branch;
-    const featureFile = `lib/${featureName}.cjs`;
+    const featureFile = `lib/${featureName}.mjs`;
     if (!fs.existsSync(featureFile)) {
       console.log(`  ❌ Missing ${featureFile}`);
       allPass = false;
@@ -51,8 +51,8 @@ for (const branch of branches) {
       console.log(`  ✅ Has ${featureFile}`);
     }
 
-    // Check if lib/feature.test.js exists
-    const testFile = `lib/${featureName}.test.js`;
+    // Check if lib/feature.test.mjs exists
+    const testFile = `lib/${featureName}.test.mjs`;
     if (!fs.existsSync(testFile)) {
       console.log(`  ❌ Missing ${testFile}`);
       allPass = false;
@@ -82,8 +82,8 @@ for (const branch of branches) {
       allPass = false;
     }
 
-    // Check if server.cjs has GitHub setup
-    const serverContent = fs.readFileSync('server.cjs', 'utf8');
+    // Check if server.mjs has GitHub setup
+    const serverContent = fs.readFileSync('server.mjs', 'utf8');
     if (serverContent.includes('githubApp')) {
       console.log(`  ✅ Has GitHub setup`);
     } else {

@@ -1,9 +1,19 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+
+dotenv.config();
+
+const { App } = await import('@octokit/app');
+const { createNodeMiddleware } = await import('@octokit/webhooks');
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+import { askAI } from './lib/ai.mjs';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -28,8 +38,6 @@ app.use(
   }),
 );
 
-const askAIPromise = import('./lib/ai.js').then(({ askAI }) => askAI);
-
 // GitHub App setup (conditional for testing)
 const githubApp = process.env.GITHUB_APP_ID
   ? new App({
@@ -38,6 +46,23 @@ const githubApp = process.env.GITHUB_APP_ID
       webhooks: { secret: process.env.GITHUB_WEBHOOK_SECRET },
     })
   : null;
+
+// Webhook handlers
+if (githubApp) {
+  githubApp.webhooks.on('issues.labeled', async ({ octokit, payload }) => {
+    try {
+      await handleWorkflow(octokit, payload);
+    } catch (error) {
+      console.error('Error handling workflow:', error);
+    }
+  });
+
+  // GitHub webhook endpoint
+  app.use(
+    '/api/webhooks/github',
+    createNodeMiddleware(githubApp.webhooks, { path: '/api/webhooks/github' }),
+  );
+}
 
 // Rate limiter for API endpoints
 const apiLimiter = rateLimit({
@@ -61,7 +86,6 @@ app.post('/api/ask-test-ai', apiLimiter, async (req, res) => {
   res.set('Expires', '0');
 
   try {
-    const askAI = await askAIPromise;
     const text = await askAI(message);
     res.json({ text });
   } catch (error) {
@@ -105,11 +129,11 @@ app.use((err, _, res) => {
     .json({ error: isProduction ? 'Internal server error' : err.message });
 });
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   app.listen(port, () => {
     console.log(`TestApp server listening at http://localhost:${port}`);
     console.log(`Environment: ${isProduction ? 'Production' : 'Development'}`);
   });
 }
 
-module.exports = app;
+export default app;

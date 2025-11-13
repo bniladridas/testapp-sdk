@@ -1,6 +1,6 @@
 # Roadmap
 
-This roadmap outlines the planned features, improvements, and security enhancements for BratUI. It aligns with our core goals of robust feature development and stringent security practices.
+This roadmap outlines the planned features, improvements, and security enhancements for TestApp. It aligns with our core goals of robust feature development and stringent security practices.
 
 ## Short-Term (Next 1-3 Months)
 
