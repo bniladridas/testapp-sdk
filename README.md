@@ -54,6 +54,25 @@ npm run dev
 
 Open `http://localhost:5173` in your browser.
 
+### Authentication
+
+The app requires user authentication. To test:
+
+1. Go to the signup page and create an account (e.g., email: `test@example.com`, password: `password123`).
+2. Login with the same credentials.
+3. Access the AI chat features.
+
+Note: User data is stored in-memory, so restarting the server will clear all users.
+
+### Running E2E Tests
+
+To run end-to-end tests locally:
+
+1. Start the backend server: `npm run server`
+2. In another terminal, run: `npm run test:e2e`
+
+The tests will automatically start the frontend server and test signup, login, and AI chat flows.
+
 ### CLI Usage
 
 Use the AI from command line:
@@ -72,7 +91,7 @@ Set `GEMINI_API_KEY` in `.env`.
 - `npm run preview`: Preview build
 - `npm run test`: Run unit tests
 - `npm run test:e2e`: Run e2e tests
-- `npm run preflight`: Run lint, build, test, e2e
+- `npm run preflight`: Run lint, duplicate-check, build, test:coverage
 - `npm run cli`: Run CLI with AI prompts
 - `npm start`: Start production server
 
@@ -80,7 +99,7 @@ Set `GEMINI_API_KEY` in `.env`.
 
 - `package.json`: Dependencies and scripts
 - `vite.config.ts`: Build configuration
-- `server.cjs`: Backend API server (uses ES modules internally)
+- `server.mjs`: Backend API server (ES modules)
 - `lib/`: ES module library files (.mjs)
 - `vercel.json`: Vercel deployment config
 - `env.example`: Environment variables template
@@ -92,7 +111,10 @@ Set `GEMINI_API_KEY` in `.env`.
 
 ## Documentation
 
-Detailed documentation is available in the [docs/](docs/) directory. See [Test Coverage](docs/test-coverage.md) for testing enhancements.
+Detailed documentation is available in the [docs/](docs/) directory:
+
+- [Test Coverage](docs/test-coverage.md) - Testing enhancements and coverage details
+- [Bundle Size Monitoring](docs/bundle-size.md) - Bundle size optimization and monitoring
 
 ## Versioning
 

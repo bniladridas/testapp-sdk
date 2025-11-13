@@ -4,7 +4,7 @@ This file tracks open issues and assigned work for the TestApp project.
 
 ## Open Issues
 
-- [ ] Implement user authentication
+- [x] Implement user authentication
 - [ ] Optimize chat message rendering for large conversations
 - [ ] Add error handling for network failures in CLI
 - [ ] Improve accessibility (ARIA labels, keyboard navigation)
@@ -20,6 +20,7 @@ This file tracks open issues and assigned work for the TestApp project.
 
 ## Recently Completed
 
+- [x] Add bundle size action
 - [x] Add quota error handling to Vercel API route
 - [x] Simplify navigation by removing mobile menu
 - [x] Add cache control headers to prevent API response caching

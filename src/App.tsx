@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { Sun, Moon, ArrowUp } from 'lucide-react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Sun, Moon, ArrowUp, LogOut } from 'lucide-react';
 
 import { askTestAI } from './TestAI';
+import { useAuth } from './hooks/useAuth';
+import Login from './Login';
+import Signup from './Signup';
 
 function DarkModeToggle({
   darkMode,
@@ -37,7 +41,8 @@ function DarkModeToggle({
   );
 }
 
-function AppContent() {
+function ChatApp() {
+  const { user, logout } = useAuth();
   const [scrollY, setScrollY] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -275,13 +280,25 @@ function AppContent() {
                   <span className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     TestApp
                   </span>
+                  {user && (
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Welcome, {user.email}
+                    </span>
+                  )}
                 </div>
-                {/* Dark Mode Toggle */}
+                {/* Dark Mode Toggle and Logout */}
                 <div className="flex items-center space-x-4">
                   <DarkModeToggle
                     darkMode={darkMode}
                     setDarkMode={setDarkMode}
                   />
+                  <button
+                    onClick={logout}
+                    className="p-2 rounded transition-transform duration-300 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                    aria-label="Logout"
+                  >
+                    <LogOut size={18} />
+                  </button>
                 </div>
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-12"></div>
@@ -438,4 +455,28 @@ function AppContent() {
   );
 }
 
-export default AppContent;
+function App() {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black">
+        <div className="text-gray-900 dark:text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={user ? <ChatApp /> : <Navigate to="/login" replace />}
+      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
+export default App;
