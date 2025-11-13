@@ -3,7 +3,7 @@ import { spawn } from 'child_process';
 
 test.describe('TestApp App', () => {
   test.beforeEach(async ({ page }) => {
-    await page.request.post('http://localhost:3001/api/test/reset');
+    await page.request.post('http://127.0.0.1:3001/api/test/reset');
   });
 
   test('should load the homepage', async ({ page }) => {
