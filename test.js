@@ -1,1 +1,1 @@
-const unused = 1; console.log('test');
+console.log('unclosed
