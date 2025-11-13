@@ -29,7 +29,7 @@ vi.mock('@octokit/app', () => ({
 }));
 
 // Mock AI module
-vi.mock('./lib/ai.mjs', () => ({
+vi.mock('../lib/ai.mjs', () => ({
   askAI: vi.fn(),
 }));
 
@@ -44,7 +44,7 @@ mockGenerateContent.mockResolvedValue({
   },
 });
 
-import { askAI } from './lib/ai.mjs';
+import { askAI } from '../lib/ai.mjs';
 import app from '../server.cjs';
 
 describe('Server API', () => {
