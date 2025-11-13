@@ -10,6 +10,8 @@ import { fileURLToPath } from 'url';
 
 dotenv.config();
 
+console.log('Starting TestApp server...');
+
 // Simple in-memory user store (for demo purposes)
 const users = [];
 
@@ -221,6 +223,7 @@ app.use((err, _, res) => {
 });
 
 if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log(`Attempting to start server on port ${port}...`);
   app.listen(port, '127.0.0.1', () => {
     console.log(`TestApp server listening at http://127.0.0.1:${port}`);
     console.log(`Environment: ${isProduction ? 'Production' : 'Development'}`);
