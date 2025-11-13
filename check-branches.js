@@ -43,7 +43,7 @@ for (const branch of branches) {
       'code-review-assistant': 'code-review',
     };
     const featureName = featureNameMap[branch] || branch;
-    const featureFile = `lib/${featureName}.js`;
+    const featureFile = `lib/${featureName}.cjs`;
     if (!fs.existsSync(featureFile)) {
       console.log(`  ❌ Missing ${featureFile}`);
       allPass = false;
