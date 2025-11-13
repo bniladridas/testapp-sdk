@@ -8,6 +8,8 @@ import {
   waitFor,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
 import App from './App';
 
 // Mock askTestAI to prevent async operations in tests
@@ -16,10 +18,16 @@ vi.mock('./TestAI', () => ({
 }));
 
 beforeEach(() => {
-  // Mock localStorage
+  // Mock localStorage with auth data
   const localStorageMock = {
-    getItem: vi.fn(() => null),
+    getItem: vi.fn((key) => {
+      if (key === 'token') return 'mock-token';
+      if (key === 'user')
+        return JSON.stringify({ id: 1, email: 'test@example.com' });
+      return null;
+    }),
     setItem: vi.fn(() => null),
+    removeItem: vi.fn(() => null),
   };
   Object.defineProperty(window, 'localStorage', {
     value: localStorageMock,
@@ -34,14 +42,22 @@ beforeEach(() => {
   });
 });
 
+const renderWithProviders = (component: React.ReactElement) => {
+  return render(
+    <BrowserRouter>
+      <AuthProvider>{component}</AuthProvider>
+    </BrowserRouter>,
+  );
+};
+
 describe('App', () => {
   it('renders the app', () => {
-    render(<App />);
+    renderWithProviders(<App />);
     expect(screen.getByText('TestAI')).toBeInTheDocument();
   });
 
   it('toggles dark mode', () => {
-    render(<App />);
+    renderWithProviders(<App />);
     const toggleButton = screen.getByLabelText('Toggle dark mode');
     expect(toggleButton).toBeInTheDocument();
     // Initial state
@@ -54,7 +70,7 @@ describe('App', () => {
   });
 
   it('opens chat on button click', async () => {
-    render(<App />);
+    renderWithProviders(<App />);
     const chatButton = screen.getByLabelText('Open Test AI Chat');
     expect(chatButton).toBeInTheDocument();
     act(() => {
@@ -69,7 +85,7 @@ describe('App', () => {
   });
 
   it('closes chat on Escape key press', async () => {
-    render(<App />);
+    renderWithProviders(<App />);
     const chatButton = screen.getByLabelText('Open Test AI Chat');
     act(() => {
       fireEvent.click(chatButton);
@@ -93,7 +109,7 @@ describe('App', () => {
   });
 
   it('toggles fullscreen mode', async () => {
-    render(<App />);
+    renderWithProviders(<App />);
     const chatButton = screen.getByLabelText('Open Test AI Chat');
     act(() => {
       fireEvent.click(chatButton);

@@ -1,9 +1,13 @@
 // Fetch to the backend for AI responses
 export async function askTestAI(userInput: string): Promise<string> {
   try {
+    const token = localStorage.getItem('token');
     const res = await fetch('/api/ask-test-ai', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
       body: JSON.stringify({ message: userInput }),
     });
     const data = await res.json();
