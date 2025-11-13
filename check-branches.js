@@ -51,8 +51,8 @@ for (const branch of branches) {
       console.log(`  ✅ Has ${featureFile}`);
     }
 
-    // Check if lib/feature.test.js exists
-    const testFile = `lib/${featureName}.test.js`;
+    // Check if lib/feature.test.mjs exists
+    const testFile = `lib/${featureName}.test.mjs`;
     if (!fs.existsSync(testFile)) {
       console.log(`  ❌ Missing ${testFile}`);
       allPass = false;
