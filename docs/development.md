@@ -18,7 +18,7 @@
 
 - **Unit tests**: `npm test`
 - **E2E tests**: `npm run test:e2e`
-- **Preflight**: `npm run preflight` (lint + build + tests)
+- **Preflight**: `npm run preflight` (lint + duplicate-check + build + coverage)
 
 ## Code Quality
 

@@ -82,7 +82,7 @@ Set `GEMINI_API_KEY` in `.env`.
 - `npm run preview`: Preview build
 - `npm run test`: Run unit tests
 - `npm run test:e2e`: Run e2e tests
-- `npm run preflight`: Run lint, build, test, e2e
+- `npm run preflight`: Run lint, duplicate-check, build, test:coverage
 - `npm run cli`: Run CLI with AI prompts
 - `npm start`: Start production server
 
