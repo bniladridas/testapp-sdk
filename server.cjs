@@ -81,7 +81,7 @@ app.post('/api/ask-test-ai', apiLimiter, async (req, res) => {
   res.set('Expires', '0');
 
   try {
-    const askAI = await askAIPromise;
+    const { askAI } = await import('./lib/ai.mjs');
     const text = await askAI(message);
     res.json({ text });
   } catch (error) {
