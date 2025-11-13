@@ -30,7 +30,11 @@ app.use(
   }),
 );
 
+<<<<<<< Updated upstream
 const { askAI } = require('./lib/ai.cjs');
+=======
+import { askAI } from './lib/ai.cjs';
+>>>>>>> Stashed changes
 
 // GitHub App setup (conditional for testing)
 const githubApp = process.env.GITHUB_APP_ID
@@ -41,7 +45,26 @@ const githubApp = process.env.GITHUB_APP_ID
     })
   : null;
 
+<<<<<<< Updated upstream
 // Webhook handlers (branch-specific, added in feature branches)
+=======
+// Webhook handlers
+if (githubApp) {
+  githubApp.webhooks.on('issues.labeled', async ({ octokit, payload }) => {
+    try {
+      await handleWorkflow(octokit, payload);
+    } catch (error) {
+      console.error('Error handling workflow:', error);
+    }
+  });
+
+  // GitHub webhook endpoint
+  app.use(
+    '/api/webhooks/github',
+    createNodeMiddleware(githubApp.webhooks, { path: '/api/webhooks/github' }),
+  );
+}
+>>>>>>> Stashed changes
 
 // Rate limiter for API endpoints
 const apiLimiter = rateLimit({
