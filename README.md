@@ -91,7 +91,7 @@ Set `GEMINI_API_KEY` in `.env`.
 
 ## Documentation
 
-Detailed documentation is available in the [docs/](docs/) directory.
+Detailed documentation is available in the [docs/](docs/) directory. See [Test Coverage](docs/test-coverage.md) for testing enhancements.
 
 ## Versioning
 
