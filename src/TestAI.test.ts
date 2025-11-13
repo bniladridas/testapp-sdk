@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { askTestAI } from './TestAI';
 
 const mockFetchSuccess = (mockResponse: Record<string, unknown>) => {
@@ -12,6 +12,22 @@ const mockFetchSuccess = (mockResponse: Record<string, unknown>) => {
   );
 };
 
+beforeEach(() => {
+  // Mock localStorage
+  const localStorageMock = {
+    getItem: vi.fn((key) => {
+      if (key === 'token') return 'mock-token';
+      return null;
+    }),
+    setItem: vi.fn(() => null),
+    removeItem: vi.fn(() => null),
+  };
+  Object.defineProperty(window, 'localStorage', {
+    value: localStorageMock,
+    writable: true,
+  });
+});
+
 describe('askTestAI', () => {
   it('should return the text from successful response', async () => {
     const mockResponse = { text: 'Hello from AI' };
@@ -21,7 +37,10 @@ describe('askTestAI', () => {
     expect(result).toBe('Hello from AI');
     expect(fetch).toHaveBeenCalledWith('/api/ask-test-ai', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer mock-token',
+      },
       body: JSON.stringify({ message: 'Test message' }),
     });
   });
