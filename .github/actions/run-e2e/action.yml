@@ -9,14 +9,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Start backend server
-      run: npm run server &
-      shell: bash
-      env:
-        GEMINI_API_KEY: ${{ inputs.gemini-api-key }}
-
-    - name: Wait for backend (Linux/macOS)
+    - name: Run e2e tests with server
       run: |
+        npm run server &
         for i in {1..30}; do
           if curl -f http://127.0.0.1:3001/api/health > /dev/null 2>&1; then
             echo "Backend is up!"
@@ -24,27 +19,7 @@ runs:
           fi
           sleep 1
         done
-      shell: bash
-      if: runner.os != 'Windows'
-      env:
-        GEMINI_API_KEY: ${{ inputs.gemini-api-key }}
-
-    - name: Wait for backend (Windows)
-      run: |
-        for i in {1..30}; do
-          if curl -f http://127.0.0.1:3001/api/health > /dev/null 2>&1; then
-            echo "Backend is up!"
-            break
-          fi
-          sleep 1
-        done
-      shell: bash
-      if: runner.os == 'Windows'
-      env:
-        GEMINI_API_KEY: ${{ inputs.gemini-api-key }}
-
-    - name: Run e2e tests
-      run: npm run test:e2e
+        npm run test:e2e
       shell: bash
       env:
         GEMINI_API_KEY: ${{ inputs.gemini-api-key }}
