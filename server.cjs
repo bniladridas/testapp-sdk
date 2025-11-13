@@ -28,7 +28,7 @@ app.use(
   }),
 );
 
-import { askAI } from './lib/ai.cjs';
+import { askAI } from './lib/ai.mjs';
 
 // GitHub App setup (conditional for testing)
 const githubApp = process.env.GITHUB_APP_ID

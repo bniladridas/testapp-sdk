@@ -28,6 +28,11 @@ vi.mock('@octokit/app', () => ({
   },
 }));
 
+// Mock AI module
+vi.mock('./lib/ai.mjs', () => ({
+  askAI: vi.fn(),
+}));
+
 vi.mock('@octokit/webhooks', () => ({
   createNodeMiddleware: vi.fn(() => (req, res, next) => next()),
 }));
@@ -39,7 +44,8 @@ mockGenerateContent.mockResolvedValue({
   },
 });
 
-import app from '../server.js';
+import { askAI } from './lib/ai.mjs';
+import app from '../server.cjs';
 
 describe('Server API', () => {
   beforeEach(() => {
