@@ -82,8 +82,8 @@ for (const branch of branches) {
       allPass = false;
     }
 
-    // Check if server.cjs has GitHub setup
-    const serverContent = fs.readFileSync('server.cjs', 'utf8');
+    // Check if server.mjs has GitHub setup
+    const serverContent = fs.readFileSync('server.mjs', 'utf8');
     if (serverContent.includes('githubApp')) {
       console.log(`  ✅ Has GitHub setup`);
     } else {
