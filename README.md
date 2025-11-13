@@ -54,6 +54,16 @@ npm run dev
 
 Open `http://localhost:5173` in your browser.
 
+### Authentication
+
+The app requires user authentication. To test:
+
+1. Go to the signup page and create an account (e.g., email: `test@example.com`, password: `password123`).
+2. Login with the same credentials.
+3. Access the AI chat features.
+
+Note: User data is stored in-memory, so restarting the server will clear all users.
+
 ### CLI Usage
 
 Use the AI from command line:
@@ -80,7 +90,7 @@ Set `GEMINI_API_KEY` in `.env`.
 
 - `package.json`: Dependencies and scripts
 - `vite.config.ts`: Build configuration
-- `server.cjs`: Backend API server (uses ES modules internally)
+- `server.mjs`: Backend API server (ES modules)
 - `lib/`: ES module library files (.mjs)
 - `vercel.json`: Vercel deployment config
 - `env.example`: Environment variables template
