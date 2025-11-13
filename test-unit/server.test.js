@@ -29,7 +29,11 @@ vi.mock('@octokit/app', () => ({
 }));
 
 // Mock AI module
+<<<<<<< Updated upstream
 vi.mock('../lib/ai.mjs', () => ({
+=======
+vi.mock('./lib/ai.mjs', () => ({
+>>>>>>> Stashed changes
   askAI: vi.fn(),
 }));
 
@@ -44,7 +48,11 @@ mockGenerateContent.mockResolvedValue({
   },
 });
 
+<<<<<<< Updated upstream
 import { askAI } from '../lib/ai.mjs';
+=======
+import { askAI } from './lib/ai.mjs';
+>>>>>>> Stashed changes
 import app from '../server.cjs';
 
 describe('Server API', () => {
