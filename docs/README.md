@@ -21,7 +21,7 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 ## Architecture
 
 - **Frontend**: React + TypeScript + Tailwind CSS
-- **Backend**: Node.js server with Express
+- **Backend**: Node.js server with Express (ES modules)
 - **AI**: Google Generative AI (Gemini)
 - **Deployment**: Vercel (static + serverless)
 
@@ -30,7 +30,7 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 ```
 ├── src/          # Frontend source
 ├── cli/          # CLI tool
-├── lib/          # Shared utilities
+├── lib/          # Shared ES modules (.mjs)
 ├── test-unit/    # Unit tests
 ├── tests/        # E2E tests
 ├── docs/         # Documentation

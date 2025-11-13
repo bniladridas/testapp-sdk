@@ -80,7 +80,8 @@ Set `GEMINI_API_KEY` in `.env`.
 
 - `package.json`: Dependencies and scripts
 - `vite.config.ts`: Build configuration
-- `server.cjs`: Backend API server
+- `server.cjs`: Backend API server (uses ES modules internally)
+- `lib/`: ES module library files (.mjs)
 - `vercel.json`: Vercel deployment config
 - `env.example`: Environment variables template
 

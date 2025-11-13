@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { readFileSync } from 'fs';
-import { askAI } from '../lib/ai.js';
+import { askAI } from '../lib/ai.mjs';
 
 const version = readFileSync('VERSION', 'utf8').trim();
 
