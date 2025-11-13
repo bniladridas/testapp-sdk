@@ -49,31 +49,31 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         if: runner.os == 'Windows'
 
-       - name: Wait for backend (Linux/macOS)
-         run: |
-           for i in {1..30}; do
-             if curl -f http://127.0.0.1:3001/api/health > /dev/null 2>&1; then
-               echo "Backend is up!"
-               break
-             fi
-             sleep 1
+      - name: Wait for backend (Linux/macOS)
+        run: |
+          for i in {1..30}; do
+            if curl -f http://127.0.0.1:3001/api/health > /dev/null 2>&1; then
+              echo "Backend is up!"
+              break
+            fi
+            sleep 1
            done
-         if: runner.os != 'Windows'
+        if: runner.os != 'Windows'
 
-       - name: Wait for backend (Windows)
-         run: |
-           for ($i = 1; $i -le 30; $i++) {
-             try {
-               $response = Invoke-WebRequest -Uri http://127.0.0.1:3001/api/health -Method Get
-               if ($response.StatusCode -eq 200) {
-                 Write-Host "Backend is up!"
-                 break
-               }
-             } catch {
-               Start-Sleep -Seconds 1
-             }
-           }
-         if: runner.os == 'Windows'
+      - name: Wait for backend (Windows)
+        run: |
+          for ($i = 1; $i -le 30; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri http://127.0.0.1:3001/api/health -Method Get
+              if ($response.StatusCode -eq 200) {
+                Write-Host "Backend is up!"
+                break
+              }
+            } catch {
+              Start-Sleep -Seconds 1
+            }
+          }
+        if: runner.os == 'Windows'
 
       - name: Run preflight checks
         run: npm run preflight
