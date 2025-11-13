@@ -49,7 +49,7 @@ mockGenerateContent.mockResolvedValue({
   },
 });
 
-import { askAI } from './lib/ai.mjs';
+import { askAI } from '../lib/ai.mjs';
 import app from '../server.mjs';
 
 describe('Server API', () => {
