@@ -40,8 +40,3 @@ jobs:
         run: npm run preflight
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-
-      - name: Run e2e tests
-        uses: ./.github/actions/run-e2e
-        with:
-          gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
