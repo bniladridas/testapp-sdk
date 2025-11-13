@@ -45,14 +45,7 @@ mockGenerateContent.mockResolvedValue({
 });
 
 import { askAI } from './lib/ai.mjs';
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 import app from '../server.mjs';
-=======
-=======
->>>>>>> Stashed changes
-import app from '../server.cjs';
->>>>>>> Stashed changes
 
 describe('Server API', () => {
   beforeEach(() => {

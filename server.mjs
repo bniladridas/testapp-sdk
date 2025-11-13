@@ -38,11 +38,6 @@ app.use(
   }),
 );
 
-<<<<<<< Updated upstream:server.mjs
-=======
-import { askAI } from './lib/ai.mjs';
-
->>>>>>> Stashed changes:server.cjs
 // GitHub App setup (conditional for testing)
 const githubApp = process.env.GITHUB_APP_ID
   ? new App({
