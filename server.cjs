@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { App } = require('@octokit/app');
+const { createNodeMiddleware } = require('@octokit/webhooks');
 require('dotenv').config();
 
 const app = express();
@@ -28,7 +30,7 @@ app.use(
   }),
 );
 
-const askAIPromise = import('./lib/ai.js').then(({ askAI }) => askAI);
+const { askAI } = require('./lib/ai.cjs');
 
 // GitHub App setup (conditional for testing)
 const githubApp = process.env.GITHUB_APP_ID
@@ -38,6 +40,8 @@ const githubApp = process.env.GITHUB_APP_ID
       webhooks: { secret: process.env.GITHUB_WEBHOOK_SECRET },
     })
   : null;
+
+// Webhook handlers (branch-specific, added in feature branches)
 
 // Rate limiter for API endpoints
 const apiLimiter = rateLimit({

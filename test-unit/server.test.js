@@ -39,7 +39,7 @@ mockGenerateContent.mockResolvedValue({
   },
 });
 
-import app from '../server.cjs';
+import app from '../server.js';
 
 describe('Server API', () => {
   beforeEach(() => {
