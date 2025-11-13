@@ -1,1 +1,1 @@
-console.log('bad syntax'
+const unused = 1; console.log('test');
