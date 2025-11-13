@@ -15,7 +15,7 @@ function DarkModeToggle({
   return (
     <button
       onClick={() => setDarkMode((prev) => !prev)}
-      className={`p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors transform transition-transform duration-300 active:scale-90 ${
+      className={`p-2 rounded transition-transform duration-300 ${
         showText ? 'flex items-center' : ''
       }`}
       aria-label="Toggle dark mode"
@@ -23,9 +23,7 @@ function DarkModeToggle({
       <span
         className="inline-block transition-transform duration-500 will-change-transform"
         style={{
-          transform: darkMode
-            ? 'rotate(180deg) scale(1.2)'
-            : 'rotate(0deg) scale(1)',
+          transform: darkMode ? 'rotate(180deg)' : 'rotate(0deg)',
         }}
       >
         {darkMode ? (
@@ -165,10 +163,10 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-50">
+    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-black dark:text-white">
       {/* Only show chat in fullscreen mode for noise-free experience */}
       {chatFullscreen ? (
-        <div className="fixed inset-0 z-50 flex flex-col justify-end bg-white dark:bg-gray-900">
+        <div className="fixed inset-0 z-50 flex flex-col justify-end bg-white dark:bg-black">
           {/* Chat messages area */}
           <div className="flex-1 overflow-y-auto px-0 pb-8 pt-8">
             {chatMessages.map((msg, i) => (
@@ -215,7 +213,7 @@ function AppContent() {
               handleSendChat();
             }}
           >
-            <div className="w-full max-w-2xl flex items-center bg-white dark:bg-gray-900 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-800 px-4 py-3 gap-2">
+            <div className="w-full max-w-2xl flex items-center bg-white dark:bg-black rounded-3xl shadow-lg border border-gray-200 dark:border-gray-800 px-4 py-3 gap-2">
               <input
                 ref={chatInputRef}
                 className="flex-1 px-4 py-2 bg-transparent text-gray-900 dark:text-white outline-none border-none focus:outline-none text-lg"
@@ -267,7 +265,7 @@ function AppContent() {
           <nav
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${
               scrollY > 50
-                ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-sm'
+                ? 'bg-white/95 dark:bg-black/95 backdrop-blur-sm shadow-sm'
                 : 'bg-transparent'
             }`}
           >
@@ -323,9 +321,9 @@ function AppContent() {
             </button>
           )}
           {chatOpen && (
-            <div className="w-80 max-w-[95vw] bg-white dark:bg-gray-900 rounded-2xl flex flex-col overflow-hidden animate-fadein shadow-xl border border-gray-200 dark:border-gray-800">
+            <div className="w-80 max-w-[95vw] bg-white dark:bg-black rounded-2xl flex flex-col overflow-hidden animate-fadein shadow-xl border border-gray-200 dark:border-gray-800">
               {/* Chat header with Test AI label */}
-              <div className="flex items-center justify-between px-4 py-2 bg-gray-100/80 dark:bg-gray-800/80">
+              <div className="flex items-center justify-between px-4 py-2 bg-gray-100/80 dark:bg-black/80">
                 <span className="font-semibold text-gray-900 dark:text-white">
                   Test AI
                 </span>
