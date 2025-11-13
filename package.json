@@ -16,7 +16,8 @@
     "test:e2e": "playwright test",
     "duplicate-check": "jscpd --min-lines 10 --min-tokens 50 --ignore 'node_modules/**,dist/**' --reporters consoleFull .",
     "preflight": "npm run lint && npm run duplicate-check && npm run build && npm run test:coverage && npm run test:e2e",
-    "cli": "node cli/index.js"
+    "cli": "node cli/index.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
