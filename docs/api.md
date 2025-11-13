@@ -1,12 +1,61 @@
 # API Reference
 
+## Authentication
+
+All API requests (except signup and login) require a JWT token in the `Authorization` header: `Bearer <token>`.
+
+### POST /api/auth/signup
+
+Register a new user.
+
+**Request:**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+
+```json
+{
+  "message": "User created successfully",
+  "token": "jwt-token-here"
+}
+```
+
+### POST /api/auth/login
+
+Login an existing user.
+
+**Request:**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+
+```json
+{
+  "message": "Login successful",
+  "token": "jwt-token-here"
+}
+```
+
 ## Endpoints
 
 ### POST /api/ask-test-ai
 
-Query the AI with a message.
+Query the AI with a message. Requires authentication.
 
 **Request:**
+
 ```json
 {
   "message": "Your question"
@@ -14,6 +63,7 @@ Query the AI with a message.
 ```
 
 **Response:**
+
 ```json
 {
   "text": "AI response"
@@ -21,6 +71,24 @@ Query the AI with a message.
 ```
 
 **Example:**
+
+```bash
+curl -X POST http://127.0.0.1:3001/api/ask-test-ai \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-jwt-token>" \
+  -d '{"message": "Hello"}'
+```
+
+**Response:**
+
+```json
+{
+  "text": "AI response"
+}
+```
+
+**Example:**
+
 ```bash
 curl -X POST http://localhost:3001/api/ask-test-ai \
   -H "Content-Type: application/json" \
@@ -34,6 +102,7 @@ curl -X POST http://localhost:3001/api/ask-test-ai \
 Returns server status.
 
 **Response:**
+
 ```json
 {
   "status": "ok",
@@ -41,7 +110,20 @@ Returns server status.
 }
 ```
 
+### POST /api/test/reset
+
+Reset test data (for testing purposes).
+
+**Response:**
+
+```json
+{
+  "message": "Test data reset"
+}
+```
+
 ## Error Handling
 
-- 400: Missing message
+- 400: Missing message or invalid credentials
+- 401: Unauthorized (invalid/missing token)
 - 500: API key not configured or AI error

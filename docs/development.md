@@ -23,13 +23,15 @@
 ## Code Quality
 
 - **Linting**: `npm run lint`
-- **Formatting**: Pre-commit hooks handle formatting
-- **Conventional Commits**: Enforced via `scripts/commit-msg`
+- **Formatting**: Pre-commit hooks (Husky + lint-staged) handle formatting
+- **Conventional Commits**: Enforced via Husky hooks
 
 ## Architecture
 
 - **Frontend**: React with hooks, TypeScript
 - **Styling**: Tailwind CSS
-- **State**: Local component state
-- **AI**: Direct integration with Gemini API
+- **State**: Context API for authentication
+- **Backend**: Express.js with ES modules
+- **Auth**: JWT-based authentication
+- **AI**: Backend integration with Gemini API
 - **Build**: Vite for fast development
