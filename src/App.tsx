@@ -281,8 +281,8 @@ function ChatApp() {
                     TestApp
                   </span>
                   {user && (
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      Welcome, {user.email}
+                    <span className="text-xs text-gray-500 dark:text-gray-500">
+                      {user.email}
                     </span>
                   )}
                 </div>
