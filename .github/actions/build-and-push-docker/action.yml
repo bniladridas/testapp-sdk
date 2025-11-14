@@ -1,0 +1,83 @@
+name: 'Build and Push Docker Image'
+description: 'Builds and pushes Docker image to Docker Hub and GHCR'
+
+inputs:
+  docker_username:
+    description: 'Docker Hub username'
+    required: true
+  docker_password:
+    description: 'Docker Hub password'
+    required: true
+  ghcr_token:
+    description: 'GitHub Container Registry token'
+    required: true
+  repo_name:
+    description: 'Repository name'
+    required: true
+  github_repo:
+    description: 'GitHub repository'
+    required: true
+
+outputs:
+  docker_hub_image:
+    description: 'Docker Hub image name'
+    value: ${{ steps.set-outputs.outputs.docker_hub_image }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set image names
+      run: |
+        REPO_LOWER=$(echo "${{ inputs.repo_name }}" | tr '[:upper:]' '[:lower:]')
+        GITHUB_REPO_LOWER=$(echo "${{ inputs.github_repo }}" | tr '[:upper:]' '[:lower:]')
+        echo "DOCKER_HUB_IMAGE=${{ inputs.docker_username }}/$REPO_LOWER" >> $GITHUB_ENV
+        echo "GHCR_IMAGE=ghcr.io/$GITHUB_REPO_LOWER" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set outputs
+      id: set-outputs
+      run: |
+        echo "docker_hub_image=${DOCKER_HUB_IMAGE}" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ inputs.docker_username }}
+        password: ${{ inputs.docker_password }}
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ inputs.ghcr_token }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          ${{ env.DOCKER_HUB_IMAGE }}
+          ${{ env.GHCR_IMAGE }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=sha,prefix=sha-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: docker/Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
