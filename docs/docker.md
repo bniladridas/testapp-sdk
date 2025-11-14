@@ -117,7 +117,7 @@ This checks for syntax errors and formatting issues.
 
 ## Security Scanning
 
-Images are automatically scanned for vulnerabilities using Trivy. Results are uploaded to GitHub Security tab as SARIF reports.
+Images are automatically scanned for vulnerabilities using Trivy on the Docker Hub image. Results are uploaded to GitHub Security tab as SARIF reports.
 
 ## Validating the Image
 

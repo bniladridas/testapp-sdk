@@ -64,7 +64,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'image'
-          scan-ref: 'ghcr.io/${{ github.repository }}:latest'
+          scan-ref: '${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest'
           format: 'sarif'
           output: 'trivy-results.sarif'
 
