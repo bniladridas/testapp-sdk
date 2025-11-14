@@ -63,7 +63,7 @@ const Signup: React.FC = () => {
                 name="email"
                 type="email"
                 required
-                className="block w-full px-3 py-2 border-0 border-b border-gray-300 placeholder-gray-500 text-gray-900 dark:text-white focus:border-gray-500 focus:outline-none"
+                className="block w-full px-3 py-2 border-0 border-b border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:border-gray-500 focus:outline-none"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -78,7 +78,7 @@ const Signup: React.FC = () => {
                 name="password"
                 type="password"
                 required
-                className="block w-full px-3 py-2 border-0 border-b border-gray-300 placeholder-gray-500 text-gray-900 dark:text-white focus:border-gray-500 focus:outline-none"
+                className="block w-full px-3 py-2 border-0 border-b border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:border-gray-500 focus:outline-none"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -93,7 +93,7 @@ const Signup: React.FC = () => {
                 name="confirmPassword"
                 type="password"
                 required
-                className="block w-full px-3 py-2 border-0 border-b border-gray-300 placeholder-gray-500 text-gray-900 dark:text-white focus:border-gray-500 focus:outline-none"
+                className="block w-full px-3 py-2 border-0 border-b border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:border-gray-500 focus:outline-none"
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
