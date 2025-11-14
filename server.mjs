@@ -188,12 +188,14 @@ app.post('/api/auth/login', async (req, res) => {
 // Health check endpoint
 app.get('/api/health', async (_, res) => {
   try {
-    // Test database connection
-    await pool.query('SELECT 1');
+    // Test database connection (skip in test environment to allow server startup)
+    if (process.env.NODE_ENV !== 'test') {
+      await pool.query('SELECT 1');
+    }
     res.json({
       status: 'ok',
       timestamp: new Date().toISOString(),
-      database: 'connected',
+      database: process.env.NODE_ENV === 'test' ? 'skipped' : 'connected',
     });
   } catch (error) {
     console.error('Database health check failed:', error);
