@@ -15,8 +15,10 @@ console.log('Starting TestApp server...');
 // Simple in-memory user store (for demo purposes)
 const users = [];
 
-import { App } from '@octokit/app';
 import { createNodeMiddleware } from '@octokit/webhooks';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { App } = require('@octokit/app');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
