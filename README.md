@@ -113,8 +113,10 @@ Set `GEMINI_API_KEY` in `.env`.
 
 Detailed documentation is available in the [docs/](docs/) directory:
 
+- [API Reference](docs/api.md) - Complete API documentation
 - [Authentication](docs/authentication.md) - User authentication system
 - [Check Branches](docs/check-branches.md) - Branch validation script
+- [Security](docs/security.md) - Security measures and best practices
 - [Test Coverage](docs/test-coverage.md) - Testing enhancements and coverage details
 - [Bundle Size Monitoring](docs/bundle-size.md) - Bundle size optimization and monitoring
 
