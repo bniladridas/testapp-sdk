@@ -170,6 +170,7 @@ Detailed documentation is available in the [docs/](docs/) directory:
 - [Authentication](docs/authentication.md) - User authentication system
 - [Database](docs/database.md) - Database setup and operations
 - [Check Branches](docs/check-branches.md) - Branch validation script
+- [Rewrite Commits](docs/rewrite-commits.md) - Script to rewrite commit messages
 - [Security](docs/security.md) - Security measures and best practices
 - [Test Coverage](docs/test-coverage.md) - Testing enhancements and coverage details
 - [Bundle Size Monitoring](docs/bundle-size.md) - Bundle size optimization and monitoring

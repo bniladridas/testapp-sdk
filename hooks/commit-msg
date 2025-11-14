@@ -1,30 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-# Conventional commit message hook
-# Enforces: lowercase, ≤40 chars first line, starts with type: like feat:, fix:, etc.
+// Conventional commit message hook
+// Enforces: lowercase, ≤40 chars first line, starts with type: like feat:, fix:, etc.
 
-COMMIT_MSG_FILE=$1
-COMMIT_MSG=$(head -n1 "$COMMIT_MSG_FILE")
+import { validateCommitMessage } from '../lib/commit-msg-enforcer.mjs';
+import { readFileSync } from 'fs';
 
-# Allowed types
-TYPES="feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert"
+const commitMsgFile = process.argv[2];
+const commitMsg = readFileSync(commitMsgFile, 'utf8').split('\n')[0];
 
-# Check if starts with type:
-if ! echo "$COMMIT_MSG" | grep -qE "^($TYPES):"; then
-  echo "Error: Commit message must start with a type: $TYPES:"
-  exit 1
-fi
+const errors = validateCommitMessage(commitMsg);
 
-# Check if lowercase
-if [[ "$COMMIT_MSG" =~ [A-Z] ]]; then
-  echo "Error: Commit message first line must be lowercase"
-  exit 1
-fi
+if (errors.length > 0) {
+  console.error('Commit message validation failed:');
+  errors.forEach(e => console.error(`- ${e}`));
+  process.exit(1);
+}
 
-# Check length ≤40
-if [ ${#COMMIT_MSG} -gt 40 ]; then
-  echo "Error: Commit message first line must be ≤40 characters"
-  exit 1
-fi
-
-echo "Commit message is valid"
+console.log('Commit message is valid');
