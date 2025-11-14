@@ -2,10 +2,10 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    exclude: ['node_modules/**', 'tests/**', 'e2e/**'],
+    exclude: ['node_modules/**', 'tests/**', 'e2e/**', 'e2e/**/*'],
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['./src/test-setup.ts'],
+    setupFiles: ['src/test-setup.ts'],
     coverage: {
       reporter: ['text', 'lcov'],
       exclude: [
