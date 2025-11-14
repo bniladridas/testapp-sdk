@@ -5,6 +5,9 @@ inputs:
   gemini-api-key:
     description: 'Gemini API key'
     required: true
+  database-url:
+    description: 'Database connection URL'
+    required: true
 
 runs:
   using: 'composite'
@@ -12,7 +15,7 @@ runs:
     - name: Run e2e tests with server
       env:
         GEMINI_API_KEY: ${{ inputs.gemini-api-key }}
-        DATABASE_URL: ${{ env.DATABASE_URL }}
+        DATABASE_URL: ${{ inputs.database-url }}
         JWT_SECRET: test-jwt-secret-for-e2e
         NODE_ENV: test
       run: |
