@@ -29,7 +29,7 @@ For each feature branch in the predefined list:
 
 1. **Library File**: Verifies `lib/{feature}.mjs` exists
 2. **Test File**: Verifies `lib/{feature}.test.mjs` exists
-3. **Tests**: Runs `npm test -- lib/` with test environment variables
+3. **Tests**: Runs the full test suite (`npm test`) with test environment variables
 4. **GitHub Setup**: Checks that `server.mjs` contains GitHub app configuration
 
 ## Feature Branches
