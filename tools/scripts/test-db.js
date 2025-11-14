@@ -13,7 +13,7 @@
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { pool, initDatabase } from '../lib/database.js';
+import { pool, initDatabase } from '../../lib/database.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
