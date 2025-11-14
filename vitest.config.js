@@ -5,6 +5,7 @@ export default defineConfig({
     exclude: ['node_modules/**', 'tests/**'],
     environment: 'jsdom',
     globals: true,
+    setupFiles: ['./src/test-setup.ts'],
     coverage: {
       reporter: ['text', 'lcov'],
       exclude: [

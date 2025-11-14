@@ -5,6 +5,7 @@ This file tracks open issues and assigned work for the TestApp project.
 ## Open Issues
 
 - [x] Implement user authentication
+- [ ] Fix E2E tests timeout issue
 - [ ] Optimize chat message rendering for large conversations
 - [ ] Add error handling for network failures in CLI
 - [ ] Improve accessibility (ARIA labels, keyboard navigation)
@@ -27,6 +28,8 @@ This file tracks open issues and assigned work for the TestApp project.
 - [x] Improve 429/quota error handling in CLI and server
 - [x] Add 429/quota exceeded error handling with fallback responses
 - [x] Refactor duplicated test code and fix React test warnings
+- [x] Improve code coverage to 84.04% (lib 100%, src components 81.14%, server 73.56%)
+- [x] Add comprehensive unit tests for lib modules, React components, and hooks
 
 ## Completed
 
