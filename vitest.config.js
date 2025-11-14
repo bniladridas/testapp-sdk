@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    exclude: ['node_modules/**', 'tests/**'],
+    exclude: ['node_modules/**', 'tests/**', 'e2e/**'],
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test-setup.ts'],
@@ -11,6 +11,7 @@ export default defineConfig({
       exclude: [
         'node_modules/**',
         'tests/**',
+        'e2e/**',
         'src/main.tsx',
         'src/vite-env.d.ts',
       ],
