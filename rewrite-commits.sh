@@ -19,7 +19,7 @@ import subprocess
 message_str = message.decode('utf-8') if isinstance(message, bytes) else message
 result = subprocess.run(['python3', 'hooks/rewrite_msg.py'], input=message_str, capture_output=True, text=True)
 return result.stdout.encode('utf-8')
-" --remote origin --force
+" --preserve-remotes --force
 
 echo "Force pushing all branches..."
 git push --force --all origin
