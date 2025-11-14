@@ -105,13 +105,13 @@ This project uses a feature branch workflow with automated validation:
 
 1. **Create Feature Branch**: Use descriptive names (see Branch Naming Convention)
 2. **Develop**: Implement your feature with tests
-3. **Validate**: Run `node check-branches.js` to ensure branch meets requirements
+3. **Validate**: Run `node tools/check-branches.js` to ensure branch meets requirements
 4. **Test**: Run `npm run preflight` for comprehensive checks
 5. **Push**: Push your branch and create a PR
 
 ### Branch Validation
 
-The `check-branches.js` script validates that each feature branch has:
+The `tools/check-branches.js` script validates that each feature branch has:
 
 - Required library files (`lib/feature.mjs`)
 - Corresponding test files (`lib/feature.test.mjs`)
@@ -133,7 +133,7 @@ Run this script before creating pull requests to ensure your branch is properly 
 - **Testing**: `npm run test` - Unit tests
 - **Coverage**: `npm run test:coverage` - Test coverage report
 - **Duplicates**: `npm run duplicate-check` - Code duplication detection
-- **Branch Check**: `node check-branches.js` - Feature branch validation
+- **Branch Check**: `node tools/check-branches.js` - Feature branch validation
 
 ### Pre-commit Hooks
 

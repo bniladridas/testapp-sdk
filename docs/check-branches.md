@@ -1,6 +1,6 @@
 # Check Branches Script
 
-The `check-branches.js` script is a utility for validating the state of multiple feature branches in the TestApp repository.
+The `tools/check-branches.js` script is a utility for validating the state of multiple feature branches in the TestApp repository.
 
 ## Overview
 
@@ -20,7 +20,7 @@ The script ensures that each feature branch has:
 Run the script from the repository root:
 
 ```bash
-node check-branches.js
+node tools/check-branches.js
 ```
 
 ## What It Checks

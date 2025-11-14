@@ -7,7 +7,7 @@
  * Run this script before starting the application in production.
  *
  * Usage:
- *   node scripts/migrate.js
+ *   node tools/scripts/migrate.js
  *
  * Environment Variables:
  *   DATABASE_URL - PostgreSQL connection string

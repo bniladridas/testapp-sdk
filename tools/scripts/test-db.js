@@ -7,7 +7,7 @@
  * Run this after setting up PostgreSQL and running migrations.
  *
  * Usage:
- *   node scripts/test-db.js
+ *   node tools/scripts/test-db.js
  */
 
 import dotenv from 'dotenv';

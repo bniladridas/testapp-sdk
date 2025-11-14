@@ -34,7 +34,8 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 ├── test-unit/    # Unit tests
 ├── tests/        # E2E tests
 ├── docs/         # Documentation
-└── scripts/      # Build and utility scripts
+├── config/       # Configuration files
+└── tools/        # Utility scripts and tools
 ```
 
 ## Troubleshooting

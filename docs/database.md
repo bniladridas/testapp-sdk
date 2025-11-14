@@ -243,5 +243,5 @@ Clears all users. Available only in development mode.
 
 ## Migration Files
 
-Located in `scripts/migrate.js` - handles schema creation and versioning.</content>
+Located in `tools/scripts/migrate.js` - handles schema creation and versioning.</content>
 <parameter name="filePath">docs/database.md

@@ -7,7 +7,7 @@
  * USE WITH CAUTION - This will delete all data!
  *
  * Usage:
- *   node scripts/rollback.js
+ *   node tools/scripts/rollback.js
  *
  * Environment Variables:
  *   DATABASE_URL - PostgreSQL connection string
