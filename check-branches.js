@@ -60,9 +60,8 @@ for (const branch of branches) {
       console.log(`  ✅ Has ${testFile}`);
     }
 
-    // Run tests (lib tests for branches, all for main)
-    // The test command is currently configured to only run tests within the lib/ directory for feature branches. This means test-unit/server.test.js, where you've added new Octokit mocks, won't be executed. This seems to defeat the purpose of adding those mocks for full coverage on all branches. Additionally, the branch === 'main' check is currently dead code as 'main' is not in the branches array. To ensure all tests are run on all branches, you should use the general test command.
-    const testCommand = 'npm test -- lib/';
+    // Run all tests for comprehensive coverage
+    const testCommand = 'npm test';
     try {
       execSync(testCommand, {
         stdio: 'pipe',
