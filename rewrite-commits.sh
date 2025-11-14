@@ -4,14 +4,8 @@
 
 set -e
 
-# Check if git-filter-repo is installed
-if ! command -v git-filter-repo >/dev/null 2>&1; then
-    echo "Installing git-filter-repo..."
-    brew install git-filter-repo
-fi
-
-echo "Rewriting commit messages with git-filter-repo..."
-git filter-repo --message-callback "import subprocess, os; return lambda m: subprocess.run([os.path.join(os.getcwd(), 'hooks', 'rewrite_msg.sh')], input=m.decode('utf-8'), capture_output=True, text=True).stdout.encode('utf-8')" --force
+echo "Rewriting commit messages..."
+FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter "$(pwd)/hooks/rewrite_msg.sh" -- --all
 
 echo "Force pushing all branches..."
 git push --force --all origin
