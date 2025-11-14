@@ -11,7 +11,7 @@ if ! command -v git-filter-repo >/dev/null 2>&1; then
 fi
 
 echo "Rewriting commit messages with git-filter-repo..."
-git filter-repo --message-callback "import subprocess, os; f = lambda m: subprocess.run([os.path.join(os.getcwd(), 'hooks', 'rewrite_msg.sh')], input=m.decode('utf-8'), capture_output=True, text=True).stdout.encode('utf-8'); f" --force
+git filter-repo --message-callback "import subprocess, os; return lambda m: subprocess.run([os.path.join(os.getcwd(), 'hooks', 'rewrite_msg.sh')], input=m.decode('utf-8'), capture_output=True, text=True).stdout.encode('utf-8')" --force
 
 echo "Force pushing all branches..."
 git push --force --all origin
