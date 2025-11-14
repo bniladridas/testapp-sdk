@@ -21,6 +21,10 @@ This file tracks open issues and assigned work for the TestApp project.
 
 ## Recently Completed
 
+- [x] Fix check-branches script to run full test suite
+- [x] Resolve @octokit/app ES module compatibility issue
+- [x] Add authentication documentation
+- [x] Add check-branches script documentation
 - [x] Add bundle size action
 - [x] Add quota error handling to Vercel API route
 - [x] Simplify navigation by removing mobile menu
