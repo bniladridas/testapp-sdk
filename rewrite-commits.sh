@@ -5,7 +5,7 @@
 set -e
 
 echo "Rewriting commit messages..."
-git filter-branch -f --msg-filter "$(pwd)/hooks/rewrite_msg.sh" -- --all
+FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter "$(pwd)/hooks/rewrite_msg.sh" -- --all
 
 echo "Force pushing all branches..."
 git push --force --all origin
