@@ -169,6 +169,7 @@ Detailed documentation is available in the [docs/](docs/) directory:
 - [API Reference](docs/api.md) - Complete API documentation
 - [Authentication](docs/authentication.md) - User authentication system
 - [Database](docs/database.md) - Database setup and operations
+- [Docker](docs/docker.md) - Containerization and deployment
 - [Check Branches](docs/check-branches.md) - Branch validation script
 - [Husky](docs/husky.md) - Pre-commit hooks and code quality
 - [Rewrite Commits](docs/rewrite-commits.md) - Script to rewrite commit messages
@@ -196,6 +197,26 @@ The CI workflow runs automated tests, linting, duplicate code checks, and covera
 - Duplicate code detection with jscpd
 - E2E tests with Playwright
 - Build checks
+
+### Testing Workflows Locally
+
+Use [act](https://github.com/nektos/act) to test GitHub Actions workflows locally:
+
+```sh
+# Test e2e workflow
+act -j e2e -P ubuntu-latest=catthehacker/ubuntu:act-latest --container-architecture linux/amd64 --secret GEMINI_API_KEY=your_key
+
+# Test docker workflow (requires Docker Hub and GHCR secrets)
+act -j build-and-push -P ubuntu-latest=catthehacker/ubuntu:act-latest --container-architecture linux/amd64 --secret DOCKER_USERNAME=your_username --secret DOCKER_PASSWORD=your_password --secret GH_PAT=your_github_pat
+```
+
+## Docker
+
+TestApp supports Docker for containerized deployment. Images are automatically built and pushed to Docker Hub and GitHub Container Registry on main branch pushes and releases.
+
+To build locally: `docker build -t testapp:latest docker/`
+
+See [Docker documentation](docs/docker.md) for complete details.
 
 ## Conventional Commits
 
