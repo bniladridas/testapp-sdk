@@ -31,9 +31,9 @@ function DarkModeToggle({
         }}
       >
         {darkMode ? (
-          <Sun size={18} className="text-yellow-400" />
+          <Sun size={16} className="text-yellow-400" />
         ) : (
-          <Moon size={18} className="text-gray-700 dark:text-gray-200" />
+          <Moon size={16} className="text-gray-700 dark:text-gray-200" />
         )}
       </span>
       {showText && <span className="ml-2 text-sm">Toggle Dark Mode</span>}
@@ -287,17 +287,17 @@ function ChatApp() {
                   )}
                 </div>
                 {/* Dark Mode Toggle and Logout */}
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-1">
                   <DarkModeToggle
                     darkMode={darkMode}
                     setDarkMode={setDarkMode}
                   />
                   <button
                     onClick={logout}
-                    className="p-2 rounded transition-transform duration-300 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                    className="p-1 text-gray-900 dark:text-white"
                     aria-label="Logout"
                   >
-                    <LogOut size={18} />
+                    <LogOut size={16} />
                   </button>
                 </div>
                 {/* Desktop Navigation */}
