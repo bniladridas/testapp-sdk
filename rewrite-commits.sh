@@ -17,8 +17,8 @@ import os
 
 def callback(message):
     script_path = os.path.join(os.getcwd(), 'hooks', 'rewrite_msg.sh')
-    proc = subprocess.run([script_path], input=message, capture_output=True, text=True)
-    return proc.stdout
+    proc = subprocess.run([script_path], input=message.decode('utf-8'), capture_output=True, text=True)
+    return proc.stdout.encode('utf-8')
 
 return callback
 " --force
