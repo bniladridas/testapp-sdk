@@ -16,6 +16,16 @@ vi.mock('../lib/database.js', () => ({
   initDatabase: vi.fn().mockResolvedValue(),
 }));
 
+// Mock bcryptjs
+vi.mock('bcryptjs', () => ({
+  default: {
+    hash: vi.fn().mockResolvedValue('hashed-password'),
+    compare: vi.fn().mockResolvedValue(true),
+  },
+  hash: vi.fn().mockResolvedValue('hashed-password'),
+  compare: vi.fn().mockResolvedValue(true),
+}));
+
 // Mock the GoogleGenerativeAI with a configurable generateContent
 const mockGenerateContent = vi.fn();
 vi.mock('@google/generative-ai', () => ({
