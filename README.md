@@ -47,6 +47,21 @@ Ensure you have Node.js 20+ installed.
 
 To run locally:
 
+### Quick Setup (Recommended)
+
+Use the automated setup script for a complete environment setup:
+
+```sh
+./setup.sh
+npm run dev
+```
+
+This script installs dependencies, sets up the environment, configures PostgreSQL, creates the database, and runs migrations.
+
+### Manual Setup
+
+If you prefer manual setup:
+
 ```sh
 npm install
 npm run dev
