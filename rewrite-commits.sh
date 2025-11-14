@@ -16,12 +16,10 @@ fi
 echo "Rewriting commit messages..."
 git filter-repo --message-callback "
 import subprocess
-import os
-# Ensure we are in repo root
-os.chdir('$(pwd)')
-result = subprocess.run(['python3', 'hooks/rewrite_msg.py'], input=message, capture_output=True, text=True)
-return result.stdout.strip()
-" --force
+message_str = message.decode('utf-8') if isinstance(message, bytes) else message
+result = subprocess.run(['python3', 'hooks/rewrite_msg.py'], input=message_str, capture_output=True, text=True)
+return result.stdout.encode('utf-8')
+" --remote origin --force
 
 echo "Force pushing all branches..."
 git push --force --all origin
