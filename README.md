@@ -54,6 +54,41 @@ npm run dev
 
 Open `http://localhost:5173` in your browser.
 
+### Database Setup
+
+TestApp uses PostgreSQL for data persistence. Before running the application:
+
+1. **Install PostgreSQL** (if not already installed):
+   - macOS: `brew install postgresql`
+   - Ubuntu: `sudo apt install postgresql postgresql-contrib`
+   - Or use a cloud provider like Supabase, Neon, or Railway
+
+2. **Create a database**:
+
+   ```sql
+   CREATE DATABASE testapp;
+   ```
+
+3. **Configure environment variables**:
+   Copy `.env.example` to `.env` and set:
+
+   ```env
+   DATABASE_URL=postgresql://username:password@localhost:5432/testapp
+   ```
+
+4. **Run database migrations**:
+   ```sh
+   npm run migrate
+   ```
+
+For development, you can also reset the database:
+
+```sh
+npm run rollback  # ⚠️  WARNING: Deletes all data!
+npm run migrate   # Recreate schema
+npm run test:db   # Test database connectivity and operations
+```
+
 ### Authentication
 
 The app requires user authentication. To test:
@@ -62,7 +97,7 @@ The app requires user authentication. To test:
 2. Login with the same credentials.
 3. Access the AI chat features.
 
-Note: User data is stored in-memory, so restarting the server will clear all users.
+User data is stored in PostgreSQL database. See [Database Setup](#database-setup) below.
 
 ### Running E2E Tests
 
@@ -92,6 +127,9 @@ Set `GEMINI_API_KEY` in `.env`.
 - `npm run test`: Run unit tests
 - `npm run test:e2e`: Run e2e tests
 - `npm run preflight`: Run lint, duplicate-check, build, test:coverage
+- `npm run migrate`: Run database migrations
+- `npm run rollback`: Rollback database (development only)
+- `npm run test:db`: Test database connectivity and operations
 - `npm run cli`: Run CLI with AI prompts
 - `npm start`: Start production server
 
@@ -115,6 +153,7 @@ Detailed documentation is available in the [docs/](docs/) directory:
 
 - [API Reference](docs/api.md) - Complete API documentation
 - [Authentication](docs/authentication.md) - User authentication system
+- [Database](docs/database.md) - Database setup and operations
 - [Check Branches](docs/check-branches.md) - Branch validation script
 - [Security](docs/security.md) - Security measures and best practices
 - [Test Coverage](docs/test-coverage.md) - Testing enhancements and coverage details

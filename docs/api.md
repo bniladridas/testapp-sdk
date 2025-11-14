@@ -115,20 +115,72 @@ curl -X POST http://localhost:3001/api/ask-test-ai \
 
 ### GET /api/health
 
-Health check endpoint to verify server status.
+Health check endpoint to verify server and database status.
 
-**Response (200):**
+**Success Response (200):**
 
 ```json
 {
   "status": "ok",
-  "timestamp": "2025-11-14T12:00:00.000Z"
+  "timestamp": "2025-11-14T12:00:00.000Z",
+  "database": "connected"
+}
+```
+
+**Error Response (503):**
+
+```json
+{
+  "status": "error",
+  "timestamp": "2025-11-14T12:00:00.000Z",
+  "database": "disconnected",
+  "error": "Database connection failed"
+}
+```
+
+### GET /api/health/database
+
+Detailed database health check with connection pool statistics.
+
+**Success Response (200):**
+
+```json
+{
+  "status": "ok",
+  "timestamp": "2025-11-14T12:00:00.000Z",
+  "database": {
+    "connected": true,
+    "responseTime": "5ms",
+    "pool": {
+      "total": 2,
+      "idle": 1,
+      "waiting": 0
+    }
+  }
+}
+```
+
+**Error Response (503):**
+
+```json
+{
+  "status": "error",
+  "timestamp": "2025-11-14T12:00:00.000Z",
+  "database": {
+    "connected": false,
+    "error": "Database connection failed",
+    "pool": {
+      "total": 0,
+      "idle": 0,
+      "waiting": 0
+    }
+  }
 }
 ```
 
 ### POST /api/test/reset
 
-Reset all user data (development/testing only). This clears the in-memory user database.
+Reset all user data (development/testing only). This clears all users from the database.
 
 **Response (200):**
 

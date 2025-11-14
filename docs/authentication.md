@@ -92,7 +92,7 @@ const authenticateToken = (req, res, next) => {
 
 ### User Storage
 
-For demonstration purposes, users are stored in memory. In production, this should be replaced with a proper database.
+Users are stored in PostgreSQL database with bcrypt-hashed passwords. See [Database Documentation](database.md) for details.
 
 ## API Endpoints
 
@@ -225,5 +225,5 @@ For testing purposes, there's a reset endpoint:
 POST /api/test/reset
 ```
 
-This clears all users from memory. Use only in development/testing environments.</content>
+This clears all users from the database. Use only in development/testing environments.</content>
 <parameter name="filePath">docs/authentication.md

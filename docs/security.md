@@ -29,7 +29,7 @@ This document outlines the security measures and best practices implemented in T
 
 - **Sanitization**: Express.json() middleware for JSON parsing
 - **Type Checking**: Runtime validation of request data
-- **SQL Injection**: No SQL database used (in-memory storage)
+- **SQL Injection**: Protected by parameterized queries in PostgreSQL
 
 ### CORS Configuration
 
@@ -101,9 +101,9 @@ This document outlines the security measures and best practices implemented in T
 
 ### Database
 
-- **Current**: In-memory storage (not production-ready)
-- **Recommended**: PostgreSQL or similar with proper authentication
-- **Encryption**: Data at rest encryption
+- **Current**: PostgreSQL with connection pooling
+- **Security**: Parameterized queries prevent SQL injection
+- **Encryption**: Data at rest encryption recommended
 
 ### Monitoring
 

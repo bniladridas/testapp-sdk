@@ -12,13 +12,13 @@ dotenv.config();
 
 console.log('Starting TestApp server...');
 
-// Simple in-memory user store (for demo purposes)
-const users = [];
-
 import { createNodeMiddleware } from '@octokit/webhooks';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const { App } = require('@octokit/app');
+
+// Database setup
+import { pool, initDatabase } from './lib/database.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -101,69 +101,158 @@ const authenticateToken = (req, res, next) => {
 
 // Auth endpoints
 app.post('/api/auth/signup', async (req, res) => {
-  const { email, password } = req.body;
+  const client = await pool.connect();
+  try {
+    const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password required' });
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password required' });
+    }
+
+    // Check if user exists
+    const existingUser = await client.query(
+      'SELECT id FROM users WHERE email = $1',
+      [email],
+    );
+
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user
+    const result = await client.query(
+      'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email',
+      [email, hashedPassword],
+    );
+
+    const user = result.rows[0];
+
+    // Generate token
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+      expiresIn: '24h',
+    });
+
+    res.json({ token, user: { id: user.id, email: user.email } });
+  } catch (error) {
+    console.error('Signup error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    client.release();
   }
-
-  // Check if user exists
-  const existingUser = users.find((u) => u.email === email);
-  if (existingUser) {
-    return res.status(400).json({ error: 'User already exists' });
-  }
-
-  // Hash password
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Create user
-  const user = { id: users.length + 1, email, password: hashedPassword };
-  users.push(user);
-
-  // Generate token
-  const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-    expiresIn: '24h',
-  });
-
-  res.json({ token, user: { id: user.id, email: user.email } });
 });
 
 app.post('/api/auth/login', async (req, res) => {
-  const { email, password } = req.body;
+  const client = await pool.connect();
+  try {
+    const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password required' });
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password required' });
+    }
+
+    // Find user
+    const result = await client.query(
+      'SELECT id, email, password_hash FROM users WHERE email = $1',
+      [email],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({ error: 'Invalid credentials' });
+    }
+
+    const user = result.rows[0];
+
+    // Check password
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+    if (!validPassword) {
+      return res.status(400).json({ error: 'Invalid credentials' });
+    }
+
+    // Generate token
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+      expiresIn: '24h',
+    });
+
+    res.json({ token, user: { id: user.id, email: user.email } });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    client.release();
   }
-
-  // Find user
-  const user = users.find((u) => u.email === email);
-  if (!user) {
-    return res.status(400).json({ error: 'Invalid credentials' });
-  }
-
-  // Check password
-  const validPassword = await bcrypt.compare(password, user.password);
-  if (!validPassword) {
-    return res.status(400).json({ error: 'Invalid credentials' });
-  }
-
-  // Generate token
-  const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-    expiresIn: '24h',
-  });
-
-  res.json({ token, user: { id: user.id, email: user.email } });
 });
 
 // Health check endpoint
-app.get('/api/health', (_, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/api/health', async (_, res) => {
+  try {
+    // Test database connection
+    await pool.query('SELECT 1');
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      database: 'connected',
+    });
+  } catch (error) {
+    console.error('Database health check failed:', error);
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      database: 'disconnected',
+      error: isProduction ? 'Database connection failed' : error.message,
+    });
+  }
+});
+
+// Database status endpoint (detailed monitoring)
+app.get('/api/health/database', async (_, res) => {
+  try {
+    const startTime = Date.now();
+    await pool.query('SELECT 1');
+    const responseTime = Date.now() - startTime;
+
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      database: {
+        connected: true,
+        responseTime: `${responseTime}ms`,
+        pool: {
+          total: pool.totalCount,
+          idle: pool.idleCount,
+          waiting: pool.waitingCount,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Database status check failed:', error);
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      database: {
+        connected: false,
+        error: isProduction ? 'Database connection failed' : error.message,
+        pool: {
+          total: pool.totalCount,
+          idle: pool.idleCount,
+          waiting: pool.waitingCount,
+        },
+      },
+    });
+  }
 });
 
 // Reset users for testing
-app.post('/api/test/reset', (_, res) => {
-  users.length = 0;
-  res.json({ status: 'reset' });
+app.post('/api/test/reset', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM users');
+    res.json({ status: 'reset' });
+  } catch (error) {
+    console.error('Reset error:', error);
+    res.status(500).json({ error: 'Failed to reset database' });
+  }
 });
 
 app.post(
@@ -224,12 +313,66 @@ app.use((err, _, res) => {
     .json({ error: isProduction ? 'Internal server error' : err.message });
 });
 
+// Graceful shutdown function
+const gracefulShutdown = async (signal) => {
+  console.log(`Received ${signal}. Starting graceful shutdown...`);
+
+  try {
+    // Close database connections
+    await pool.end();
+    console.log('Database connections closed.');
+
+    // Close server
+    server.close(() => {
+      console.log('Server closed.');
+      process.exit(0);
+    });
+
+    // Force close after 10 seconds
+    setTimeout(() => {
+      console.error('Forced shutdown after timeout.');
+      process.exit(1);
+    }, 10000);
+  } catch (error) {
+    console.error('Error during shutdown:', error);
+    process.exit(1);
+  }
+};
+
+let server;
+
 if (import.meta.url === `file://${process.argv[1]}`) {
-  console.log(`Attempting to start server on port ${port}...`);
-  app.listen(port, '127.0.0.1', () => {
-    console.log(`TestApp server listening at http://127.0.0.1:${port}`);
-    console.log(`Environment: ${isProduction ? 'Production' : 'Development'}`);
-  });
+  // Initialize database before starting server
+  initDatabase()
+    .then(() => {
+      console.log(`Attempting to start server on port ${port}...`);
+      server = app.listen(port, '127.0.0.1', () => {
+        console.log(`TestApp server listening at http://127.0.0.1:${port}`);
+        console.log(
+          `Environment: ${isProduction ? 'Production' : 'Development'}`,
+        );
+        console.log(`Database: Connected to PostgreSQL`);
+      });
+
+      // Handle graceful shutdown
+      process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+      process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+      // Handle uncaught exceptions
+      process.on('uncaughtException', (error) => {
+        console.error('Uncaught Exception:', error);
+        gracefulShutdown('uncaughtException');
+      });
+
+      process.on('unhandledRejection', (reason, promise) => {
+        console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+        gracefulShutdown('unhandledRejection');
+      });
+    })
+    .catch((error) => {
+      console.error('Failed to initialize database:', error);
+      process.exit(1);
+    });
 }
 
 export default app;
