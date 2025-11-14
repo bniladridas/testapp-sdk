@@ -13,7 +13,6 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_PASSWORD: postgres
           POSTGRES_HOST_AUTH_METHOD: trust
         options: >-
           --health-cmd pg_isready
@@ -40,4 +39,4 @@ jobs:
         with:
           gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+          DATABASE_URL: postgresql://postgres@localhost:5432/postgres
