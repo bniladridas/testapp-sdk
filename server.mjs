@@ -345,20 +345,26 @@ let server;
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   // Initialize database before starting server
-  initDatabase()
-    .then(() => {
-      console.log(`Attempting to start server on port ${port}...`);
-      server = app.listen(port, '127.0.0.1', () => {
-        console.log(`TestApp server listening at http://127.0.0.1:${port}`);
-        console.log(
-          `Environment: ${isProduction ? 'Production' : 'Development'}`,
-        );
-        console.log(`Database: Connected to PostgreSQL`);
-      });
+  (async () => {
+    try {
+      await initDatabase();
+      console.log('Database initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize database:', error);
+    }
 
-      // Handle graceful shutdown
-      process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-      process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+    console.log(`Attempting to start server on port ${port}...`);
+    server = app.listen(port, '127.0.0.1', () => {
+      console.log(`TestApp server listening at http://127.0.0.1:${port}`);
+      console.log(
+        `Environment: ${isProduction ? 'Production' : 'Development'}`,
+      );
+      console.log(`Database: ${process.env.DATABASE_URL ? 'Configured' : 'Not configured'}`);
+    });
+
+    // Handle graceful shutdown
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
       // Handle uncaught exceptions
       process.on('uncaughtException', (error) => {
