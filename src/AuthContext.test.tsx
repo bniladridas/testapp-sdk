@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, waitFor } from '@testing-library/react';
-import { AuthProvider, AuthContext } from './AuthContext';
+import { AuthProvider } from './AuthContext.tsx';
+import { AuthContext } from './AuthContext';
 
 const localStorageMock = {
   getItem: vi.fn(),

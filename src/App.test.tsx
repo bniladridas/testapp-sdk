@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
+import { AuthProvider } from './AuthContext.tsx';
 import App from './App';
 
 // Mock askTestAI to prevent async operations in tests
