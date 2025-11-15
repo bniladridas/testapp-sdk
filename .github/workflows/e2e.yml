@@ -42,4 +42,4 @@ jobs:
         uses: ./.github/actions/run-e2e
         with:
           gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
-          database-url: postgresql://postgres:postgres@localhost:5432/postgres
+          database-url: postgresql://postgres@localhost:5432/postgres

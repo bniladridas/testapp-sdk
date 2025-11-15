@@ -46,26 +46,12 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: [
-    {
-      command: 'node server.mjs',
-      url: 'http://127.0.0.1:3001',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120000,
-      cwd: process.cwd(),
-      env: {
-        DATABASE_URL:
-          'postgresql://' + process.env.USER + '@localhost:5432/testapp',
-        NODE_ENV: 'test',
-      },
-    },
-    {
-      command: process.env.CI
-        ? 'npx vite --host 127.0.0.1 --port 5173'
-        : 'vite --host 127.0.0.1 --port 5173',
-      url: 'http://127.0.0.1:5173',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120000,
-    },
-  ],
+  webServer: {
+    command: process.env.CI
+      ? 'npx vite --host 127.0.0.1 --port 5173'
+      : 'vite --host 127.0.0.1 --port 5173',
+    url: 'http://127.0.0.1:5173',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
+  },
 });
