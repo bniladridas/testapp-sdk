@@ -29,7 +29,16 @@ const response = await askAI('Explain quantum computing');
 await handleSecurityScan(octokit, payload);
 ```
 
-Available modules: ai, security-scanner, database, code-review, docs-bot, issue-manager, release-helper, workflow-automator, commit-msg-enforcer, ai-shared.
+Available modules can be imported directly via subpaths (e.g., `@harpertoken/testapp-sdk/ai`). For a complete list, see the `exports` field in `package.json`. Key modules include:
+
+* **ai**: Core AI interaction functions.
+* **security-scanner**: Utilities for security scanning.
+* **database**: Database initialization and connection pool management.
+* **code-review**: Automated code review helpers.
+* **docs-bot**: Documentation generation and checking utilities.
+* **issue-manager**: Tools for managing GitHub issues.
+* **release-helper**: Release automation utilities.
+* **workflow-automator**: Helpers for automating GitHub workflows.
 
 Set environment variables: `GEMINI_API_KEY`, `DATABASE_URL` as needed.
 
