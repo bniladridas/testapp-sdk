@@ -78,7 +78,6 @@ function ChatApp() {
   });
 
   const heroRef = useRef<HTMLDivElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
   // Test AI chat state
   const [chatOpen, setChatOpen] = useState(false);
   const [chatInput, setChatInput] = useState('');
@@ -137,9 +136,6 @@ function ChatApp() {
   useEffect(() => {
     if (heroRef.current) {
       heroRef.current.classList.add('animate-fadein');
-    }
-    if (featuresRef.current) {
-      featuresRef.current.classList.add('animate-fadein');
     }
   }, []);
 

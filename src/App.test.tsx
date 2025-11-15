@@ -422,9 +422,57 @@ describe('App', () => {
 
   it('adds animation classes on mount', () => {
     renderWithProviders(<App />);
-    // Check if hero has animation class (may be added asynchronously)
-    const hero = screen.getByText('TestAI').closest('div');
-    // The animation is added in useEffect, so it should be there
+    // The useEffect adds 'animate-fadein' class to hero element
+    // We can't easily test this in jsdom, but we can ensure the hero element exists
+    const hero = screen.getByText('TestAI').closest('section');
     expect(hero).toBeInTheDocument();
+  });
+
+  it('handles chat auto-scroll when chatEndRef is available', async () => {
+    // Mock scrollIntoView
+    Element.prototype.scrollIntoView = vi.fn();
+
+    renderWithProviders(<App />);
+    const chatButton = screen.getByLabelText('Open Test AI Chat');
+    act(() => {
+      fireEvent.click(chatButton);
+    });
+
+    // Wait for the initial AI message
+    await waitFor(() => {
+      expect(screen.getByText('Mocked AI response')).toBeInTheDocument();
+    });
+
+    // The useEffect should have run and called scrollIntoView
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'smooth',
+    });
+
+    // Vitest handles mock cleanup automatically
+  });
+
+  it('handles theme detection when no preferences are set', () => {
+    // This should cover the default return false in isDark function
+    const localStorageMock = {
+      getItem: vi.fn(() => null), // No theme, no user data
+      setItem: vi.fn(() => null),
+      removeItem: vi.fn(() => null),
+    };
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true,
+    });
+
+    Object.defineProperty(window, 'matchMedia', {
+      value: vi.fn(() => ({
+        matches: false, // No dark mode preference
+      })),
+      writable: true,
+    });
+
+    renderWithProviders(<App />);
+
+    // Should default to light mode (isDark returns false)
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 });

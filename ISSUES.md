@@ -18,16 +18,17 @@
 
 ## Recently Completed
 
+- [x] Code coverage: 82.94% → 87.82% overall (98.88% app code)
 - [x] Vercel health check API: Fix 404 in CI deployments
 - [x] SDK restructuring: Dual-purpose app + reusable SDK
 - [x] CLI error handling: Proper exit codes
 - [x] SDK documentation: API reference + examples
-- [x] Code coverage: 75.51% → 82.47% (98.4% app code)
 - [x] Fix Vercel deployment automation
 - [x] Validate CI/CD with production secrets
 
 ## Completed
 
+- [x] Code coverage: 75.51% → 82.47% (98.4% app code)
 - [x] User authentication (JWT)
 - [x] PostgreSQL integration + docs
 - [x] Security updates (param queries, CSP, audit logs)
@@ -58,9 +59,10 @@
 
 ## Status
 
-**Production-ready**
-Coverage: **82.94% overall**, **97.8% app code**
-Live: [https://ui-lib-fawn.vercel.app](https://ui-lib-fawn.vercel.app)
+**Production-ready**  
+Coverage: 87.82% (App: 98.88%)  
+Live: https://ui-lib-fawn.vercel.app
+
 
 ## Features
 

@@ -394,7 +394,7 @@ app.use((err, _, res) => {
 });
 
 // Graceful shutdown function
-export const gracefulShutdown = async (signal) => {
+export const gracefulShutdown = async (signal, testServer = server) => {
   console.log(`Received ${signal}. Starting graceful shutdown...`);
 
   try {
@@ -403,10 +403,14 @@ export const gracefulShutdown = async (signal) => {
     console.log('Database connections closed.');
 
     // Close server
-    server.close(() => {
-      console.log('Server closed.');
+    if (testServer) {
+      testServer.close(() => {
+        console.log('Server closed.');
+        process.exit(0);
+      });
+    } else {
       process.exit(0);
-    });
+    }
 
     // Force close after 10 seconds
     setTimeout(() => {
@@ -419,7 +423,7 @@ export const gracefulShutdown = async (signal) => {
   }
 };
 
-let server;
+export let server;
 
 if (process.argv[1].includes('server.mjs')) {
   // Initialize database before starting server
