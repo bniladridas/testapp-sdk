@@ -1,8 +1,25 @@
 {
-  "name": "testapp",
-  "private": true,
+  "name": "@harpertoken/testapp-sdk",
   "version": "1.0.0",
   "type": "module",
+  "main": "./lib/index.mjs",
+  "module": "./lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./ai": "./lib/ai.mjs",
+    "./ai-shared": "./lib/ai-shared.mjs",
+    "./code-review": "./lib/code-review.mjs",
+    "./commit-msg-enforcer": "./lib/commit-msg-enforcer.mjs",
+    "./database": "./lib/database.js",
+    "./docs-bot": "./lib/docs-bot.mjs",
+    "./issue-manager": "./lib/issue-manager.mjs",
+    "./release-helper": "./lib/release-helper.mjs",
+    "./security-scanner": "./lib/security-scanner.mjs",
+    "./workflow-automator": "./lib/workflow-automator.mjs"
+  },
+  "files": [
+    "lib/"
+  ],
   "scripts": {
     "start": "node server.mjs",
     "dev": "concurrently \"npm run server\" \"vite\"",
