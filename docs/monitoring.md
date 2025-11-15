@@ -67,11 +67,10 @@ import * as Sentry from '@sentry/node';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
-  integrations: [Sentry.httpIntegration()],
+  integrations: [Sentry.httpIntegration(), Sentry.expressIntegration()],
   tracesSampleRate: 1.0,
 });
 
-app.use(Sentry.expressIntegration());
 app.use(Sentry.expressErrorHandler());
 ```
 
