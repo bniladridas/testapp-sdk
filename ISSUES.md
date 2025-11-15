@@ -18,6 +18,7 @@
 
 ## Recently Completed
 
+- [x] Vercel health check API: Fix 404 in CI deployments
 - [x] SDK restructuring: Dual-purpose app + reusable SDK
 - [x] CLI error handling: Proper exit codes
 - [x] SDK documentation: API reference + examples
