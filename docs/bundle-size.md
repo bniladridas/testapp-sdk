@@ -78,11 +78,23 @@ Bundle size data can be integrated with monitoring dashboards:
 - Slack notifications for significant changes
 - Historical charts in CI/CD dashboards
 
+#### Core Web Vitals Tracking
+
+TestApp implements real-time Core Web Vitals monitoring using the `web-vitals` library:
+
+- **CLS (Cumulative Layout Shift)**: Measures visual stability
+- **FCP (First Contentful Paint)**: Measures loading performance
+- **LCP (Largest Contentful Paint)**: Measures perceived load speed
+- **TTFB (Time to First Byte)**: Measures server response time
+
+Metrics are automatically captured and reported to Sentry for monitoring and alerting.
+
 #### Thresholds and Policies
 
 Currently, no size thresholds are enforced. The action reports size changes for manual review.
 
 - **Monthly Review**: Team reviews bundle size trends monthly
+- **Performance Monitoring**: Core Web Vitals tracked in production via Sentry
 
 ### Troubleshooting
 
@@ -124,7 +136,5 @@ ls -lh dist/assets/
 ### Future Improvements
 
 - Implement automatic code splitting recommendations
-- Add runtime performance monitoring
-- Integrate with Core Web Vitals tracking
 - Set up automated optimization suggestions</content>
   <parameter name="filePath">docs/bundle-size.md

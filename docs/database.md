@@ -24,6 +24,7 @@ CREATE INDEX idx_users_created_at ON users(created_at);
 ```
 
 **Fields:**
+
 - `id`: Auto-incrementing primary key
 - `email`: Unique user email address
 - `password_hash`: Bcrypt-hashed password
@@ -46,18 +47,21 @@ Tracks applied database migrations.
 ### 1. Install PostgreSQL
 
 **macOS:**
+
 ```bash
 brew install postgresql
 brew services start postgresql
 ```
 
 **Ubuntu:**
+
 ```bash
 sudo apt install postgresql postgresql-contrib
 sudo systemctl start postgresql
 ```
 
 **Or use a cloud provider:**
+
 - Supabase
 - Neon
 - Railway
@@ -70,6 +74,7 @@ CREATE DATABASE testapp;
 ```
 
 Or with custom name:
+
 ```sql
 CREATE DATABASE your_db_name;
 ```
@@ -132,7 +137,10 @@ The application uses `pg` connection pooling:
 ```javascript
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  ssl:
+    process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : false,
   max: 20, // Maximum connections
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
@@ -140,6 +148,7 @@ const pool = new Pool({
 ```
 
 **Pool Configuration:**
+
 - Max 20 connections
 - 30 second idle timeout
 - 2 second connection timeout
@@ -204,9 +213,49 @@ Clears all users. Available only in development mode.
 
 ### Backup Strategy
 
-- Regular automated backups
-- Point-in-time recovery capability
-- Test backup restoration
+TestApp includes automated PostgreSQL backup functionality:
+
+#### Automated Backups
+
+Run database backups using the provided script:
+
+```bash
+npm run backup
+```
+
+This creates timestamped SQL dumps in the `backups/` directory.
+
+#### Backup Script Details
+
+- **Location**: `tools/scripts/backup.js`
+- **Format**: PostgreSQL dump (SQL)
+- **Naming**: `backup-YYYY-MM-DDTHH-MM-SS.sssZ.sql`
+- **Logging**: Backup operations logged to `backups/backup.log`
+
+#### Manual Backup
+
+```bash
+# Using pg_dump directly
+pg_dump "your_database_url" > backup.sql
+
+# Or using the npm script
+npm run backup
+```
+
+#### Restoration
+
+To restore from a backup:
+
+```bash
+psql "your_database_url" < backup.sql
+```
+
+#### Best Practices
+
+- Run backups regularly (daily/weekly)
+- Store backups securely off-site
+- Test restoration procedures periodically
+- Monitor backup success/failure
 
 ### Performance
 

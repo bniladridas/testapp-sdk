@@ -24,6 +24,8 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           ui: ['lucide-react'],
+          router: ['react-router-dom'],
+          utils: ['@google/generative-ai', 'pg'],
         },
       },
     },

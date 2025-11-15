@@ -19,6 +19,7 @@
     "migrate": "node tools/scripts/migrate.js",
     "rollback": "node tools/scripts/rollback.js",
     "test:db": "node tools/scripts/test-db.js",
+    "backup": "node tools/scripts/backup.js",
     "cli": "node cli/index.js",
     "prepare": "husky"
   },
@@ -26,6 +27,8 @@
     "@google/generative-ai": "^0.21.0",
     "@octokit/app": "^14.0.0",
     "@octokit/webhooks": "^12.1.3",
+    "@sentry/node": "^10.25.0",
+    "@sentry/react": "^10.25.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -40,7 +43,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.5.3",
-    "react-router-dom": "^6.30.1"
+    "react-router-dom": "^6.30.1",
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

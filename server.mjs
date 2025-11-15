@@ -7,8 +7,20 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { fileURLToPath } from 'url';
+import * as Sentry from '@sentry/node';
 
 dotenv.config();
+
+// Initialize Sentry for backend error monitoring
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    // enable HTTP { request, response } logging
+    Sentry.httpIntegration(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, // Capture 100% of the transactions
+});
 
 console.log('Starting TestApp server...');
 
@@ -28,6 +40,9 @@ const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === 'production';
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+
+// Sentry request handler must be the first middleware
+app.use(Sentry.expressIntegration());
 
 // Security headers
 app.use(helmet());
@@ -353,13 +368,18 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       console.error('Failed to initialize database:', error);
     }
 
+    // Sentry error handler must be before any other error middleware
+    app.use(Sentry.expressErrorHandler());
+
     console.log(`Attempting to start server on port ${port}...`);
     server = app.listen(port, '127.0.0.1', () => {
       console.log(`TestApp server listening at http://127.0.0.1:${port}`);
       console.log(
         `Environment: ${isProduction ? 'Production' : 'Development'}`,
       );
-      console.log(`Database: ${process.env.DATABASE_URL ? 'Configured' : 'Not configured'}`);
+      console.log(
+        `Database: ${process.env.DATABASE_URL ? 'Configured' : 'Not configured'}`,
+      );
     });
   })();
 

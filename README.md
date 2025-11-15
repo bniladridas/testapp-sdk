@@ -169,7 +169,9 @@ Detailed documentation is available in the [docs/](docs/) directory:
 - [API Reference](docs/api.md) - Complete API documentation
 - [Authentication](docs/authentication.md) - User authentication system
 - [Database](docs/database.md) - Database setup and operations
+- [Deployment](docs/deployment.md) - Production deployment and CDN setup
 - [Docker](docs/docker.md) - Containerization and deployment
+- [Monitoring](docs/monitoring.md) - Error tracking and performance monitoring
 - [Check Branches](docs/check-branches.md) - Branch validation script
 - [Husky](docs/husky.md) - Pre-commit hooks and code quality
 - [Rewrite Commits](docs/rewrite-commits.md) - Script to rewrite commit messages
