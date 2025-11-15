@@ -5,8 +5,10 @@ async function main() {
   try {
     const response = await askAI(prompt);
     console.log('AI Response:', response);
+    process.exit(0);
   } catch (error) {
     console.error('Error:', error.message);
+    process.exit(1);
   }
 }
 
