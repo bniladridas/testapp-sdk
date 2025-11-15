@@ -7,6 +7,32 @@
 
 A modern single-page web application with AI-powered chat functionality, featuring internationalization, offline support, and accessibility enhancements. Built with React, Vite, and integrated with Google's Gemini AI.
 
+This package also serves as an SDK for reusable AI and automation utilities.
+
+## SDK Usage
+
+Install via npm:
+
+```sh
+npm install @harpertoken/testapp-sdk
+```
+
+Import and use utilities:
+
+```js
+import { askAI, handleSecurityScan } from '@harpertoken/testapp-sdk';
+
+// AI interaction
+const response = await askAI('Explain quantum computing');
+
+// Security scanning (requires octokit instance)
+await handleSecurityScan(octokit, payload);
+```
+
+Available modules: ai, security-scanner, database, code-review, docs-bot, issue-manager, release-helper, workflow-automator, commit-msg-enforcer, ai-shared.
+
+Set environment variables: `GEMINI_API_KEY`, `DATABASE_URL` as needed.
+
 The full API of this application can be found in [docs/api.md](docs/api.md).
 
 ## Installation
