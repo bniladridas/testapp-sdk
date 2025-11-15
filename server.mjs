@@ -394,7 +394,7 @@ app.use((err, _, res) => {
 });
 
 // Graceful shutdown function
-const gracefulShutdown = async (signal) => {
+export const gracefulShutdown = async (signal) => {
   console.log(`Received ${signal}. Starting graceful shutdown...`);
 
   try {

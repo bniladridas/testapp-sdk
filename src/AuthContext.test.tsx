@@ -68,6 +68,31 @@ describe('AuthProvider', () => {
     });
   });
 
+  it('should handle missing user data in localStorage', async () => {
+    localStorageMock.getItem.mockImplementation((key) => {
+      if (key === 'token') return 'token';
+      // No user data
+      return null;
+    });
+
+    let contextValue: any;
+    render(
+      <AuthProvider>
+        <AuthContext.Consumer>
+          {(value) => {
+            contextValue = value;
+            return null;
+          }}
+        </AuthContext.Consumer>
+      </AuthProvider>,
+    );
+
+    await waitFor(() => {
+      expect(contextValue.user).toBe(null);
+      expect(contextValue.isLoading).toBe(false);
+    });
+  });
+
   it('should login user', async () => {
     let contextValue: any;
     render(

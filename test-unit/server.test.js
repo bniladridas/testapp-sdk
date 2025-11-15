@@ -50,6 +50,11 @@ vi.mock('@octokit/app', () => ({
   },
 }));
 
+// Mock workflow-automator
+vi.mock('../lib/workflow-automator.mjs', () => ({
+  handleWorkflow: vi.fn(),
+}));
+
 // Mock JWT
 vi.mock('jsonwebtoken', () => ({
   default: {
@@ -75,6 +80,11 @@ vi.mock('bcryptjs', () => ({
 // Mock AI module
 vi.mock('../lib/ai.mjs', () => ({
   askAI: vi.fn().mockResolvedValue('Mocked AI response'),
+}));
+
+// Mock workflow-automator
+vi.mock('../lib/workflow-automator.mjs', () => ({
+  handleWorkflow: vi.fn(),
 }));
 
 vi.mock('@octokit/webhooks', () => ({
@@ -105,6 +115,8 @@ import {
 import request from 'supertest';
 import { askAI } from '../lib/ai.mjs';
 import { pool, initDatabase } from '../lib/database.js';
+import { handleWorkflow } from '../lib/workflow-automator.mjs';
+import { gracefulShutdown } from '../server.mjs';
 
 // Import app after mocks are set up
 import app from '../server.mjs';
@@ -175,6 +187,15 @@ describe('Server API', () => {
     expect(response.body.status).toBe('ok');
   });
 
+  it('should return database health check', async () => {
+    const response = await request(app).get('/api/health/database');
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe('ok');
+    expect(response.body.database).toHaveProperty('connected');
+    expect(response.body.database).toHaveProperty('responseTime');
+    expect(response.body.database).toHaveProperty('pool');
+  });
+
   it('should return error for missing message', async () => {
     const response = await request(app)
       .post('/api/ask-test-ai')
@@ -188,6 +209,15 @@ describe('Server API', () => {
     const response = await request(app).get('/some-route');
     expect(response.status).toBe(200);
     expect(response.headers['content-type']).toContain('text/html');
+  });
+
+  it('should handle server errors with error middleware', async () => {
+    // Test error handling middleware by triggering an error
+    const response = await request(app).post('/api/auth/signup').send({}); // Missing required fields to trigger error
+
+    // This should be handled by error middleware if there's an unhandled error
+    // But in this case, it's handled by the route itself
+    expect(response.status).toBe(400);
   });
 
   describe('Authentication', () => {

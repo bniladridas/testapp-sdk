@@ -159,4 +159,32 @@ describe('Signup', () => {
       expect(screen.getByText('Network error')).toBeInTheDocument();
     });
   });
+
+  it('should show default error message when response has no error field', async () => {
+    const mockResponse = {
+      ok: false,
+      json: () => Promise.resolve({}), // No error field
+    };
+    (global.fetch as any).mockResolvedValue(mockResponse);
+
+    render(
+      <BrowserRouter>
+        <Signup />
+      </BrowserRouter>,
+    );
+
+    const emailInput = screen.getByLabelText(/email address/i);
+    const passwordInput = screen.getByLabelText(/^password$/i);
+    const confirmInput = screen.getByLabelText(/confirm password/i);
+    const submitButton = screen.getByRole('button', { name: /sign up/i });
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.change(confirmInput, { target: { value: 'password123' } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Signup failed')).toBeInTheDocument();
+    });
+  });
 });
