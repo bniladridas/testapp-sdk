@@ -19,6 +19,8 @@ runs:
         JWT_SECRET: test-jwt-secret-for-e2e
         NODE_ENV: test
       run: |
+        export DATABASE_URL=${{ inputs.database-url }}
+        export NODE_ENV=test
         npm run migrate
         npm run server &
         sleep 5
