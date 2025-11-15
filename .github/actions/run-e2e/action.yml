@@ -22,8 +22,5 @@ runs:
         export DATABASE_URL=${{ inputs.database-url }}
         export NODE_ENV=test
         npm run migrate
-        npm run server &
-        sleep 5
-        npx wait-on http://127.0.0.1:3001/api/health --timeout 120000
         npm run test:e2e
       shell: bash
