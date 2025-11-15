@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Sun, Moon, ArrowUp, LogOut } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { askTestAI } from './TestAI';
 import { useAuth } from './hooks/useAuth';
@@ -30,19 +31,40 @@ function DarkModeToggle({
           transform: darkMode ? 'rotate(180deg)' : 'rotate(0deg)',
         }}
       >
-        {darkMode ? (
-          <Sun size={16} className="text-yellow-400" />
-        ) : (
-          <Moon size={16} className="text-gray-700 dark:text-gray-200" />
-        )}
+        {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </span>
-      {showText && <span className="ml-2 text-sm">Toggle Dark Mode</span>}
+      {showText && (
+        <span className="ml-2 text-gray-900 dark:text-white">
+          {darkMode ? 'Light' : 'Dark'}
+        </span>
+      )}
     </button>
+  );
+}
+
+function LanguageSwitcher() {
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+  return (
+    <select
+      onChange={(e) => changeLanguage(e.target.value)}
+      value={i18n.language}
+      className="p-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded"
+      aria-label="Select language"
+    >
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
   );
 }
 
 function ChatApp() {
   const { user, logout } = useAuth();
+  const { t } = useTranslation();
   const [scrollY, setScrollY] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -168,12 +190,21 @@ function ChatApp() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-black dark:text-white">
+    <div
+      className="min-h-screen bg-gray-50 text-gray-900 dark:bg-black dark:text-white"
+      id="main-content"
+      role="main"
+    >
       {/* Only show chat in fullscreen mode for noise-free experience */}
       {chatFullscreen ? (
         <div className="fixed inset-0 z-50 flex flex-col justify-end bg-white dark:bg-black">
           {/* Chat messages area */}
-          <div className="flex-1 overflow-y-auto px-0 pb-8 pt-8">
+          <div
+            className="flex-1 overflow-y-auto px-0 pb-8 pt-8"
+            role="log"
+            aria-live="polite"
+            aria-label="Chat messages"
+          >
             {chatMessages.map((msg, i) => (
               <div
                 key={i}
@@ -228,7 +259,7 @@ function ChatApp() {
                 onChange={(e) => setChatInput(e.target.value)}
                 disabled={chatLoading}
                 autoFocus
-                aria-label="Type your message"
+                aria-label={t('typeMessage')}
               />
               <button
                 type="submit"
@@ -292,6 +323,7 @@ function ChatApp() {
                     darkMode={darkMode}
                     setDarkMode={setDarkMode}
                   />
+                  <LanguageSwitcher />
                   <button
                     onClick={logout}
                     className="p-1 text-gray-900 dark:text-white"
@@ -435,14 +467,14 @@ function ChatApp() {
                   onChange={(e) => setChatInput(e.target.value)}
                   disabled={chatLoading}
                   autoFocus
-                  aria-label="Type your message"
+                  aria-label={t('typeMessage')}
                 />
                 <button
                   type="submit"
                   className="px-2 py-2 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center focus:outline-none border-none"
                   style={{ backgroundColor: '#e8eeff', color: '#1e293b' }}
                   disabled={chatLoading || !chatInput.trim()}
-                  aria-label="Send"
+                  aria-label={t('send')}
                 >
                   <ArrowUp size={18} />
                 </button>
@@ -457,25 +489,34 @@ function ChatApp() {
 
 function App() {
   const { user, isLoading } = useAuth();
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black">
-        <div className="text-gray-900 dark:text-white">Loading...</div>
+        <div className="text-gray-900 dark:text-white">{t('loading')}</div>
       </div>
     );
   }
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={user ? <ChatApp /> : <Navigate to="/login" replace />}
-      />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-500 text-white px-4 py-2 rounded z-50"
+      >
+        Skip to main content
+      </a>
+      <Routes>
+        <Route
+          path="/"
+          element={user ? <ChatApp /> : <Navigate to="/login" replace />}
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
 

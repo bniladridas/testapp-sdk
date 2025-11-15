@@ -45,6 +45,10 @@ This file tracks open issues and assigned work for the TestApp project.
 - [x] Implement Content Security Policy (CSP) headers
 - [x] Add audit logging for security events
 - [x] Enhance rate limiting with per-endpoint configurations
+- [x] Implement internationalization with i18next
+- [x] Add offline support with PWA and service worker
+- [x] Improve progressive enhancement with error boundaries and fallbacks
+- [x] Enhance accessibility with ARIA, skip links, and semantic HTML
 
 ## Completed
 

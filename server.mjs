@@ -108,21 +108,26 @@ if (githubApp) {
 }
 
 // Rate limiter for auth endpoints
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 auth attempts per windowMs
-  message:
-    'Too many authentication attempts from this IP, please try again later.',
-  handler: (req, res, next, options) => {
-    console.log(
-      'Security: Auth rate limit exceeded for IP: ' +
-        req.ip +
-        ', URL: ' +
-        req.url,
-    );
-    res.status(options.statusCode).send(options.message);
-  },
-});
+let authLimiter;
+if (process.env.NODE_ENV === 'test') {
+  authLimiter = (req, res, next) => next();
+} else {
+  authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 auth attempts per windowMs
+    message:
+      'Too many authentication attempts from this IP, please try again later.',
+    handler: (req, res, next, options) => {
+      console.log(
+        'Security: Auth rate limit exceeded for IP: ' +
+          req.ip +
+          ', URL: ' +
+          req.url,
+      );
+      res.status(options.statusCode).send(options.message);
+    },
+  });
+}
 
 // Rate limiter for API endpoints
 const apiLimiter = rateLimit({
@@ -416,7 +421,7 @@ const gracefulShutdown = async (signal) => {
 
 let server;
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1].includes('server.mjs')) {
   // Initialize database before starting server
   (async () => {
     try {

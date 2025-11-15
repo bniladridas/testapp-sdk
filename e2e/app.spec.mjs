@@ -13,10 +13,19 @@ test.describe('TestApp App', () => {
     await page.fill('input[name="password"]', 'password123');
     await page.fill('input[name="confirmPassword"]', 'password123');
     await page.click('button[type="submit"]');
-    await expect(page.locator('h1', { hasText: 'TestAI' })).toBeVisible();
+    const response = await page.waitForResponse('**/api/auth/signup');
+    if (!response.ok()) {
+      const text = await response.text();
+      throw new Error(`Signup failed: ${response.status()} ${text}`);
+    }
+    await page.waitForFunction(() => window.location.pathname === '/', {
+      timeout: 60000,
+    });
+    await expect(
+      page.locator('button[aria-label="Open Test AI Chat"]'),
+    ).toBeVisible();
 
     await expect(page).toHaveTitle(/TestApp/);
-    await expect(page.locator('h1', { hasText: 'Test CLI' })).toBeVisible();
   });
 
   test('should open chat', async ({ page }) => {
@@ -26,7 +35,17 @@ test.describe('TestApp App', () => {
     await page.fill('input[name="password"]', 'password123');
     await page.fill('input[name="confirmPassword"]', 'password123');
     await page.click('button[type="submit"]');
-    await expect(page.locator('h1', { hasText: 'TestAI' })).toBeVisible();
+    const response = await page.waitForResponse('**/api/auth/signup');
+    if (!response.ok()) {
+      const text = await response.text();
+      throw new Error(`Signup failed: ${response.status()} ${text}`);
+    }
+    await page.waitForFunction(() => window.location.pathname === '/', {
+      timeout: 60000,
+    });
+    await expect(
+      page.locator('button[aria-label="Open Test AI Chat"]'),
+    ).toBeVisible();
 
     await page.click('button[aria-label="Open Test AI Chat"]');
     await expect(

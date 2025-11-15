@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './AuthContext.tsx';
 import App from './App.tsx';
 import './index.css';
+import './i18n';
+import { ErrorBoundary } from './ErrorBoundary';
 import * as Sentry from '@sentry/react';
 import { onCLS, onFCP, onLCP, onTTFB } from 'web-vitals';
 
@@ -37,10 +39,12 @@ onTTFB((metric) => {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>,
 );

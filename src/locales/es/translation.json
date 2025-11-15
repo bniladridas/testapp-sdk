@@ -1,0 +1,23 @@
+{
+  "welcome": "Bienvenido a TestApp",
+  "login": "Iniciar Sesión",
+  "signup": "Registrarse",
+  "email": "Correo Electrónico",
+  "password": "Contraseña",
+  "submit": "Enviar",
+  "logout": "Cerrar Sesión",
+  "askAI": "Preguntar a IA",
+  "message": "Mensaje",
+  "send": "Enviar",
+  "toggleDarkMode": "Alternar modo oscuro",
+  "minimizeChat": "Minimizar chat",
+  "fullscreen": "Pantalla completa",
+  "openChat": "Abrir Chat de Prueba IA",
+  "typeMessage": "Escribe tu mensaje",
+  "error": "Error",
+  "loading": "Cargando...",
+  "invalidCredentials": "Credenciales inválidas",
+  "userExists": "El usuario ya existe",
+  "missingMessage": "Mensaje faltante",
+  "internalError": "Error interno del servidor"
+}

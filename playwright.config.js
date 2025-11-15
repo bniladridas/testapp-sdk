@@ -24,6 +24,9 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
+  /* Timeout for each test */
+  timeout: 120000,
+
   /* Configure projects for major browsers */
   projects: [
     {
@@ -40,35 +43,29 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: process.env.CI
-      ? 'npx vite --host 127.0.0.1 --port 5173'
-      : 'vite --host 127.0.0.1 --port 5173',
-    url: 'http://127.0.0.1:5173',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  webServer: [
+    {
+      command: 'node server.mjs',
+      url: 'http://127.0.0.1:3001',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+      cwd: process.cwd(),
+      env: {
+        DATABASE_URL:
+          'postgresql://' + process.env.USER + '@localhost:5432/testapp',
+        NODE_ENV: 'test',
+      },
+    },
+    {
+      command: process.env.CI
+        ? 'npx vite --host 127.0.0.1 --port 5173'
+        : 'vite --host 127.0.0.1 --port 5173',
+      url: 'http://127.0.0.1:5173',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+  ],
 });

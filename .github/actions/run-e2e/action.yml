@@ -19,6 +19,7 @@ runs:
         JWT_SECRET: test-jwt-secret-for-e2e
         NODE_ENV: test
       run: |
+        npm run migrate
         npm run server &
         sleep 5
         npx wait-on http://127.0.0.1:3001/api/health --timeout 120000
