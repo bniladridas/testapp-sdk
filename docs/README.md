@@ -38,6 +38,7 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 ```
 ├── src/              # Frontend source (React + TypeScript)
 │   ├── locales/      # Internationalization files
+│   ├── *.stories.tsx # Storybook component documentation
 │   └── ErrorBoundary.tsx  # Error handling component
 ├── cli/              # CLI tool
 ├── lib/              # Shared ES modules (.mjs)
@@ -46,7 +47,9 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
 ├── docs/             # Documentation
 ├── docker/           # Docker configuration
 ├── .github/          # GitHub Actions workflows
+├── .storybook/       # Storybook configuration
 ├── load-test.js      # Load testing script
+├── testapp-api.postman_collection.json  # API testing collection
 └── tools/            # Utility scripts and tools
 ```
 
@@ -72,3 +75,9 @@ TestApp is a simple single-page web application featuring AI-powered chat functi
   - [Development](development.md) - Development setup
   - [Security](security.md) - Security measures
   - [Incident Response](incident-response.md) - Incident handling procedures
+
+### Development Tools
+
+- **Storybook**: Component documentation at `npm run storybook`
+- **API Testing**: Postman collection in `testapp-api.postman_collection.json`
+- **Load Testing**: Automated performance tests with k6
