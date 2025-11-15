@@ -184,6 +184,44 @@ The e2e tests automatically start the servers and test the full user flow.
 - `vercel.json`: Vercel deployment config
 - `env.example`: Environment variables template
 
+## CI/CD
+
+The CI/CD pipeline runs automated tests, linting, security checks, and deployments using GitHub Actions. It includes:
+
+- **Testing**: Unit tests, E2E tests with Playwright, linting, code coverage
+- **Security**: Docker image vulnerability scanning with Trivy
+- **Deployment**: Automated deployment to Vercel on main branch pushes
+- **Load Testing**: Weekly performance testing with k6
+
+### Workflows
+
+- **`e2e.yml`**: Runs tests on every push/PR (unit, e2e, docker build)
+- **`docker.yml`**: Builds and pushes Docker images on main branch
+- **`load-test.yml`**: Runs performance tests weekly
+- **`deploy.yml`**: Deploys to Vercel production (requires secrets)
+
+### Setting up Automated Deployment
+
+To enable automated Vercel deployments, add these secrets to your GitHub repository:
+
+1. Go to **Settings → Secrets and variables → Actions**
+2. Add the following secrets:
+   - `VERCEL_TOKEN`: Your Vercel access token
+   - `VERCEL_ORG_ID`: Your Vercel organization ID
+   - `VERCEL_PROJECT_ID`: Your Vercel project ID
+
+### Testing Workflows Locally
+
+Use [act](https://github.com/nektos/act) to test GitHub Actions workflows locally:
+
+```sh
+# Test e2e workflow
+act -j e2e -P ubuntu-latest=catthehacker/ubuntu:act-latest --container-architecture linux/amd64 --secret GEMINI_API_KEY=your_key
+
+# Test docker workflow
+act -j docker -P ubuntu-latest=catthehacker/ubuntu:act-latest --container-architecture linux/amd64 --secret DOCKER_USERNAME=your_username --secret DOCKER_PASSWORD=your_password
+```
+
 ## Requirements
 
 - Node.js 20 LTS or later
