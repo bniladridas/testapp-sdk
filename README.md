@@ -174,6 +174,7 @@ The e2e tests automatically start the servers and test the full user flow.
 - `npm run rollback`: Rollback database (development only)
 - `npm run test:db`: Test database connectivity
 - `npm run cli`: Run CLI with AI prompts
+- `npm run storybook`: Start Storybook component documentation
 - `npm start`: Start production server
 
 ## Files
@@ -240,6 +241,7 @@ Detailed documentation is available in the [docs/](docs/) directory:
 - [Docker](docs/docker.md) - Containerization
 - [Development](docs/development.md) - Development setup
 - [Security](docs/security.md) - Security measures
+- [Incident Response](docs/incident-response.md) - Incident handling procedures
 
 ## Contributing
 
