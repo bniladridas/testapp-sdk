@@ -30,6 +30,7 @@ A live demo is available at: **[https://ui-lib-fawn.vercel.app](https://ui-lib-f
 
 - **Login Page**: [https://ui-lib-fawn.vercel.app/login](https://ui-lib-fawn.vercel.app/login)
 - **Signup**: Create a new account to test the full functionality
+- **Automated Deployment**: Changes to main branch deploy automatically via GitHub Actions
 
 ### Manual Setup
 
