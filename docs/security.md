@@ -22,8 +22,17 @@ This document outlines the security measures and best practices implemented in T
 ### Rate Limiting
 
 - **Implementation**: express-rate-limit middleware
-- **Default Limits**: Configurable per endpoint
+- **Limits**:
+  - Auth endpoints (signup/login): 5 requests per 15 minutes per IP
+  - API endpoints (ask-test-ai): 100 requests per 15 minutes per IP
 - **Headers**: X-RateLimit-\* headers included in responses
+- **Logging**: Rate limit violations logged for security monitoring
+
+### Audit Logging
+
+- **Security Events**: Failed authentication attempts, invalid tokens, and rate limit violations are logged
+- **Details Logged**: IP address, attempted action, timestamp
+- **Purpose**: Security monitoring and incident response
 
 ### Input Validation
 
@@ -74,6 +83,7 @@ This document outlines the security measures and best practices implemented in T
 ### Headers
 
 - **Helmet.js**: Security headers middleware
+- **Content Security Policy (CSP)**: Configured in production to restrict resource loading
 - **CORS**: Cross-origin request protection
 - **HSTS**: HTTP Strict Transport Security (when HTTPS enabled)
 
@@ -121,12 +131,14 @@ This document outlines the security measures and best practices implemented in T
 
 ### Pre-deployment
 
-- [ ] Environment variables configured securely
+- [x] Environment variables configured securely
 - [ ] HTTPS enabled in production
-- [ ] Database credentials secured
-- [ ] API keys validated
-- [ ] Rate limiting configured
-- [ ] CORS origins restricted
+- [x] Database credentials secured
+- [x] API keys validated
+- [x] Rate limiting configured
+- [x] CORS origins restricted
+- [x] Security headers (CSP, Helmet) configured
+- [x] Audit logging implemented
 
 ### Ongoing Maintenance
 

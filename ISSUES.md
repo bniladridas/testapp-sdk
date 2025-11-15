@@ -42,6 +42,9 @@ This file tracks open issues and assigned work for the TestApp project.
 - [x] Add Core Web Vitals tracking with web-vitals library
 - [x] Enhance asset optimization and code splitting for CDN performance
 - [x] Create automated PostgreSQL database backup script
+- [x] Implement Content Security Policy (CSP) headers
+- [x] Add audit logging for security events
+- [x] Enhance rate limiting with per-endpoint configurations
 
 ## Completed
 

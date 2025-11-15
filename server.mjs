@@ -45,7 +45,25 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 // Note: expressIntegration is configured in Sentry.init(), not used as middleware
 
 // Security headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: isProduction
+      ? {
+          directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'"],
+            imgSrc: ["'self'", 'data:', 'https:'],
+            connectSrc: ["'self'"],
+            fontSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            mediaSrc: ["'self'"],
+            frameSrc: ["'none'"],
+          },
+        }
+      : false,
+  }),
+);
 
 app.use(
   cors({
@@ -89,11 +107,37 @@ if (githubApp) {
   );
 }
 
+// Rate limiter for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 auth attempts per windowMs
+  message:
+    'Too many authentication attempts from this IP, please try again later.',
+  handler: (req, res, next, options) => {
+    console.log(
+      'Security: Auth rate limit exceeded for IP: ' +
+        req.ip +
+        ', URL: ' +
+        req.url,
+    );
+    res.status(options.statusCode).send(options.message);
+  },
+});
+
 // Rate limiter for API endpoints
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again later.',
+  handler: (req, res, next, options) => {
+    console.log(
+      'Security: API rate limit exceeded for IP: ' +
+        req.ip +
+        ', URL: ' +
+        req.url,
+    );
+    res.status(options.statusCode).send(options.message);
+  },
 });
 
 // JWT authentication middleware
@@ -102,11 +146,13 @@ const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
+    console.log(`Security: Missing token from IP: ${req.ip}`);
     return res.status(401).json({ error: 'Access token required' });
   }
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
+      console.log(`Security: Invalid token from IP: ${req.ip}`);
       return res.status(403).json({ error: 'Invalid or expired token' });
     }
     req.user = user;
@@ -115,7 +161,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Auth endpoints
-app.post('/api/auth/signup', async (req, res) => {
+app.post('/api/auth/signup', authLimiter, async (req, res) => {
   const client = await pool.connect();
   try {
     const { email, password } = req.body;
@@ -159,7 +205,7 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', authLimiter, async (req, res) => {
   const client = await pool.connect();
   try {
     const { email, password } = req.body;
@@ -175,6 +221,12 @@ app.post('/api/auth/login', async (req, res) => {
     );
 
     if (result.rows.length === 0) {
+      console.log(
+        'Security: Failed login attempt for non-existent email: ' +
+          email +
+          ' from IP: ' +
+          req.ip,
+      );
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
@@ -183,6 +235,12 @@ app.post('/api/auth/login', async (req, res) => {
     // Check password
     const validPassword = await bcrypt.compare(password, user.password_hash);
     if (!validPassword) {
+      console.log(
+        'Security: Failed login attempt for email: ' +
+          email +
+          ' from IP: ' +
+          req.ip,
+      );
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
