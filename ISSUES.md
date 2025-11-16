@@ -3,7 +3,6 @@
 ## Open Issues
 
 - [ ] Optimize chat rendering for large conversations
-- [ ] Add CLI network-error handling
 - [ ] Implement chat search
 - [ ] Export chat history
 - [ ] Add performance dashboards
@@ -18,6 +17,7 @@
 
 ## Recently Completed
 
+- [x] Add CLI network-error handling
 - [x] Code coverage: 82.94% → 87.82% overall (98.88% app code)
 - [x] Vercel health check API: Fix 404 in CI deployments
 - [x] SDK restructuring: Dual-purpose app + reusable SDK
