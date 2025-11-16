@@ -2,17 +2,14 @@
 export async function askTestAI(userInput: string): Promise<string> {
   try {
     const token = localStorage.getItem('token');
-    const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL || ''}/api/ask-test-ai`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        body: JSON.stringify({ message: userInput }),
+    const res = await fetch('/api/ask-test-ai', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
-    );
+      body: JSON.stringify({ message: userInput }),
+    });
     const data = await res.json();
     if (data.text) return data.text;
     return data.error || 'Unknown error from Test AI backend.';
