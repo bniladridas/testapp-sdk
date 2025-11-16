@@ -31,14 +31,14 @@ await handleSecurityScan(octokit, payload);
 
 Available modules can be imported directly via subpaths (e.g., `@harpertoken/testapp-sdk/ai`). For a complete list, see the `exports` field in `package.json`. Key modules include:
 
-* **ai**: Core AI interaction functions.
-* **security-scanner**: Utilities for security scanning.
-* **database**: Database initialization and connection pool management.
-* **code-review**: Automated code review helpers.
-* **docs-bot**: Documentation generation and checking utilities.
-* **issue-manager**: Tools for managing GitHub issues.
-* **release-helper**: Release automation utilities.
-* **workflow-automator**: Helpers for automating GitHub workflows.
+- **ai**: Core AI interaction functions.
+- **security-scanner**: Utilities for security scanning.
+- **database**: Database initialization and connection pool management.
+- **code-review**: Automated code review helpers.
+- **docs-bot**: Documentation generation and checking utilities.
+- **issue-manager**: Tools for managing GitHub issues.
+- **release-helper**: Release automation utilities.
+- **workflow-automator**: Helpers for automating GitHub workflows.
 
 Set environment variables: `GEMINI_API_KEY`, `DATABASE_URL` as needed.
 
@@ -274,6 +274,7 @@ Detailed documentation is available in the [docs/](docs/) directory:
 - [API Reference](docs/api.md) - Complete API documentation
 - [Authentication](docs/authentication.md) - User authentication system
 - [Database](docs/database.md) - Database setup and operations
+- [Database Queries](docs/database-queries.md) - Useful SQL queries
 - [Deployment](docs/deployment.md) - Production deployment
 - [Docker](docs/docker.md) - Containerization
 - [Development](docs/development.md) - Development setup
