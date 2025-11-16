@@ -17,6 +17,7 @@
 
 ## Recently Completed
 
+- [x] Switched to happy-dom for faster and more reliable testing
 - [x] CircleCI configuration added for alternative CI/CD
 - [x] AI-powered CLI with conversation memory and interactive commands
 - [x] CLI persistent history storage in user config directory
