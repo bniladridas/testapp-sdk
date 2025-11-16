@@ -80,32 +80,4 @@ test.describe('CLI E2E Tests', () => {
     expect(stdout).toContain('Type your questions and press Enter');
     expect(stdout).toContain('AI>');
   });
-
-  // test('should handle commands in interactive mode', async () => {
-  //   const cli = spawn('node', [join(process.cwd(), 'cli/index.js'), '--interactive'], {
-  //     stdio: ['pipe', 'pipe', 'pipe'],
-  //   });
-
-  //   let stdout = '';
-
-  //   const commands = ['/help\n', '/history\n', '/clear\n', '/exit\n'];
-  //   let commandIndex = 0;
-
-  //   cli.stdout.on('data', (data) => {
-  //     stdout += data.toString();
-  //     if (stdout.includes('AI>') && commandIndex < commands.length) {
-  //       cli.stdin.write(commands[commandIndex]);
-  //       commandIndex++;
-  //     }
-  //   });
-
-  //   await new Promise((resolve) => {
-  //     cli.on('close', resolve);
-  //   });
-
-  //   expect(stdout).toContain('Commands: /clear, /history, /help, /exit');
-  //   expect(stdout).toContain('No history yet.');
-  //   expect(stdout).toContain('History cleared.');
-  //   expect(stdout).toContain('Goodbye!');
-  // });
 });
