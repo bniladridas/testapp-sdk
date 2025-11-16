@@ -17,7 +17,7 @@
 
 ## Recently Completed
 
-- [x] Fixed CircleCI image tag to cimg/node:18.19.1
+- [x] Moved CircleCI build step before test to fix server test
 - [x] Switched to happy-dom for faster and more reliable testing
 - [x] CircleCI configuration added for alternative CI/CD
 - [x] AI-powered CLI with conversation memory and interactive commands
