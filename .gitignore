@@ -35,9 +35,6 @@ coverage/
 .env.local
 .env.production
 
-# CLI Conversation History (contains user data)
-cli/history.json
-
 # TypeScript build cache
 *.tsbuildinfo
 

@@ -1,7 +1,22 @@
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
+import { homedir } from 'os';
 
-const HISTORY_FILE = join(process.cwd(), 'cli', 'history.json');
+// Use user config directory for cross-project persistence
+const CONFIG_DIR = join(homedir(), '.config', 'testapp-cli');
+const HISTORY_FILE = join(CONFIG_DIR, 'history.json');
+
+// Ensure config directory exists
+try {
+  if (!existsSync(CONFIG_DIR)) {
+    mkdirSync(CONFIG_DIR, { recursive: true });
+  }
+} catch (error) {
+  // Fallback to project directory if config dir creation fails
+  console.warn(
+    'Could not create user config directory, using project directory for history',
+  );
+}
 
 export function loadHistory() {
   if (existsSync(HISTORY_FILE)) {
