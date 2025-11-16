@@ -96,9 +96,9 @@ The CLI stores conversation history as JSON data for persistent, context-aware c
 ### Basic Queries
 
 ```bash
-npm run cli "What is the capital of France?"
-npm run cli "Explain quantum computing" --verbose
-npm run cli "Generate a React component" --json
+npm run cli "Hello, how are you?"
+npm run cli -- --interactive --verbose
+npm run cli "Generate code" -- --json
 ```
 
 ### Interactive Session

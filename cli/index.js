@@ -53,8 +53,8 @@ Options:
 
 Examples:
   npm run cli "Hello, how are you?"
-  npm run cli --interactive --verbose
-  npm run cli "Generate code" --json
+  npm run cli -- --interactive --verbose
+  npm run cli "Generate code" -- --json
 `),
     );
     return;
