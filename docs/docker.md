@@ -70,6 +70,47 @@ Images are tagged with:
 - SHA prefixes (e.g., `main-abc1234`)
 - Semantic versions on releases (e.g., `1.0.0`, `1.0`, `1`)
 
+## Manual Publishing to GHCR
+
+To manually build and publish the Docker image to GitHub Container Registry (similar to npm publishing):
+
+### Prerequisites
+
+- Docker installed and running
+- GitHub Personal Access Token with `packages:write` scope
+
+### Steps
+
+1. **Build the image**:
+
+   ```
+   docker build -f docker/Dockerfile -t ghcr.io/bniladridas/testapp:latest .
+   ```
+
+2. **Log in to GHCR**:
+
+   ```
+   echo $GHCR_TOKEN | docker login ghcr.io -u bniladridas --password-stdin
+   ```
+
+   Replace `$GHCR_TOKEN` with your GitHub PAT.
+
+3. **Push the image**:
+   ```
+   docker push ghcr.io/bniladridas/testapp:latest
+   ```
+
+### Verification
+
+- Check in Docker Desktop for the image
+- Pull to verify: `docker pull ghcr.io/bniladridas/testapp:latest`
+- View package at: https://github.com/bniladridas/TestApp/packages (may require login or public visibility)
+
+### Notes
+
+- Scoped images default to private; make the package public in GitHub settings if needed
+- For automated publishing, ensure `GHCR_TOKEN` is set in repository secrets
+
 ## Testing Workflows Locally
 
 Use [act](https://github.com/nektos/act) to test GitHub Actions workflows locally with Docker.
