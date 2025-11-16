@@ -299,6 +299,7 @@ Detailed documentation is available in the [docs/](docs/) directory:
 - [Deployment](docs/deployment.md) - Production deployment
 - [Docker](docs/docker.md) - Containerization
 - [Development](docs/development.md) - Development setup
+- [Publishing](docs/publishing.md) - Package publishing to npm
 - [Security](docs/security.md) - Security measures
 - [Incident Response](docs/incident-response.md) - Incident handling procedures
 
