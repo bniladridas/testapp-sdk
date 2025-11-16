@@ -17,7 +17,7 @@
 
 ## Recently Completed
 
-- [x] Moved CircleCI build step before test to fix server test
+- [x] Upgraded CircleCI to Node 20 and added PostgreSQL service for e2e
 - [x] Switched to happy-dom for faster and more reliable testing
 - [x] CircleCI configuration added for alternative CI/CD
 - [x] AI-powered CLI with conversation memory and interactive commands

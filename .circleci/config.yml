@@ -11,7 +11,14 @@ workflows:
 jobs:
   build:
     docker:
-      - image: cimg/node:18.19.1
+      - image: cimg/node:20
+      - image: cimg/postgres:15
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: testapp
+    environment:
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/testapp
     steps:
       - checkout
       - node/install-packages
