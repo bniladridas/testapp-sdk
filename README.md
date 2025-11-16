@@ -129,11 +129,29 @@ Interact with the AI chat by clicking the floating chat button. The chat support
 
 ### CLI Usage
 
-Use the AI from command line:
+The CLI provides a powerful command-line interface for AI interaction with conversation memory and interactive mode.
+
+#### Single Query
 
 ```sh
-npm run cli "Your prompt here"
+npm run cli "Your question here"
 ```
+
+#### Interactive Mode (Recommended)
+
+```sh
+npm run cli -- --interactive
+```
+
+#### Features
+
+- **Conversation Memory**: Remembers entire conversation history
+- **Persistent Sessions**: History saved across CLI restarts
+- **Built-in Commands**: `/help`, `/history`, `/clear`, `/exit`
+- **Context-Aware**: AI uses full conversation context
+- **Advanced Options**: JSON output, verbose mode
+
+See [CLI Documentation](docs/cli.md) for complete usage guide.
 
 Set `GEMINI_API_KEY` in `.env`.
 
@@ -237,7 +255,7 @@ The e2e tests automatically start the servers and test the full user flow.
 - `npm run migrate`: Run database migrations
 - `npm run rollback`: Rollback database (development only)
 - `npm run test:db`: Test database connectivity
-- `npm run cli`: Run CLI with AI prompts
+- `npm run cli`: Run AI CLI (single query or interactive mode)
 - `npm run storybook`: Start Storybook component documentation
 - `npm start`: Start production server
 
