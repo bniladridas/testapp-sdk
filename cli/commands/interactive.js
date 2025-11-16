@@ -1,5 +1,6 @@
 import { createInterface } from 'readline';
 import chalk from 'chalk';
+import ora from 'ora';
 import { processQuery } from './process-query.js';
 import { loadHistory, saveHistory } from '../history/index.js';
 
@@ -21,12 +22,6 @@ export async function runInteractive(argv) {
   const ask = () => {
     rl.question('AI> ', async (input) => {
       const trimmed = input.trim();
-      if (trimmed === 'exit' || trimmed === 'quit') {
-        console.log(chalk.yellow('Goodbye!'));
-        rl.close();
-        process.exit(0);
-        return;
-      }
       if (trimmed.startsWith('/')) {
         // Handle commands
         const command = trimmed.slice(1).toLowerCase();
@@ -44,15 +39,35 @@ export async function runInteractive(argv) {
           }
         } else if (command === 'help') {
           console.log(chalk.cyan('Commands: /clear, /history, /help, /exit'));
+        } else if (command === 'exit' || command === 'quit') {
+          console.log(chalk.yellow('Goodbye!'));
+          rl.close();
+          return;
         } else {
           console.log(chalk.red('Unknown command. Type /help for commands.'));
         }
       } else if (trimmed) {
         history.push({ role: 'user', text: trimmed });
-        const response = await processQuery(trimmed, argv, history);
-        if (response) {
-          history.push({ role: 'model', text: response });
-          saveHistory(history);
+
+        const spinner = ora({
+          text: 'AI is thinking...',
+          spinner: 'dots',
+        }).start();
+
+        try {
+          const response = await processQuery(trimmed, argv, history);
+          spinner.stop();
+
+          if (response) {
+            console.log(chalk.blue('AI: ') + response);
+            history.push({ role: 'model', text: response });
+            saveHistory(history);
+          }
+        } catch (error) {
+          spinner.stop();
+          console.error(chalk.red('Error processing query:'), error.message);
+          // Remove the failed user message from history
+          history.pop();
         }
       }
       ask();
@@ -62,6 +77,6 @@ export async function runInteractive(argv) {
   ask();
 
   rl.on('close', () => {
-    process.exit(0);
+    // Graceful shutdown - readline interface handles cleanup
   });
 }
