@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { createAIModel } from '../lib/ai-shared.mjs';
 
 export default async (req, res) => {
@@ -13,6 +14,18 @@ export default async (req, res) => {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Authenticate token
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'Access token required' });
+  }
+  try {
+    jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+  } catch (err) {
+    return res.status(403).json({ error: 'Invalid or expired token' });
   }
 
   const { message } = req.body;
