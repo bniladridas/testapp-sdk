@@ -81,6 +81,27 @@ npm run migrate
 npm run dev
 ```
 
+## Database Setup
+
+### Local Development
+
+The `setup.sh` script automatically sets up a local PostgreSQL database using Docker.
+
+### Production
+
+For production deployment on Vercel, use a cloud PostgreSQL provider:
+
+1. **Neon** (Recommended): Serverless PostgreSQL
+   - Sign up at [neon.tech](https://neon.tech)
+   - Create a project and copy the `DATABASE_URL`
+   - Set it in Vercel's Environment Variables
+
+2. **Other Providers**: Railway, Supabase, or any PostgreSQL host
+
+The database tables are created automatically on first run.
+
+See [Database Documentation](docs/database.md) and [Database Queries](docs/database-queries.md) for details.
+
 ## Usage
 
 ### Authentication
@@ -265,7 +286,7 @@ act -j docker -P ubuntu-latest=catthehacker/ubuntu:act-latest --container-archit
 
 - Node.js 20 LTS or later
 - npm
-- PostgreSQL (for database)
+- PostgreSQL database (local or cloud like Neon)
 
 ## Documentation
 
