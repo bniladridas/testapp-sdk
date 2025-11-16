@@ -68,8 +68,8 @@ The CLI stores conversation history as JSON data for persistent, context-aware c
 ```json
 [
   { "role": "user", "text": "Hello" },
-  { "role": "model", "text": "Hi there! How can I help you today?" },
-  { "role": "user", "text": "What's the weather like?" },
+  { "role": "model", "text": "Hi there!" },
+  { "role": "user", "text": "What's the weather?" },
   {
     "role": "model",
     "text": "I don't have access to real-time weather data..."
@@ -79,10 +79,11 @@ The CLI stores conversation history as JSON data for persistent, context-aware c
 
 ### Storage Process
 
-1. **Load**: History loaded from `cli/history/history.json` on startup
+1. **Load**: History loaded from `~/.config/testapp-cli/history.json` on startup
 2. **Update**: Each user input and AI response added to memory
 3. **Save**: History automatically saved after each AI response
 4. **Context**: Full history passed to AI for contextual responses
+5. **Persistence**: History persists across different project clones and sessions
 
 ### Memory Commands
 
