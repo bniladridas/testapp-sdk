@@ -3,6 +3,78 @@ import chalk from 'chalk';
 import ora from 'ora';
 import boxen from 'boxen';
 
+const errorDefinitions = [
+  {
+    type: 'quota',
+    keywords: ['429', 'Too Many Requests', 'quota', 'rate limit'],
+    status: 429,
+    message:
+      "I'm a bit busy right now with lots of questions! How's your day going? 😊",
+    suggestions: 'Try again later or check your API usage.',
+  },
+  {
+    type: 'network',
+    codes: ['ECONNREFUSED', 'ENOTFOUND', 'ETIMEDOUT'],
+    keywords: ['network', 'connection', 'fetch failed'],
+    message: 'Network error: Unable to connect to AI service.',
+    suggestions: 'Please check your internet connection and try again.',
+  },
+  {
+    type: 'auth',
+    keywords: ['GEMINI_API_KEY'],
+    message: 'Authentication error: API key not configured.',
+    suggestions: 'Set the GEMINI_API_KEY environment variable.',
+  },
+  {
+    type: 'api',
+    message: null, // Dynamic message
+    suggestions: 'Check the API status or try a different prompt.',
+  },
+];
+
+function classifyError(error) {
+  const errorText = error.message || error.toString();
+
+  for (const definition of errorDefinitions) {
+    // Check keywords in error text
+    if (
+      definition.keywords &&
+      definition.keywords.some((keyword) => errorText.includes(keyword))
+    ) {
+      return {
+        type: definition.type,
+        message: definition.message || `API error: ${error.message}`,
+        suggestions: definition.suggestions,
+      };
+    }
+
+    // Check error codes
+    if (definition.codes && definition.codes.includes(error.code)) {
+      return {
+        type: definition.type,
+        message: definition.message,
+        suggestions: definition.suggestions,
+      };
+    }
+
+    // Check status codes
+    if (definition.status && error.status === definition.status) {
+      return {
+        type: definition.type,
+        message: definition.message,
+        suggestions: definition.suggestions,
+      };
+    }
+  }
+
+  // Default to API error
+  return {
+    type: 'api',
+    message: `API error: ${error.message}`,
+    suggestions: 'Check the API status or try a different prompt.',
+  };
+}
+
 export async function processQuery(message, argv, history = []) {
   if (!message || !message.trim()) {
     console.error(chalk.red('Error: No prompt provided.'));
@@ -55,42 +127,12 @@ export async function processQuery(message, argv, history = []) {
   } catch (error) {
     spinner.stop();
 
-    const errorText = error.message || error.toString();
-    let errorType = 'unknown';
-    let userMessage = '';
-    let suggestions = '';
-
-    if (
-      errorText.includes('429') ||
-      errorText.includes('Too Many Requests') ||
-      errorText.includes('quota') ||
-      errorText.includes('rate limit') ||
-      error.status === 429
-    ) {
-      errorType = 'quota';
-      userMessage =
-        "I'm a bit busy right now with lots of questions! How's your day going? 😊";
-      suggestions = 'Try again later or check your API usage.';
-    } else if (
-      error.code === 'ECONNREFUSED' ||
-      error.code === 'ENOTFOUND' ||
-      error.code === 'ETIMEDOUT' ||
-      error.message?.includes('network') ||
-      error.message?.includes('connection') ||
-      error.message?.includes('fetch failed')
-    ) {
-      errorType = 'network';
-      userMessage = 'Network error: Unable to connect to AI service.';
-      suggestions = 'Please check your internet connection and try again.';
-    } else if (error.message?.includes('GEMINI_API_KEY')) {
-      errorType = 'auth';
-      userMessage = 'Authentication error: API key not configured.';
-      suggestions = 'Set the GEMINI_API_KEY environment variable.';
-    } else {
-      errorType = 'api';
-      userMessage = `API error: ${error.message}`;
-      suggestions = 'Check the API status or try a different prompt.';
-    }
+    const errorClassification = classifyError(error);
+    const {
+      type: errorType,
+      message: userMessage,
+      suggestions,
+    } = errorClassification;
 
     if (argv.json) {
       console.log(
