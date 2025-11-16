@@ -26,33 +26,33 @@ npm run cli --interactive --verbose   # Enable verbose output
 
 ## Features
 
-### 🤖 AI-Powered Responses
+### AI-Powered Responses
 
 - Uses Google's Gemini AI for intelligent responses
 - Supports natural language queries on any topic
 - Provides detailed, contextual answers
 
-### 💬 Interactive Mode
+### Interactive Mode
 
 - Continuous conversation with context awareness
 - Remembers previous messages within the session
 - Persistent history across CLI restarts
 
-### 🧠 Memory & Persistence
+### Memory & Persistence
 
 - **Conversation Memory**: AI remembers the entire conversation history
 - **Persistent Storage**: History saved to `cli/history/history.json`
 - **Cross-Session Continuity**: Conversations persist between CLI runs
 - **Context-Aware Responses**: AI uses full conversation context
 
-### 🛠️ Built-in Commands (Interactive Mode Only)
+### Built-in Commands (Interactive Mode Only)
 
 - `/help` - Show available commands
 - `/history` - Display conversation history
 - `/clear` - Clear conversation history and reset memory
 - `/exit` or `/quit` - Exit the CLI
 
-### ⚙️ Advanced Options
+### Advanced Options
 
 - **JSON Output**: `--json` flag for programmatic use
 - **Verbose Mode**: `--verbose` for detailed response information
