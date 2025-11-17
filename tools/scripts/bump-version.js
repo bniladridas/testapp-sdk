@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 
-const packageJsonPath = 'package.json';
-
-// Read current version
-const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-const currentVersion = packageJson.version;
+// Get current version
+const currentVersion = execSync(
+  'node -p "require(\'./package.json\').version"',
+  { encoding: 'utf8' },
+).trim();
 
 // Get last tag
 let lastTag;
@@ -79,8 +78,9 @@ try {
 }
 
 // Update package.json
-packageJson.version = newVersion;
-writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n');
+execSync(
+  `sed -i 's/"version": "[^"]*"/"version": "${newVersion}"/' package.json`,
+);
 
 // Commit and tag
 execSync(`git add package.json`);
