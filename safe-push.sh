@@ -9,15 +9,11 @@ if git diff --cached --quiet; then
   exit 0
 fi
 
-# Generate commit message based on changed files
-files=$(git diff --cached --name-only)
-if [[ $files == *".md"* ]]; then
-  msg="docs: update documentation"
-elif [[ $files == *".js"* ]] || [[ $files == *".ts"* ]] || [[ $files == *".tsx"* ]]; then
-  msg="feat: update code"
-elif [[ $files == *".json"* ]] || [[ $files == *".yml"* ]]; then
-  msg="chore: update config"
-else
+# Generate commit message using AI
+diff=$(git diff --cached)
+msg=$(node generate-commit-msg.js "$diff")
+if [ $? -ne 0 ]; then
+  echo "Failed to generate commit message, using fallback"
   msg="chore: update files"
 fi
 
