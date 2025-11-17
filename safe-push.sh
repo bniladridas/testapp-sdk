@@ -6,5 +6,5 @@ git add .
 # Auto commit
 git commit -m "Auto update"
 
-# Push to origin
-git push origin main
+# Run rewrite commits
+echo "y" | ./rewrite-commits.sh
