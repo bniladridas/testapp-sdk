@@ -9,6 +9,10 @@ if git diff --cached --quiet; then
   exit 0
 fi
 
+# Set bot profile for commit
+git config user.name "TestApp Bot"
+git config user.email "bot@testapp.com"
+
 # Generate commit message using AI
 diff=$(git diff --cached)
 msg=$(node commitmsg.js "$diff" 2>/dev/null)
