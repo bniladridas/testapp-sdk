@@ -13,16 +13,17 @@ if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
 fi
 
 echo "Processing commits..."
-git filter-repo --message-callback "
+git filter-repo --commit-callback "
 import subprocess
-message_str = message.decode('utf-8') if isinstance(message, bytes) else message
+message_str = commit.message.decode('utf-8') if isinstance(commit.message, bytes) else commit.message
 result = subprocess.run(['python3', 'hooks/rewrite_msg.py'], input=message_str, capture_output=True, text=True)
-return result.stdout.encode('utf-8')
-" --author-callback "
-import subprocess
+commit.message = result.stdout.encode('utf-8')
 author_name = subprocess.run(['git', 'config', 'user.name'], capture_output=True, text=True).stdout.strip()
 author_email = subprocess.run(['git', 'config', 'user.email'], capture_output=True, text=True).stdout.strip()
-return f'{author_name} <{author_email}>'.encode('utf-8')
+commit.author_name = author_name.encode('utf-8')
+commit.author_email = author_email.encode('utf-8')
+commit.committer_name = author_name.encode('utf-8')
+commit.committer_email = author_email.encode('utf-8')
 " --force
 
 echo "Syncing to remote..."
