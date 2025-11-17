@@ -11,9 +11,9 @@ fi
 
 # Generate commit message using AI
 diff=$(git diff --cached)
-msg=$(node generate-commit-msg.js "$diff")
+msg=$(node generate-commit-msg.js "$diff" 2>/dev/null)
 if [ $? -ne 0 ]; then
-  echo "Failed to generate commit message, using fallback"
+  echo "AI unavailable, using default message."
   msg="chore: update files"
 fi
 
