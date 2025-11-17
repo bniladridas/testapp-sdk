@@ -1,18 +1,36 @@
-import { askAI } from './lib/ai.mjs';
+/**
+ * Generates a conventional commit message using AI from git diff.
+ * @param {string} diff - The git diff output.
+ * @returns {Promise<string>} The generated commit message.
+ */
+async function generateCommitMessage(diff) {
+  if (!diff) {
+    throw new Error('No diff provided');
+  }
 
-const diff = process.argv[2];
-if (!diff) {
-  console.error('No diff provided');
-  process.exit(1);
+  const prompt = `Generate a conventional commit message (type: description) for these git changes:
+
+${diff}
+
+Keep it under 50 characters, lowercase, no period.`;
+
+  const msg = await askAI(prompt);
+  return msg.trim();
 }
 
-const prompt = `Generate a conventional commit message (type: description) for these git changes:\n\n${diff}\n\nKeep it under 50 characters, lowercase, no period.`;
+// Main execution
+import { askAI } from './lib/ai.mjs';
 
-askAI(prompt)
-  .then((msg) => {
-    console.log(msg.trim());
-  })
-  .catch((err) => {
-    console.error('Error generating message:', err);
+async function main() {
+  const diff = process.argv[2];
+
+  try {
+    const msg = await generateCommitMessage(diff);
+    console.log(msg);
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
     process.exit(1);
-  });
+  }
+}
+
+main();
