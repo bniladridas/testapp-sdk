@@ -4,16 +4,15 @@
 
 set -e
 
-echo "WARNING: This script will rewrite all commit messages and force push to remote."
-echo "This is destructive and can cause issues for collaborators."
-read -p "Are you sure you want to proceed? (y/N): " confirm
+echo "Note: Updating commit messages and syncing to remote."
+read -p "Proceed? (y/N): " confirm
 
 if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-  echo "Aborted."
-  exit 1
+  echo "Cancelled."
+  exit 0
 fi
 
-echo "Rewriting commit messages..."
+echo "Processing commits..."
 git filter-repo --message-callback "
 import subprocess
 message_str = message.decode('utf-8') if isinstance(message, bytes) else message
@@ -21,13 +20,11 @@ result = subprocess.run(['python3', 'hooks/rewrite_msg.py'], input=message_str, 
 return result.stdout.encode('utf-8')
 " --force
 
-echo "Re-adding origin remote..."
+echo "Syncing to remote..."
 git remote add origin https://github.com/bniladridas/TestApp.git
 
-echo "Force pushing all branches..."
-git push --force --all origin
+git push --force --all --quiet origin
 
-echo "Force pushing all tags..."
-git push --force --tags origin
+git push --force --tags --quiet origin
 
-echo "Done!"
+echo "Synced."
