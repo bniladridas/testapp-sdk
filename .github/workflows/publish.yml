@@ -28,6 +28,11 @@ jobs:
       - name: Run preflight checks
         run: npm run preflight
 
+      - name: Configure Git
+        run: |
+          git config user.name "TestApp Bot"
+          git config user.email "244429612+testapp-bot@users.noreply.github.com"
+
       - name: Bump version and tag
         run: node tools/scripts/bump-version.js
         env:
