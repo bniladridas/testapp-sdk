@@ -8,7 +8,7 @@ Use the `.gitmessage` file as a template for commit messages. To set it globally
 git config --global commit.template .gitmessage
 ```
 
-The template follows conventional commit format enforced by the commit-msg hook.
+The template follows conventional commit format enforced by the commit-msg hook. For automated commits, AI generates messages from diffs.
 
 ## Rewrite Commits Script
 

@@ -22,8 +22,9 @@
 
 ## Scripts
 
-- **Safe Push**: `./safe-push.sh` - Stages, auto-commits, rewrites messages, pushes to GitHub
+- **Safe Push**: `./safe-push.sh` - Stages, auto-generates commit message using AI, commits, rewrites messages, pushes to GitHub
 - **Rewrite Commits**: `./rewrite-commits.sh` - Rewrites commit messages, force pushes to remote
+- **Generate Commit Message**: `node generate-commit-msg.js` - Uses AI to generate conventional commit message from diff
 - **Commit Template**: `.gitmessage` - Template for conventional commits
 
 ## Code Quality

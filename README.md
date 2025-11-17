@@ -280,11 +280,12 @@ The e2e tests automatically start the servers and test the full user flow.
 
 ## CI/CD
 
-The CI/CD pipeline runs automated tests, linting, security checks, and deployments using GitLab CI/CD. It includes:
+The CI/CD pipeline runs automated tests, linting, security checks, and deployments using GitLab CI/CD and GitHub Actions. It includes:
 
 - **Testing**: Unit tests, E2E tests with Playwright, linting, code coverage
 - **Security**: Docker image vulnerability scanning with Trivy
 - **Deployment**: Automated deployment to Vercel on main branch pushes
+- **GitLab Sync**: Automated push to GitLab mirror on main branch pushes (via GitHub Actions)
 - **Load Testing**: Weekly performance testing with k6
 
 ### Pipelines
