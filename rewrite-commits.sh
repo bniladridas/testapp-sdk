@@ -27,6 +27,8 @@ commit.committer_email = author_email.encode('utf-8')
 " --force
 
 echo "Syncing to remote..."
-git push --force --all --quiet origin
-git push --force --tags --quiet origin
+git push --force --all --quiet github
+
+git push --force --tags --quiet github
+
 echo "Synced."
