@@ -46,7 +46,7 @@
     "@google/generative-ai": "^0.21.0",
     "@octokit/app": "^14.0.0",
     "@octokit/webhooks": "^12.1.3",
-    "@sentry/node": "^10.25.0",
+    "@sentry/node": "^10.27.0",
     "@sentry/react": "^10.25.0",
     "bcryptjs": "^2.4.3",
     "boxen": "^7.1.1",
