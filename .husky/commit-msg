@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+node -e "
+import { validateCommitMessage } from './lib/commit-msg-enforcer.mjs';
+import { readFileSync } from 'fs';
+
+const commitMsgFile = process.argv[1];
+const commitMsg = readFileSync(commitMsgFile, 'utf8').split('\n')[0];
+
+const errors = validateCommitMessage(commitMsg);
+
+if (errors.length > 0) {
+  console.error('Commit message validation failed:');
+  errors.forEach(e => console.error(\`- \${e}\`));
+  process.exit(1);
+}
+
+console.log('Commit message is valid');
+" "$1"
