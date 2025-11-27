@@ -24,7 +24,7 @@ test.describe('CLI E2E Tests', () => {
     });
 
     expect(stdout).toContain(
-      'TestApp CLI v1.0.0 - Cross-platform AI assistant',
+      'TestApp CLI v1.2.0 - Cross-platform AI assistant',
     );
     expect(stdout).toContain('Usage:');
     expect(stdout).toContain('--help');
@@ -76,7 +76,7 @@ test.describe('CLI E2E Tests', () => {
       cli.on('close', resolve);
     });
 
-    expect(stdout).toContain('TestApp CLI v1.0.0 - Interactive Mode');
+    expect(stdout).toContain('TestApp CLI v1.2.0 - Interactive Mode');
     expect(stdout).toContain('Type your questions and press Enter');
     expect(stdout).toContain('AI>');
   });
